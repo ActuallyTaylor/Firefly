@@ -82,6 +82,7 @@ open class Highlightr
         return true
     }
     
+    /// Sets the theme of the highlightr to the given Theme.
     @discardableResult
     open func setTheme(to newTheme: Theme) -> Bool {
         theme =  newTheme

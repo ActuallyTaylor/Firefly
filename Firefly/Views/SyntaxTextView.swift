@@ -52,9 +52,14 @@ open class SyntaxTextView: UIView {
 
     public var textView: InnerTextView!
 
+    /// The name of the language
     @IBInspectable
-    public var themeName: String = "xcode-default"
+    public var defaultThemeName: String = "xcode-dark"
     
+    /// The name of the defualt language
+    @IBInspectable
+    public var defaultLanguage: String = "swift"
+
     public var contentTextView: UITextView {
         return textView
     }
@@ -115,8 +120,8 @@ open class SyntaxTextView: UIView {
 
     private func createInnerTextView() -> InnerTextView {
         let textStorage = CodeAttributedString()
-        textStorage.highlightr.setTheme(to: themeName)
-        textStorage.language = language
+        textStorage.highlightr.setTheme(to: defaultThemeName)
+        textStorage.language = defaultLanguage
         
         let layoutManager = SyntaxTextViewLayoutManager()
         #if os(macOS)
@@ -329,6 +334,7 @@ open class SyntaxTextView: UIView {
 
     #endif
 
+    /// SyntaxTextView theme variable. Set this too change and update the views theme
     public var theme: Theme? {
         didSet {
             guard let theme = theme else {
@@ -350,6 +356,7 @@ open class SyntaxTextView: UIView {
         }
     }
     
+    /// SyntaxTextView language variable. Set this too change and update the views language
     public var language: String? {
         didSet {
             let storage = (textView.textStorage as? CodeAttributedString)

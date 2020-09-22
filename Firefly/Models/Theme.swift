@@ -27,11 +27,11 @@ open class Theme {
     open var boldFont : UIFont!
     /// Italic font to be used by this theme
     open var italicFont : UIFont!
-    
+    /// The color of basic test for this theme
     open var fontColor: UIColor!
-    
+    /// The gutter style used to color the gutter of an editor
     public var gutterStyle: GutterStyle!
-    
+    /// The style for numbers in the gutter of an editor
     public var lineNumbersStyle: LineNumbersStyle!
     
     private var themeDict : RPThemeDict!
@@ -335,6 +335,7 @@ open class Theme {
         
     }
     
+    /// Takes a string and returns the Theme with that name
     public static func getTheme(name: String) -> Theme {
         let bundle = Bundle(for: Theme.self)
         guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else { return Theme(themeString: "") }
