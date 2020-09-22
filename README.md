@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/iOS-13.0+-blue.svg" />
+    <img src="https://img.shields.io/badge/iOS-13.0+-green.svg" />
     <img src="https://img.shields.io/badge/Swift-5.0-orange.svg" />
     <a href="https://twitter.com/LinemanZachary">
         <img src="https://img.shields.io/badge/Contact-@LinemanZachary-blue.svg?style=flat" alt="Twitter: @LinemanZachary" />
