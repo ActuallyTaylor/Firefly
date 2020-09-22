@@ -31,7 +31,7 @@ Set the Editor langauge to Swift and the theme too atom-one
 ```swift
 import UIKit
 import Firefly
-Y
+
 class MainVC: UIViewController, SyntaxTextViewDelegate {
 
     @IBOutlet weak var syntaxView: SyntaxTextView!
