@@ -11,19 +11,27 @@
 </p>
 
 # Firefly
-An iOS syntax highlighter based on [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr)
+An iOS syntax highlighter based which combines and updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr).
 
 ## About this project
 This project is a combination of Sourceful by Paul Hudson (@twostraws) and Highlightr by J.P. Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
 
+## Features
+Firefly includes a line number counter, changeable themes, and changeable languages. It is not the fastest solution but works well on large files.
+
+### Supports
+* 186 Languages
+* 90 Themes
+
 ## How To Use
 To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller.
+
 ### Sample Code
 Set the Editor langauge to Swift and the theme too atom-one
 ```swift
 import UIKit
 import Firefly
-
+Y
 class MainVC: UIViewController, SyntaxTextViewDelegate {
 
     @IBOutlet weak var syntaxView: SyntaxTextView!
@@ -46,3 +54,25 @@ Highlightr()?.supportedLanguages()
 ```swift
 Highlightr()?.availableThemes()
 ```
+
+# To-Do
+- [x] Support for Theme Changing
+
+- [x] Support for Language Changing
+
+- [x] Dynmaically creating Gutter and Line styles
+
+- [ ] Collapsable Lines
+
+- [ ] Speed increasments for loading larger files
+
+- [ ] Placeholders
+
+- [ ] Autocompletion
+
+# Credits
+Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson.
+Highlightr is a project taking Highlight.js and allowing it to interact with Swift.
+
+Sourceful is licensed under the MIT license; see LICENSE for more information.
+Highlightr is licensed under the MIT license; see LICENSE for more information.
