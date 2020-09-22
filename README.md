@@ -1,2 +1,2 @@
-# [Icon](icon.png) Firefly
+# ![Icon](Icon.png) Firefly
 An iOS syntax highlighter based on [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr)
