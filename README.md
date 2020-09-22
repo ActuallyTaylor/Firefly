@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="/icon.png" alt="Firefly logo" width="128" maxHeight=“128" />
+    <img src="/Icon.png" alt="Firefly logo" width="128" maxHeight=“128" />
 </p>
 
 <p align="center">
