@@ -11,7 +11,7 @@
 </p>
 
 # Firefly
-An iOS syntax highlighter based which combines and updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr).
+An iOS syntax highlighter which combines and gthen updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr). It also leverages the power of both too create a fast and featured editor.
 
 ## About this project
 This project is a combination of Sourceful by Paul Hudson (@twostraws) and Highlightr by J.P. Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
