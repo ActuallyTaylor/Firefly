@@ -20,7 +20,7 @@ This project is a combination of Sourceful by Paul Hudson (@twostraws) and Highl
 Firefly includes a line number counter, changeable themes, and changeable languages. It is not the fastest solution but works well on large files.
 
 ### Supports
-* 186 Languages
+* 185 Languages
 * 90 Themes
 
 ## How To Use
