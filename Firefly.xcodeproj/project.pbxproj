@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B02ED54251A88BF009B4736 /* Firefly.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 4B02ED53251A88BF009B4736 /* Firefly.podspec */; };
 		4BDCE8D3251A5377003393A4 /* Firefly.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BDCE8D1251A5377003393A4 /* Firefly.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BDCE94E251A5382003393A4 /* CodeAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDCE8DB251A5382003393A4 /* CodeAttributedString.swift */; };
 		4BDCE94F251A5382003393A4 /* Highlightr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BDCE8DC251A5382003393A4 /* Highlightr.swift */; };
@@ -120,6 +121,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B02ED53251A88BF009B4736 /* Firefly.podspec */ = {isa = PBXFileReference; lastKnownFileType = file; path = Firefly.podspec; sourceTree = SOURCE_ROOT; };
 		4BDCE8CE251A5377003393A4 /* Firefly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firefly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDCE8D1251A5377003393A4 /* Firefly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firefly.h; sourceTree = "<group>"; };
 		4BDCE8D2251A5377003393A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 		4BDCE8D0251A5377003393A4 /* Firefly */ = {
 			isa = PBXGroup;
 			children = (
+				4B02ED53251A88BF009B4736 /* Firefly.podspec */,
 				4BDCE8DE251A5382003393A4 /* Models */,
 				4BDCE8E4251A5382003393A4 /* Util */,
 				4BDCE8E7251A5382003393A4 /* Views */,
@@ -543,6 +546,7 @@
 				4BDCE961251A5382003393A4 /* vs.min.css in Resources */,
 				4BDCE9A5251A5382003393A4 /* atelier-cave-dark.min.css in Resources */,
 				4BDCE99A251A5382003393A4 /* atom-one-light.min.css in Resources */,
+				4B02ED54251A88BF009B4736 /* Firefly.podspec in Resources */,
 				4BDCE98E251A5382003393A4 /* tomorrow.min.css in Resources */,
 				4BDCE967251A5382003393A4 /* school-book.min.css in Resources */,
 				4BDCE9A6251A5382003393A4 /* ir-black.min.css in Resources */,
