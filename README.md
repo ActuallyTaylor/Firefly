@@ -62,6 +62,8 @@ Highlightr()?.availableThemes()
 
 - [x] Dynmaically creating Gutter and Line styles
 
+- [ ] Swift UI support
+
 - [ ] Collapsable Lines
 
 - [ ] Speed increasments for loading larger files
