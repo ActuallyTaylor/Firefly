@@ -13,7 +13,10 @@
 # Firefly
 An iOS syntax highlighter which combines and gthen updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr). It also leverages the power of both too create a fast and featured editor.
 
-## About this project
+# Using Firefly in your project
+If you are going to use Firefly in your project, I request that you include a link back to this github page somewhere. If you would like to you can also [email me](mailto:zachary.lineman@gmail.com) and I will add you into the list of apps that use Firefly on this page.
+
+# About this project
 This project is a combination of Sourceful by Paul Hudson (@twostraws) and Highlightr by J.P. Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
 
 ## Features
@@ -54,6 +57,9 @@ Highlightr()?.supportedLanguages()
 ```swift
 Highlightr()?.availableThemes()
 ```
+
+# Apps that use Firefly
+1. Jellycuts
 
 # To-Do
 - [x] Support for Theme Changing
