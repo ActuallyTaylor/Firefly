@@ -62,6 +62,8 @@ Highlightr()?.availableThemes()
 
 - [x] Dynmaically creating Gutter and Line styles
 
+- [ ] Fix issues with themes not showing the correct colors when the token has a font weight modifier
+
 - [ ] Swift UI support
 
 - [ ] Collapsable Lines
