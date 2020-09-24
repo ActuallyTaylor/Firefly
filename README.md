@@ -68,7 +68,7 @@ Highlightr()?.availableThemes()
 
 - [x] Dynmaically creating Gutter and Line styles
 
-- [ ] Fix issues with themes not showing the correct colors when the token has a font weight modifier
+- [ ] Fix issues with themes not showing the correct colors when the token has a font weight modifier (Put on hold / moved of main)
 
 - [ ] Swift UI support
 
