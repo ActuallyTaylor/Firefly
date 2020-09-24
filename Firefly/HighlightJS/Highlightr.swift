@@ -60,10 +60,7 @@ open class Highlightr
         guard let hljs = window?.objectForKeyedSubscript("hljs") else { return nil }
         self.hljs = hljs
         
-        guard setTheme(to: "pojoaque") else {
-            return nil
-        }
-        
+        guard setTheme(to: "xcode-dark") else { return nil}
     }
     
     /**
