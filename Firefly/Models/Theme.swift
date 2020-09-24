@@ -64,7 +64,7 @@ open class Theme {
             } else {
                 let range = bkgColorHex.range(of: "#")
                 let str = String(bkgColorHex[(range?.lowerBound)!...])
-                backgroundColor = UIColor(hex: str)
+                backgroundColor = colorWithHexString(str)
             }
         } else {
             backgroundColor = UIColor.white
@@ -81,7 +81,7 @@ open class Theme {
             } else {
                 let range = textColorHex.range(of: "#")
                 let str = String(textColorHex[(range?.lowerBound)!...])
-                fontColor = UIColor(hex: str)
+                fontColor = colorWithHexString(str)
             }
             
         } else {
