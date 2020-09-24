@@ -16,7 +16,7 @@ import AppKit
 private typealias RPThemeDict = [String: [AnyHashable: AnyObject]]
 private typealias RPThemeStringDict = [String:[String:String]]
 
-/// Theme parser, can be used to configure the theme parameters. 
+/// Theme parser, can be used to configure the theme parameters.
 open class Theme {
     internal let theme : String
     internal var lightTheme : String!
@@ -55,7 +55,7 @@ open class Theme {
         if bkgColorHex == nil {
             bkgColorHex = strippedTheme[".hljs"]?["background-color"]
         }
-        
+
         if let bkgColorHex = bkgColorHex {
             if bkgColorHex == "white" {
                 backgroundColor = UIColor(white: 1, alpha: 1)
@@ -64,7 +64,7 @@ open class Theme {
             } else {
                 let range = bkgColorHex.range(of: "#")
                 let str = String(bkgColorHex[(range?.lowerBound)!...])
-                backgroundColor = UIColor(hex: str)
+                backgroundColor = colorWithHexString(str)
             }
         } else {
             backgroundColor = UIColor.white
@@ -81,16 +81,14 @@ open class Theme {
             } else {
                 let range = textColorHex.range(of: "#")
                 let str = String(textColorHex[(range?.lowerBound)!...])
-                fontColor = UIColor(hex: str)
+                fontColor = colorWithHexString(str)
             }
-            
         } else {
             fontColor = .black
         }
         if fontColor == nil {
             fontColor = .black
         }
-        
         gutterStyle = GutterStyle(backgroundColor: backgroundColor, minimumWidth: 32)
         lineNumbersStyle = LineNumbersStyle(font: mainFont, textColor: fontColor)
     }
@@ -252,6 +250,7 @@ open class Theme {
     }
     
     private func fontForCSSStyle(_ fontStyle:String) -> UIFont {
+        //TO-DO Fix font issues so that bold fonts use color still
         switch fontStyle {
         case "bold", "bolder", "600", "700", "800", "900":
             return boldFont
@@ -279,8 +278,8 @@ open class Theme {
     
     private func colorWithHexString (_ hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
-        if cString.hasPrefix("#") {
+
+        if cString.hasPrefix("#") && cString != "#000" && cString != "#fff" {
             cString = (cString as NSString).substring(from: 1)
         } else {
             switch cString {
@@ -294,6 +293,10 @@ open class Theme {
                 return UIColor(red: 0, green: 1, blue: 0, alpha: 1)
             case "blue":
                 return UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+            case "#000":
+                return .black
+            case "#fff":
+                return .white
             default:
                 return UIColor.gray
             }
@@ -331,7 +334,7 @@ open class Theme {
             divisor = 15.0
         }
         
-        return UIColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: CGFloat(1))        
+        return UIColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: CGFloat(1))
         
     }
     

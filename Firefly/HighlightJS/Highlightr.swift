@@ -41,7 +41,8 @@ open class Highlightr
     /**
      Default init method.
 
-     - parameter highlightPath: The path to `highlight.min.js`. Defaults to `Highlightr.framework/highlight.min.js`
+     - parameter highlightPath: The path to `highlight.min.js`. Defaults to `Firefly.framework/highlight.min.js`
+     - previosly defaulted too Highlightr.framework/highlight.min.js but was changed for Firefly.
 
      - returns: Highlightr instance.
      */
@@ -60,7 +61,7 @@ open class Highlightr
         guard let hljs = window?.objectForKeyedSubscript("hljs") else { return nil }
         self.hljs = hljs
         
-        guard setTheme(to: "pojoaque") else {
+        guard setTheme(to: "xcode-dark") else {
             return nil
         }
         
@@ -82,11 +83,15 @@ open class Highlightr
         return true
     }
     
-    /// Sets the theme of the highlightr to the given Theme.
-    @discardableResult
-    open func setTheme(to newTheme: Theme) -> Bool {
+    /**
+     Set the theme to use for highlighting.
+     
+     - parameter to: Theme
+     
+     - returns: true if it was possible to set the given theme, false otherwise
+     */
+    open func setTheme(to newTheme: Theme)  {
         theme =  newTheme
-        return true
     }
 
     /**
@@ -212,9 +217,7 @@ open class Highlightr
             scannedString = nil
         }
         
-        let results = htmlEscape.matches(in: resultString.string,
-                                               options: [.reportCompletion],
-                                               range: NSMakeRange(0, resultString.length))
+        let results = htmlEscape.matches(in: resultString.string, options: [.reportCompletion], range: NSMakeRange(0, resultString.length))
         var locOffset = 0
         for result in results {
             let fixedRange = NSMakeRange(result.range.location-locOffset, result.range.length)
