@@ -352,16 +352,19 @@ open class SyntaxTextView: UIView {
     /// SyntaxTextView theme variable. Set this too change and update the views theme
     public var theme: Theme? {
         didSet {
-            guard let theme = theme else { return }
+            guard let theme = theme else {
+                return
+            }
             cachedThemeInfo = nil
             #if os(iOS)
             backgroundColor = theme.backgroundColor
             #endif
             textView.backgroundColor = theme.backgroundColor
             textView.theme = theme
+            textView.font = theme.mainFont
             let highlitr = (textView.textStorage as? CodeAttributedString)?.highlightr
             highlitr?.setTheme(to: theme)
-            
+
             textView.setNeedsDisplay()
             
             didUpdateText()

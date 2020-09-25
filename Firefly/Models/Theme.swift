@@ -16,7 +16,7 @@ import AppKit
 private typealias RPThemeDict = [String: [AnyHashable: AnyObject]]
 private typealias RPThemeStringDict = [String:[String:String]]
 
-/// Theme parser, can be used to configure the theme parameters. 
+/// Theme parser, can be used to configure the theme parameters.
 open class Theme {
     internal let theme : String
     internal var lightTheme : String!
@@ -33,7 +33,7 @@ open class Theme {
     public var gutterStyle: GutterStyle!
     /// The style for numbers in the gutter of an editor
     public var lineNumbersStyle: LineNumbersStyle!
-    
+
     private var themeDict : RPThemeDict!
     private var strippedTheme : RPThemeStringDict!
     
@@ -49,13 +49,30 @@ open class Theme {
         theme = themeString
         setCodeFont(UIFont(name: "Courier", size: 14)!)
         strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    /**
+     Initialize the theme with the given theme name.
+     
+     - parameter themeString: Theme to use.
+     - parameter fontName: The font that is used
+     */
+    init(themeString: String, fontName: String) {
+        theme = themeString
+        setCodeFont(UIFont(name: fontName, size: 14)!)
+        strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    private func setup(strippedTheme: RPThemeStringDict) {
         lightTheme = strippedThemeToString(strippedTheme)
         themeDict = strippedThemeToTheme(strippedTheme)
         var bkgColorHex = strippedTheme[".hljs"]?["background"]
         if bkgColorHex == nil {
             bkgColorHex = strippedTheme[".hljs"]?["background-color"]
         }
-        
+
         if let bkgColorHex = bkgColorHex {
             if bkgColorHex == "white" {
                 backgroundColor = UIColor(white: 1, alpha: 1)
@@ -83,16 +100,15 @@ open class Theme {
                 let str = String(textColorHex[(range?.lowerBound)!...])
                 fontColor = colorWithHexString(str)
             }
-            
         } else {
             fontColor = .black
         }
         if fontColor == nil {
             fontColor = .black
         }
-        
         gutterStyle = GutterStyle(backgroundColor: backgroundColor, minimumWidth: 32)
         lineNumbersStyle = LineNumbersStyle(font: mainFont, textColor: fontColor)
+
     }
     
     /**
@@ -252,6 +268,7 @@ open class Theme {
     }
     
     private func fontForCSSStyle(_ fontStyle:String) -> UIFont {
+        //TO-DO Fix font issues so that bold fonts use color still
         switch fontStyle {
         case "bold", "bolder", "600", "700", "800", "900":
             return boldFont
@@ -279,8 +296,8 @@ open class Theme {
     
     private func colorWithHexString (_ hex:String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-        
-        if cString.hasPrefix("#") {
+
+        if cString.hasPrefix("#") && cString != "#000" && cString != "#fff" {
             cString = (cString as NSString).substring(from: 1)
         } else {
             switch cString {
@@ -294,6 +311,10 @@ open class Theme {
                 return UIColor(red: 0, green: 1, blue: 0, alpha: 1)
             case "blue":
                 return UIColor(red: 0, green: 0, blue: 1, alpha: 1)
+            case "#000":
+                return .black
+            case "#fff":
+                return .white
             default:
                 return UIColor.gray
             }
@@ -331,15 +352,15 @@ open class Theme {
             divisor = 15.0
         }
         
-        return UIColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: CGFloat(1))        
+        return UIColor(red: CGFloat(r) / divisor, green: CGFloat(g) / divisor, blue: CGFloat(b) / divisor, alpha: CGFloat(1))
         
     }
     
     /// Takes a string and returns the Theme with that name
-    public static func getTheme(name: String) -> Theme {
+    public static func getTheme(name: String, fontName: String) -> Theme {
         let bundle = Bundle(for: Theme.self)
-        guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else { return Theme(themeString: "") }
+        guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else { return Theme(themeString: "", fontName: "Courier") }
         let themeString = try! String.init(contentsOfFile: defTheme)
-        return Theme(themeString: themeString)
+        return Theme(themeString: themeString, fontName: fontName)
     }
 }

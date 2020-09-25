@@ -38,12 +38,13 @@ import Firefly
 class MainVC: UIViewController, SyntaxTextViewDelegate {
 
     @IBOutlet weak var syntaxView: SyntaxTextView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Use the getTheme method from the Theme class to return a compatible theme that can assigned to the editor theme.
-        let theme = Theme.getTheme(name: "atom-one")
-        syntaxView.theme = theme
+        //Use set theme on the syntax view to set the theme name, along with the font name.
+        syntaxView.setTheme(name: "atom-one", fontName: "Courier")
+        //You can also only supply a theme name if you want to use the default font.
+        SyntaxView.setTheme(name: "atom-one")
         //Languages are a string
         syntaxView.language = "swift"
     }
