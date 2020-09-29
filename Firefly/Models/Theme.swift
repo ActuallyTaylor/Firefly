@@ -7,11 +7,7 @@
 //
 
 import Foundation
-#if os(iOS) || os(tvOS)
 import UIKit
-#else
-import AppKit
-#endif
 
 private typealias RPThemeDict = [String: [AnyHashable: AnyObject]]
 private typealias RPThemeStringDict = [String:[String:String]]
@@ -47,7 +43,7 @@ open class Theme {
      */
     init(themeString: String) {
         theme = themeString
-        setCodeFont(UIFont(name: "Courier", size: 14)!)
+        setCodeFont(UIFont.systemFont(ofSize: 14))
         strippedTheme = stripTheme(themeString)
         setup(strippedTheme: strippedTheme)
     }
@@ -60,7 +56,26 @@ open class Theme {
      */
     init(themeString: String, fontName: String) {
         theme = themeString
-        setCodeFont(UIFont(name: fontName, size: 14)!)
+        if fontName == "system" {
+            setCodeFont(UIFont.systemFont(ofSize: 14))
+        } else {
+            setCodeFont(UIFont(name: fontName, size: 14)!)
+        }
+        strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    init?(name: String, fontName: String) {
+        let bundle = Bundle(for: Theme.self)
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
+        let themeString = try! String.init(contentsOfFile: defTheme)
+        
+        theme = themeString
+        if fontName == "system" {
+            setCodeFont(UIFont.systemFont(ofSize: 14))
+        } else {
+            setCodeFont(UIFont(name: fontName, size: 14)!)
+        }
         strippedTheme = stripTheme(themeString)
         setup(strippedTheme: strippedTheme)
     }
@@ -106,9 +121,9 @@ open class Theme {
         if fontColor == nil {
             fontColor = .black
         }
+        
         gutterStyle = GutterStyle(backgroundColor: backgroundColor, minimumWidth: 32)
         lineNumbersStyle = LineNumbersStyle(font: mainFont, textColor: fontColor)
-
     }
     
     /**
@@ -118,20 +133,10 @@ open class Theme {
      */
     open func setCodeFont(_ font: UIFont) {
         mainFont = font
-        
-        #if os(iOS) || os(tvOS)
-        let boldDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                               UIFontDescriptor.AttributeName.face:"Bold"])
-        let italicDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                                 UIFontDescriptor.AttributeName.face:"Italic"])
-        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                                  UIFontDescriptor.AttributeName.face:"Oblique"])
-        #else
-        let boldDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Bold"])
-        let italicDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Italic"])
-        let obliqueDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Oblique"])
-        #endif
-        
+        let boldDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Bold"])
+        let italicDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Italic"])
+        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Oblique"])
+
         boldFont = UIFont(descriptor: boldDescriptor, size: font.pointSize)
         italicFont = UIFont(descriptor: italicDescriptor, size: font.pointSize)
         
@@ -165,9 +170,9 @@ open class Theme {
                     }
                 }
             }
-            returnString = NSAttributedString(string: string, attributes:attrs )
+            returnString = NSAttributedString(string: string, attributes:attrs)
         } else {
-            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:mainFont ?? UIFont.systemFontSize] )
+            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:mainFont ?? UIFont.systemFontSize])
         }
         
         return returnString

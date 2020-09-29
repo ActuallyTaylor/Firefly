@@ -7,12 +7,36 @@
 //
 
 import Foundation
-
-#if os(macOS)
-import AppKit
-#else
 import UIKit
-#endif
+
+struct Paragraph {
+    
+    var rect: CGRect
+    let number: Int
+    
+    var string: String {
+        return "\(number)"
+    }
+    
+    func attributedString(for style: LineNumbersStyle) -> NSAttributedString {
+        let attr = NSMutableAttributedString(string: string)
+        let range = NSMakeRange(0, attr.length)
+        
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: style.font,
+            .foregroundColor : style.textColor
+        ]
+        
+        attr.addAttributes(attributes, range: range)
+        
+        return attr
+    }
+    
+    func drawSize(for style: LineNumbersStyle) -> CGSize {
+        return attributedString(for: style).size()
+    }
+    
+}
 
 extension UITextView {
     
@@ -22,13 +46,8 @@ extension UITextView {
         
         let layoutManager: NSLayoutManager
         let textContainer: NSTextContainer
-        #if os(macOS)
-        layoutManager = self.layoutManager!
-        textContainer = self.textContainer!
-        #else
         layoutManager = self.layoutManager
         textContainer = self.textContainer
-        #endif
         
         nsRange = layoutManager.glyphRange(forCharacterRange: nsRange, actualCharacterRange: nil)
         
@@ -47,7 +66,7 @@ extension UITextView {
     
 }
 
-func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) -> [Paragraph] {
+func generateParagraphs(for textView: FireflyTextView, flipRects: Bool = false) -> [Paragraph] {
     
     let range = NSRange(location: 0, length: (textView.text as NSString).length)
     
@@ -68,23 +87,15 @@ func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) ->
     if textView.text.isEmpty || textView.text.hasSuffix("\n") {
         
         var rect: CGRect
-        
-        #if os(macOS)
-        let gutterWidth = textView.textContainerInset.width
-        #else
         let gutterWidth = textView.textContainerInset.left
-        #endif
         
         let lineHeight: CGFloat = 18
         
         if let last = paragraphs.last {
-            
             // FIXME: don't use hardcoded "2" as line spacing
             rect = CGRect(x: 0, y: last.rect.origin.y + last.rect.height + 2, width: gutterWidth, height: last.rect.height)
         } else {
-            
             rect = CGRect(x: 0, y: 0, width: gutterWidth, height: lineHeight)
-            
         }
         
         i += 1
@@ -94,44 +105,20 @@ func generateParagraphs(for textView: InnerTextView, flipRects: Bool = false) ->
     }
     
     if flipRects {
-        
         paragraphs = paragraphs.map { (p) -> Paragraph in
-            
             var p = p
             p.rect.origin.y = textView.bounds.height - p.rect.height - p.rect.origin.y
             
             return p
         }
-        
     }
-    
     return paragraphs
 }
 
-func offsetParagraphs(_ paragraphs: [Paragraph], for textView: InnerTextView, yOffset: CGFloat = 0) -> [Paragraph] {
+func offsetParagraphs(_ paragraphs: [Paragraph], for textView: FireflyTextView, yOffset: CGFloat = 0) -> [Paragraph] {
     
     var paragraphs = paragraphs
-    
-    #if os(macOS)
-    
-    if let yOffset = textView.enclosingScrollView?.contentView.bounds.origin.y {
-        
-        paragraphs = paragraphs.map { (p) -> Paragraph in
-            
-            var p = p
-            p.rect.origin.y += yOffset
-            
-            return p
-        }
-    }
-    
-    
-    #endif
-    
-    
-    
     paragraphs = paragraphs.map { (p) -> Paragraph in
-        
         var p = p
         p.rect.origin.y += yOffset
         return p
@@ -140,38 +127,19 @@ func offsetParagraphs(_ paragraphs: [Paragraph], for textView: InnerTextView, yO
     return paragraphs
 }
 
-func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: InnerTextView) {
-    
-    guard let style = textView.theme?.lineNumbersStyle else {
-        return
-    }
+func drawLineNumbers(_ paragraphs: [Paragraph], in rect: CGRect, for textView: FireflyTextView) {
+    guard let style = textView.theme.lineNumbersStyle else { return }
     
     for paragraph in paragraphs {
-        
-        guard paragraph.rect.intersects(rect) else {
-            continue
-        }
-        
+        guard paragraph.rect.intersects(rect) else { continue }
+
         let attr = paragraph.attributedString(for: style)
-        
         var drawRect = paragraph.rect
-        
         let gutterWidth = textView.gutterWidth
-        
         let drawSize = attr.size()
-        
         drawRect.origin.x = gutterWidth - drawSize.width - 4
-        
-        #if os(macOS)
-        //			drawRect.origin.y += (drawRect.height - drawSize.height) / 2.0
-        #else
-        //			drawRect.origin.y += 22 - drawSize.height
-        #endif
         drawRect.size.width = drawSize.width
         drawRect.size.height = drawSize.height
-        
-        //		Color.red.withAlphaComponent(0.4).setFill()
-        //		paragraph.rect.fill()
         
         attr.draw(in: drawRect)
     }

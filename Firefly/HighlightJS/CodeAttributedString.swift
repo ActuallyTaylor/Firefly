@@ -9,10 +9,6 @@
 import Foundation
 import UIKit
 
-#if os(OSX)
-    import AppKit
-#endif
-
 /// Highlighting Delegate
 @objc public protocol HighlightDelegate
 {
