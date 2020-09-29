@@ -11,7 +11,7 @@
 </p>
 
 # Firefly
-An iOS syntax highlighter which combines and gthen updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr). It also leverages the power of both too create a fast and featured editor.
+An iOS syntax highlighter which combines and then updates [Sourceful](https://github.com/twostraws/Sourceful) and [Highlightr](https://github.com/raspu/Highlightr). It also leverages the power of both too create a fast and featured editor.
 
 # Using Firefly in your project
 If you are going to use Firefly in your project, I request that you include a link back to this github page somewhere. If you would like to you can also [email me](mailto:zachary.lineman@gmail.com) and I will add you into the list of apps that use Firefly on this page.
@@ -68,6 +68,8 @@ Highlightr()?.availableThemes()
 - [x] Support for Language Changing
 
 - [x] Dynmaically creating Gutter and Line styles
+
+- [ ] Brand new line number system as it is causing massive lag along with a new text view system.
 
 - [ ] Fix issues with themes not showing the correct colors when the token has a font weight modifier
 
