@@ -74,7 +74,6 @@ class LineNumberLayoutManager: NSLayoutManager {
     
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
-        
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
         let atts: [NSAttributedString.Key: Any] = [
             .font: theme.mainFont!,
@@ -83,7 +82,7 @@ class LineNumberLayoutManager: NSLayoutManager {
         
         var gutterRect: CGRect = .zero
         var paraNumber: Int = 0
-        
+
         enumerateLineFragments(forGlyphRange: glyphsToShow, using: {(_ rect: CGRect, _ usedRect: CGRect, _ textContainer: NSTextContainer?, _ glyphRange: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>?) -> Void in
             
             let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
@@ -94,6 +93,12 @@ class LineNumberLayoutManager: NSLayoutManager {
                 gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
                 paraNumber = self._paraNumber(for: charRange)
                 let ln = "\(Int(UInt(paraNumber)) + 1)"
+                let size: CGSize = ln.size(withAttributes: atts)
+                let attr = NSAttributedString(string: ln, attributes: atts)
+                attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
+            } else {
+                gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
+                let ln = "•"
                 let size: CGSize = ln.size(withAttributes: atts)
                 let attr = NSAttributedString(string: ln, attributes: atts)
                 attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))

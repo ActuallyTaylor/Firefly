@@ -16,7 +16,6 @@ import UIKit
      If this method returns *false*, the highlighting process will be skipped for this range.
      
      - parameter range: NSRange
-     
      - returns: Bool
      */
     @objc optional func shouldHighlight(_ range:NSRange) -> Bool

@@ -25,7 +25,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     public var gutterWidth: CGFloat = 30 {
         didSet(width) {
             textView.gutterWidth = width
-//            layoutManager.gutterWidth = width
+            layoutManager.gutterWidth = width
         }
     }
     
@@ -35,7 +35,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     internal var textStorage = CodeAttributedString()
     
-//    internal var layoutManager = LineNumberLayoutManager()
+    internal var layoutManager = LineNumberLayoutManager()
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,19 +56,18 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textStorage.language = language
         textStorage.highlightr.setTheme(to: nTheme)
         
-        let layoutManager = NSLayoutManager()
         textStorage.addLayoutManager(layoutManager)
 
-        let textContainer = NSTextContainer(size: .zero)
+        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+        let textContainer = NSTextContainer(size: containerSize)
         layoutManager.addTextContainer(textContainer)
 
         let tFrame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
-        textView.textContainer.size = textView.bounds.size
         textView.isScrollEnabled = true
         textView.theme = nTheme
         textView.text = ""
-
+        
         textView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +120,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textStorage.highlightr.setTheme(to: nTheme)
         updateAppearence(theme: textStorage.highlightr.theme)
         textView.theme = nTheme
-//        layoutManager.theme = nTheme
+        layoutManager.theme = nTheme
     }
     
     public func setLanguage(nLanguage: String) {
