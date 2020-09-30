@@ -55,7 +55,6 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         guard let nTheme = Theme(name: theme, fontName: fontName) else { print("Error"); return }
         textStorage.language = language
         textStorage.highlightr.setTheme(to: nTheme)
-        
         textStorage.addLayoutManager(layoutManager)
 
         let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
@@ -65,10 +64,8 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         let tFrame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
         textView.isScrollEnabled = true
-        textView.theme = nTheme
         textView.text = ""
         
-        textView.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -119,11 +116,11 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         theme = name
         textStorage.highlightr.setTheme(to: nTheme)
         updateAppearence(theme: textStorage.highlightr.theme)
-        textView.theme = nTheme
         layoutManager.theme = nTheme
     }
     
     public func setLanguage(nLanguage: String) {
+        if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
         language = nLanguage
         textStorage.language = nLanguage
     }
@@ -133,6 +130,5 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         fontName = font
         textStorage.highlightr.setTheme(to: nTheme)
         updateAppearence(theme: textStorage.highlightr.theme)
-        textView.theme = nTheme
     }
 }

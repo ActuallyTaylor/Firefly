@@ -30,7 +30,7 @@ extension FireflySyntaxView {
                 }
             }
             insertingText += newLinePrefix
-            textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+            textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
             textView.setNeedsDisplay()
 
@@ -42,12 +42,4 @@ extension FireflySyntaxView {
     func updateSelectedRange(_ range: NSRange) {
         textView.selectedRange = range
     }
-//
-//    func textViewDidChange(_ textView: UITextView) {
-//        textView.setNeedsDisplay()
-//    }
-//    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        textView.setNeedsDisplay()
-//    }
 }

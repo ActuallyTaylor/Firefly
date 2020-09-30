@@ -25,10 +25,6 @@ open class Theme {
     open var italicFont : UIFont!
     /// The color of basic test for this theme
     open var fontColor: UIColor!
-    /// The gutter style used to color the gutter of an editor
-    public var gutterStyle: GutterStyle!
-    /// The style for numbers in the gutter of an editor
-    public var lineNumbersStyle: LineNumbersStyle!
 
     private var themeDict : RPThemeDict!
     private var strippedTheme : RPThemeStringDict!
@@ -121,9 +117,6 @@ open class Theme {
         if fontColor == nil {
             fontColor = .black
         }
-        
-        gutterStyle = GutterStyle(backgroundColor: backgroundColor, minimumWidth: 32)
-        lineNumbersStyle = LineNumbersStyle(font: mainFont, textColor: fontColor)
     }
     
     /**
