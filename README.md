@@ -98,18 +98,15 @@ Highlightr()?.availableThemes()
 - [ ] Autocompletion
 
 # Credits
-Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy.
+Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy. Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
 
-Highlightr is a project taking Highlight.js and allowing it to interact with Swift. This project is used for syntax highlighting in Firefly.
+Highlightr is a project taking Highlight.js and allowing it to interact with Swift. This project is used for syntax highlighting in Firefly. Highlightr is licensed under the MIT license; see [Highlightr LICENSE](https://github.com/raspu/Highlightr/blob/master/LICENSE) for more information.
 
-SyntaxKit is a project created by Palle Klewitz for iOS syntax highlighting. This project was used as a reference for issues in code.
+SyntaxKit is a project created by Palle Klewitz for iOS syntax highlighting. This project was used as a reference for issues in code. SyntaxKit is licensed under the MIT license; see [SyntaxKit LICENSE](https://github.com/palle-k/SyntaxKit/blob/master/license) for more information.
 
-SavannaKit is a project created by Louis D'hauwe. Firefly uses a modified version of LineNumberLayoutManager
+SavannaKit is a project created by Louis D'hauwe. Firefly uses a modified version of LineNumberLayoutManager. SavannaKit is licensed under the MIT license; see [SavannaKit LICENSE](https://github.com/louisdh/savannakit/blob/master/LICENSE) for more information.
 
-Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
 
-Highlightr is licensed under the MIT license; see [Highlightr LICENSE](https://github.com/raspu/Highlightr/blob/master/LICENSE) for more information.
 
-SyntaxKit is licensed under the MIT license; see [SyntaxKit LICENSE](https://github.com/palle-k/SyntaxKit/blob/master/license) for more information.
 
-SavannaKit is licensed under the MIT license; see [SavannaKit LICENSE](https://github.com/louisdh/savannakit/blob/master/LICENSE) for more information.
+
