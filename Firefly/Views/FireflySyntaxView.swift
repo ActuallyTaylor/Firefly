@@ -7,6 +7,7 @@
 
 import UIKit
 
+@IBDesignable
 public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     ///The highlighting language
@@ -22,16 +23,34 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     public var fontName: String = "system"
     
     @IBInspectable
-    public var gutterWidth: CGFloat = 30 {
+    public var text: String {
+        get {
+            return textView.text
+        }
+        set(nText) {
+            textView.text = nText
+        }
+    }
+    
+    @IBInspectable
+    public var gutterWidth: CGFloat = 20 {
         didSet(width) {
             textView.gutterWidth = width
             layoutManager.gutterWidth = width
         }
     }
     
+    @IBInspectable
     public var keyboardOffset: CGFloat = 20
 
-    internal var textView: FireflyTextView!
+    @IBInspectable
+    public var shouldOffsetKeyboard: Bool = false {
+        didSet {
+            setupNotifs()
+        }
+    }
+    
+    public var textView: FireflyTextView!
     
     internal var textStorage = CodeAttributedString()
     
@@ -84,9 +103,11 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     }
     
     func setupNotifs() {
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-        notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        if shouldOffsetKeyboard {
+            let notificationCenter = NotificationCenter.default
+            notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+            notificationCenter.addObserver(self, selector: #selector(adjustForKeyboard), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        }
     }
     
     @objc func adjustForKeyboard(notification: Notification) {

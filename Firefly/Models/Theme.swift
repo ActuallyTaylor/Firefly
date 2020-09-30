@@ -13,7 +13,7 @@ private typealias RPThemeDict = [String: [AnyHashable: AnyObject]]
 private typealias RPThemeStringDict = [String:[String:String]]
 
 /// Theme parser, can be used to configure the theme parameters.
-open class Theme {
+public class Theme {
     internal let theme : String
     internal var lightTheme : String!
     
@@ -50,7 +50,7 @@ open class Theme {
      - parameter themeString: Theme to use.
      - parameter fontName: The font that is used
      */
-    init(themeString: String, fontName: String) {
+    public init(themeString: String, fontName: String) {
         theme = themeString
         if fontName == "system" {
             setCodeFont(UIFont.systemFont(ofSize: 14))
@@ -61,7 +61,7 @@ open class Theme {
         setup(strippedTheme: strippedTheme)
     }
     
-    init?(name: String, fontName: String) {
+    public init?(name: String, fontName: String) {
         let bundle = Bundle(for: Theme.self)
         guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
         let themeString = try! String.init(contentsOfFile: defTheme)
@@ -72,6 +72,18 @@ open class Theme {
         } else {
             setCodeFont(UIFont(name: fontName, size: 14)!)
         }
+        strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    
+    public init?(name: String) {
+        let bundle = Bundle(for: Theme.self)
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
+        let themeString = try! String.init(contentsOfFile: defTheme)
+        
+        theme = themeString
+        setCodeFont(UIFont.systemFont(ofSize: 14))
         strippedTheme = stripTheme(themeString)
         setup(strippedTheme: strippedTheme)
     }
