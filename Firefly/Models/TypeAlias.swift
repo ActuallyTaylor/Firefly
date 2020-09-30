@@ -9,10 +9,6 @@
 import Foundation
 import UIKit
 
-#if os(OSX)
-    import AppKit
-#endif
-
 #if swift(>=4.2)
     public typealias AttributedStringKey = NSAttributedString.Key
 #else

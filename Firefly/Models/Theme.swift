@@ -7,17 +7,13 @@
 //
 
 import Foundation
-#if os(iOS) || os(tvOS)
 import UIKit
-#else
-import AppKit
-#endif
 
 private typealias RPThemeDict = [String: [AnyHashable: AnyObject]]
 private typealias RPThemeStringDict = [String:[String:String]]
 
 /// Theme parser, can be used to configure the theme parameters.
-open class Theme {
+public class Theme {
     internal let theme : String
     internal var lightTheme : String!
     
@@ -29,10 +25,6 @@ open class Theme {
     open var italicFont : UIFont!
     /// The color of basic test for this theme
     open var fontColor: UIColor!
-    /// The gutter style used to color the gutter of an editor
-    public var gutterStyle: GutterStyle!
-    /// The style for numbers in the gutter of an editor
-    public var lineNumbersStyle: LineNumbersStyle!
 
     private var themeDict : RPThemeDict!
     private var strippedTheme : RPThemeStringDict!
@@ -47,7 +39,7 @@ open class Theme {
      */
     init(themeString: String) {
         theme = themeString
-        setCodeFont(UIFont(name: "Courier", size: 14)!)
+        setCodeFont(UIFont.systemFont(ofSize: 14))
         strippedTheme = stripTheme(themeString)
         setup(strippedTheme: strippedTheme)
     }
@@ -58,9 +50,40 @@ open class Theme {
      - parameter themeString: Theme to use.
      - parameter fontName: The font that is used
      */
-    init(themeString: String, fontName: String) {
+    public init(themeString: String, fontName: String) {
         theme = themeString
-        setCodeFont(UIFont(name: fontName, size: 14)!)
+        if fontName == "system" {
+            setCodeFont(UIFont.systemFont(ofSize: 14))
+        } else {
+            setCodeFont(UIFont(name: fontName, size: 14)!)
+        }
+        strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    public init?(name: String, fontName: String) {
+        let bundle = Bundle(for: Theme.self)
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
+        let themeString = try! String.init(contentsOfFile: defTheme)
+        
+        theme = themeString
+        if fontName == "system" {
+            setCodeFont(UIFont.systemFont(ofSize: 14))
+        } else {
+            setCodeFont(UIFont(name: fontName, size: 14)!)
+        }
+        strippedTheme = stripTheme(themeString)
+        setup(strippedTheme: strippedTheme)
+    }
+    
+    
+    public init?(name: String) {
+        let bundle = Bundle(for: Theme.self)
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
+        let themeString = try! String.init(contentsOfFile: defTheme)
+        
+        theme = themeString
+        setCodeFont(UIFont.systemFont(ofSize: 14))
         strippedTheme = stripTheme(themeString)
         setup(strippedTheme: strippedTheme)
     }
@@ -106,9 +129,6 @@ open class Theme {
         if fontColor == nil {
             fontColor = .black
         }
-        gutterStyle = GutterStyle(backgroundColor: backgroundColor, minimumWidth: 32)
-        lineNumbersStyle = LineNumbersStyle(font: mainFont, textColor: fontColor)
-
     }
     
     /**
@@ -118,20 +138,10 @@ open class Theme {
      */
     open func setCodeFont(_ font: UIFont) {
         mainFont = font
-        
-        #if os(iOS) || os(tvOS)
-        let boldDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                               UIFontDescriptor.AttributeName.face:"Bold"])
-        let italicDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                                 UIFontDescriptor.AttributeName.face:"Italic"])
-        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName,
-                                                                  UIFontDescriptor.AttributeName.face:"Oblique"])
-        #else
-        let boldDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Bold"])
-        let italicDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Italic"])
-        let obliqueDescriptor = NSFontDescriptor(fontAttributes: [.family:font.familyName!, .face:"Oblique"])
-        #endif
-        
+        let boldDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Bold"])
+        let italicDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Italic"])
+        let obliqueDescriptor = UIFontDescriptor(fontAttributes: [UIFontDescriptor.AttributeName.family:mainFont.familyName, UIFontDescriptor.AttributeName.face:"Oblique"])
+
         boldFont = UIFont(descriptor: boldDescriptor, size: font.pointSize)
         italicFont = UIFont(descriptor: italicDescriptor, size: font.pointSize)
         
@@ -165,9 +175,9 @@ open class Theme {
                     }
                 }
             }
-            returnString = NSAttributedString(string: string, attributes:attrs )
+            returnString = NSAttributedString(string: string, attributes:attrs)
         } else {
-            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:mainFont ?? UIFont.systemFontSize] )
+            returnString = NSAttributedString(string: string, attributes:[AttributedStringKey.font:mainFont ?? UIFont.systemFontSize])
         }
         
         return returnString

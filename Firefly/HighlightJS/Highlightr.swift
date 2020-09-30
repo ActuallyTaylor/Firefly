@@ -9,10 +9,6 @@
 import Foundation
 import JavaScriptCore
 
-#if os(OSX)
-    import AppKit
-#endif
-
 /// Utility class for generating a highlighted NSAttributedString from a String.
 open class Highlightr
 {
@@ -76,7 +72,7 @@ open class Highlightr
      */
     @discardableResult
     open func setTheme(to name: String, fontName: String) -> Bool {
-        guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else { return false }
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { return false }
         let themeString = try! String.init(contentsOfFile: defTheme)
         theme =  Theme(themeString: themeString, fontName: fontName)
         
