@@ -50,6 +50,12 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    public var delegate: FireflyDelegate? {
+        didSet {
+            delegate?.didChangeText(textView)
+        }
+    }
+    
     public var textView: FireflyTextView!
     
     internal var textStorage = CodeAttributedString()
@@ -76,7 +82,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textStorage.highlightr.setTheme(to: nTheme)
         textStorage.addLayoutManager(layoutManager)
 
-        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
+        let containerSize = CGSize(width: 0, height: .zero)
         let textContainer = NSTextContainer(size: containerSize)
         layoutManager.addTextContainer(textContainer)
 
@@ -86,6 +92,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView.text = ""
         
         self.addSubview(textView)
+
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true

@@ -33,6 +33,8 @@ extension FireflySyntaxView {
             textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
             textView.setNeedsDisplay()
+            guard let tView = textView as? FireflyTextView  else { return false }
+            delegate?.didChangeText(tView)
 
             return false
         }
@@ -41,5 +43,10 @@ extension FireflySyntaxView {
     
     func updateSelectedRange(_ range: NSRange) {
         textView.selectedRange = range
+    }
+    
+    public func textViewDidChange(_ textView: UITextView) {
+        guard let tView = textView as? FireflyTextView  else { return }
+        delegate?.didChangeText(tView)
     }
 }
