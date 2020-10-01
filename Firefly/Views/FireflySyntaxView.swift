@@ -82,15 +82,16 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textStorage.highlightr.setTheme(to: nTheme)
         textStorage.addLayoutManager(layoutManager)
 
-        let containerSize = CGSize(width: 0, height: .zero)
+        let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
         let textContainer = NSTextContainer(size: containerSize)
+        textContainer.lineBreakMode = .byWordWrapping
+        
         layoutManager.addTextContainer(textContainer)
-
-        let tFrame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
         textView.isScrollEnabled = true
         textView.text = ""
-        
+
         self.addSubview(textView)
 
         textView.translatesAutoresizingMaskIntoConstraints = false
