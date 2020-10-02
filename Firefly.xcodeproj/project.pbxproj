@@ -98,7 +98,7 @@
 		4B3EDB962523B5A4007BB734 /* atelier-lakeside-light.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3A2523B5A4007BB734 /* atelier-lakeside-light.min.css */; };
 		4B3EDB972523B5A4007BB734 /* monokai-sublime.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3B2523B5A4007BB734 /* monokai-sublime.min.css */; };
 		4B3EDB982523B5A4007BB734 /* an-old-hope.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3C2523B5A4007BB734 /* an-old-hope.min.css */; };
-		4B9A5C1A2523B6EF002BEE90 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */; };
+		4B4D87B2252789E10007B000 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 4B4D87B1252789E10007B000 /* README.md */; };
 		4B9A5C1B2523B6EF002BEE90 /* FireflyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */; };
 		4B9A5C1C2523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */; };
 		4B9A5C1D2523B6EF002BEE90 /* FireflySyntaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C182523B6EF002BEE90 /* FireflySyntaxView.swift */; };
@@ -106,7 +106,6 @@
 		4B9A5C322523B8D8002BEE90 /* xcode-light.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B9A5C312523B8D8002BEE90 /* xcode-light.min.css */; };
 		4BDCE8D3251A5377003393A4 /* Firefly.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BDCE8D1251A5377003393A4 /* Firefly.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BDCE950251A5382003393A4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4BDCE8DD251A5382003393A4 /* LICENSE.txt */; };
-		4BE7E9AC2523B1A600091F80 /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */; };
 		4BE7E9AD2523B1A600091F80 /* HTMLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */; };
 		4BE7E9AE2523B1A600091F80 /* TypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */; };
 		4BE7E9AF2523B1A600091F80 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9AB2523B1A600091F80 /* Theme.swift */; };
@@ -206,7 +205,7 @@
 		4B3EDB3A2523B5A4007BB734 /* atelier-lakeside-light.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "atelier-lakeside-light.min.css"; sourceTree = "<group>"; };
 		4B3EDB3B2523B5A4007BB734 /* monokai-sublime.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "monokai-sublime.min.css"; sourceTree = "<group>"; };
 		4B3EDB3C2523B5A4007BB734 /* an-old-hope.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "an-old-hope.min.css"; sourceTree = "<group>"; };
-		4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Paragraphs.swift; path = Firefly/Views/Paragraphs.swift; sourceTree = SOURCE_ROOT; };
+		4B4D87B1252789E10007B000 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FireflyTextView.swift; path = Firefly/Views/FireflyTextView.swift; sourceTree = SOURCE_ROOT; };
 		4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FireflySyntaxView + TextDelegate.swift"; path = "Firefly/Views/FireflySyntaxView + TextDelegate.swift"; sourceTree = SOURCE_ROOT; };
 		4B9A5C182523B6EF002BEE90 /* FireflySyntaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FireflySyntaxView.swift; path = Firefly/Views/FireflySyntaxView.swift; sourceTree = SOURCE_ROOT; };
@@ -216,7 +215,6 @@
 		4BDCE8D1251A5377003393A4 /* Firefly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firefly.h; sourceTree = "<group>"; };
 		4BDCE8D2251A5377003393A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BDCE8DD251A5382003393A4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxColorTheme.swift; sourceTree = "<group>"; };
 		4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLUtils.swift; sourceTree = "<group>"; };
 		4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAlias.swift; sourceTree = "<group>"; };
 		4BE7E9AB2523B1A600091F80 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -235,6 +233,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B0AC2BE25278BDD00302360 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4BDCE8D0251A5377003393A4 /* Firefly */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
 		4B3EDADE2523B5A4007BB734 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,7 +359,7 @@
 		4BDCE8C4251A5377003393A4 = {
 			isa = PBXGroup;
 			children = (
-				4BDCE8D0251A5377003393A4 /* Firefly */,
+				4B0AC2BE25278BDD00302360 /* Sources */,
 				4BDCE8CF251A5377003393A4 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -376,6 +382,7 @@
 				4BDCE8DD251A5382003393A4 /* LICENSE.txt */,
 				4BDCE8D1251A5377003393A4 /* Firefly.h */,
 				4BDCE8D2251A5377003393A4 /* Info.plist */,
+				4B4D87B1252789E10007B000 /* README.md */,
 			);
 			path = Firefly;
 			sourceTree = "<group>";
@@ -383,7 +390,6 @@
 		4BE7E9A72523B1A600091F80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */,
 				4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */,
 				4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */,
 				4BE7E9AB2523B1A600091F80 /* Theme.swift */,
@@ -398,7 +404,6 @@
 				4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */,
 				4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */,
 				4B9A5C192523B6EF002BEE90 /* LineNumberLayoutManager.swift */,
-				4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */,
 			);
 			name = Views;
 			path = Models/Views;
@@ -539,6 +544,7 @@
 				4B3EDB7C2523B5A4007BB734 /* ascetic.min.css in Resources */,
 				4B3EDB772523B5A4007BB734 /* dark.min.css in Resources */,
 				4B3EDB652523B5A4007BB734 /* gml.min.css in Resources */,
+				4B4D87B2252789E10007B000 /* README.md in Resources */,
 				4B3EDB6D2523B5A4007BB734 /* atelier-forest-light.min.css in Resources */,
 				4B3EDB4F2523B5A4007BB734 /* kimbie.dark.min.css in Resources */,
 				4B3EDB982523B5A4007BB734 /* an-old-hope.min.css in Resources */,
@@ -593,8 +599,6 @@
 				4BE7E9AD2523B1A600091F80 /* HTMLUtils.swift in Sources */,
 				4B9A5C1C2523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift in Sources */,
 				4BE7E9C02523B1B800091F80 /* CodeAttributedString.swift in Sources */,
-				4BE7E9AC2523B1A600091F80 /* SyntaxColorTheme.swift in Sources */,
-				4B9A5C1A2523B6EF002BEE90 /* Paragraphs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
