@@ -9,8 +9,9 @@ import UIKit
 
 @IBDesignable
 public class FireflyTextView: UITextView {
-    var gutterWidth: CGFloat {
-        set(value) { textContainerInset = UIEdgeInsets(top: 0, left: value, bottom: 0, right: 0) }
-        get { return textContainerInset.left }
+    var gutterWidth: CGFloat = 20 {
+        didSet {
+            textContainerInset = UIEdgeInsets(top: 0, left: gutterWidth, bottom: 0, right: 0)
+        }
     }
 }

@@ -35,6 +35,7 @@ extension FireflySyntaxView {
             textView.setNeedsDisplay()
             guard let tView = textView as? FireflyTextView  else { return false }
             delegate?.didChangeText(tView)
+            updateGutterWidth()
 
             return false
         }

@@ -29,14 +29,24 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
         set(nText) {
             textView.text = nText
+            if dynamicGutterWidth {
+            updateGutterWidth()
+            }
         }
     }
     
     @IBInspectable
     public var gutterWidth: CGFloat = 20 {
-        didSet(width) {
-            textView.gutterWidth = width
-            layoutManager.gutterWidth = width
+        didSet {
+            textView.gutterWidth = gutterWidth
+            layoutManager.gutterWidth = gutterWidth
+        }
+    }
+    
+    @IBInspectable
+    public var dynamicGutterWidth: Bool = true {
+        didSet {
+            updateGutterWidth()
         }
     }
     
@@ -159,5 +169,20 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         fontName = font
         textStorage.highlightr.setTheme(to: nTheme)
         updateAppearence(theme: textStorage.highlightr.theme)
+    }
+    
+    func updateGutterWidth() {
+        let components = text.components(separatedBy: .newlines)
+        let count = components.count
+        let maxNumberOfDigits = "\(count)".count
+
+        let leftInset: CGFloat = 4.0
+        let rightInset: CGFloat = 4.0
+        let charWidth: CGFloat = 10.0
+        let newWidth = max(gutterWidth, CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset)
+        if newWidth > gutterWidth {
+            gutterWidth = newWidth
+            textView.setNeedsDisplay()
+        }
     }
 }
