@@ -48,6 +48,7 @@ open class Highlightr
         jsContext.setObject(window, forKeyedSubscript: "window" as NSString)
 
         let bundle = Bundle(for: Highlightr.self)
+        print(bundle)
         self.bundle = bundle
         guard let hgPath = highlightPath ?? bundle.path(forResource: "highlight.min", ofType: "js") else { return nil }
         
