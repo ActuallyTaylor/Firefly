@@ -48,9 +48,8 @@ open class Highlightr
         jsContext.setObject(window, forKeyedSubscript: "window" as NSString)
 
         let bundle = Bundle(for: Highlightr.self)
-        print(bundle)
         self.bundle = bundle
-        guard let hgPath = highlightPath ?? bundle.path(forResource: "highlight.min", ofType: "js") else { return nil }
+        guard let hgPath = highlightPath ?? bundle.path(forResource: "highlight.min", ofType: "js") else { print("Cant Find Highlightr"); return nil }
         
         let hgJs = try! String.init(contentsOfFile: hgPath)
         let value = jsContext.evaluateScript(hgJs)
@@ -73,7 +72,7 @@ open class Highlightr
      */
     @discardableResult
     open func setTheme(to name: String, fontName: String) -> Bool {
-        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { return false }
+        guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Can't find theme"); return false }
         let themeString = try! String.init(contentsOfFile: defTheme)
         theme =  Theme(themeString: themeString, fontName: fontName)
         
