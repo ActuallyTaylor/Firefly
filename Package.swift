@@ -26,7 +26,7 @@ let package = Package(
             dependencies: [],
             path: "Sources",
             resources: [
-            .process("Assets")]),
+            .copy("Assets")]),
         .testTarget(
             name: "FireflyTests",
             dependencies: ["Firefly"],

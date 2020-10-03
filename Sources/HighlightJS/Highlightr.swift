@@ -47,7 +47,8 @@ open class Highlightr
         let window = JSValue(newObjectIn: jsContext)
         jsContext.setObject(window, forKeyedSubscript: "window" as NSString)
 
-        let bundle = Bundle.main
+        
+        let bundle = Bundle(for: Highlightr.self)
         self.bundle = bundle
         guard let hgPath = highlightPath ?? bundle.path(forResource: "highlight.min", ofType: "js") else { print("Cant Find Highlightr"); return nil }
         
