@@ -8,7 +8,6 @@
 import UIKit
 
 extension FireflySyntaxView {
-    
     //MARK: UITextViewDelegate
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let selectedRange = textView.selectedRange
