@@ -18,10 +18,11 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     @IBInspectable
     public var theme: String = "xcode-light"
     
-    ///The highlighting font name
+    /// The name of the highlighters font
     @IBInspectable
     public var fontName: String = "system"
     
+    /// If set, sets the text views text to the given text. If gotten gets the text views text.
     @IBInspectable
     public var text: String {
         get {
@@ -35,6 +36,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    /// The minimum / standard gutter width. Becomes the minimum if dynamicGutterWidth is true otherwise it is the standard gutterWidth
     @IBInspectable
     public var gutterWidth: CGFloat = 20 {
         didSet {
@@ -43,6 +45,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    /// If set the view will use a dynamic gutter width
     @IBInspectable
     public var dynamicGutterWidth: Bool = true {
         didSet {
@@ -50,9 +53,11 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    /// The views offset from the top of the keyboard
     @IBInspectable
     public var keyboardOffset: CGFloat = 20
 
+    /// Set to true if the view should be offset when the keyboard opens and closes.
     @IBInspectable
     public var shouldOffsetKeyboard: Bool = false {
         didSet {
@@ -60,6 +65,8 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    /// The delegate that allows for you to get access the UITextViewDelegate from outside this class !
+    /// !!DO NOT CHANGE textViews Delegate directly!!!
     public var delegate: FireflyDelegate? {
         didSet {
             delegate?.didChangeText(textView)
@@ -84,7 +91,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         setupNotifs()
     }
     
-    
+    /// Sets up the basic parts of the view
     private func setup() {
         //Setup the Text storage and layout managers and actually add the textView to the screen.
         guard let nTheme = Theme(name: theme, fontName: fontName) else { print("Error"); return }
@@ -92,6 +99,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textStorage.highlightr.setTheme(to: nTheme)
         textStorage.addLayoutManager(layoutManager)
 
+        //This caused a ton of issues. Has to be the greatest finite magnitude so that the text container is big enough. Not setting to greatest finite magnitude would cause issues with text selection.
         let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
         let textContainer = NSTextContainer(size: containerSize)
         textContainer.lineBreakMode = .byWordWrapping
@@ -110,6 +118,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
+        // Sets default values for the text view to make it more like an editor.
         textView.autocapitalizationType = .none
         textView.keyboardType = .default
         textView.autocorrectionType = .no
@@ -120,6 +129,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView.delegate = self
     }
     
+    /// Sets up keyboard movement notifications
     func setupNotifs() {
         if shouldOffsetKeyboard {
             let notificationCenter = NotificationCenter.default
@@ -128,6 +138,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
     }
     
+    /// This detects keyboards height and adjusts the view to account for the keyboard in the way.
     @objc func adjustForKeyboard(notification: Notification) {
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
 
@@ -146,10 +157,12 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView.scrollRangeToVisible(selectedRange)
     }
     
+    /// Just updates the views appearence
     private func updateAppearence(theme: Theme) {
         textView.backgroundColor = theme.backgroundColor
     }
     
+    /// Sets the theme of the view. Supply with a theme name
     public func setTheme(name: String) {
         guard let nTheme = Theme(name: name, fontName: fontName) else { return }
         theme = name
@@ -158,12 +171,14 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         layoutManager.theme = nTheme
     }
     
+    /// Sets the language that is highlighted
     public func setLanguage(nLanguage: String) {
         if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
         language = nLanguage
         textStorage.language = nLanguage
     }
     
+    /// Sets the font of the highlighter. Should be set to a font name, or "system" for the system.
     public func setFont(font: String) {
         guard let nTheme = Theme(name: theme, fontName: font) else { return }
         fontName = font
@@ -171,6 +186,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         updateAppearence(theme: textStorage.highlightr.theme)
     }
     
+    /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
     func updateGutterWidth() {
         let components = text.components(separatedBy: .newlines)
         let count = components.count

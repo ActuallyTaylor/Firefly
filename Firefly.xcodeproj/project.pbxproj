@@ -98,15 +98,14 @@
 		4B3EDB962523B5A4007BB734 /* atelier-lakeside-light.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3A2523B5A4007BB734 /* atelier-lakeside-light.min.css */; };
 		4B3EDB972523B5A4007BB734 /* monokai-sublime.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3B2523B5A4007BB734 /* monokai-sublime.min.css */; };
 		4B3EDB982523B5A4007BB734 /* an-old-hope.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B3EDB3C2523B5A4007BB734 /* an-old-hope.min.css */; };
-		4B9A5C1A2523B6EF002BEE90 /* Paragraphs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */; };
-		4B9A5C1B2523B6EF002BEE90 /* FireflyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */; };
-		4B9A5C1C2523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */; };
-		4B9A5C1D2523B6EF002BEE90 /* FireflySyntaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C182523B6EF002BEE90 /* FireflySyntaxView.swift */; };
-		4B9A5C1E2523B6EF002BEE90 /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B9A5C192523B6EF002BEE90 /* LineNumberLayoutManager.swift */; };
+		4B6D33492528156E0030223F /* FireflyTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D33442528156E0030223F /* FireflyTextViewDelegate.swift */; };
+		4B6D334A2528156E0030223F /* FireflySyntaxView + TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D33452528156E0030223F /* FireflySyntaxView + TextDelegate.swift */; };
+		4B6D334B2528156E0030223F /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D33462528156E0030223F /* LineNumberLayoutManager.swift */; };
+		4B6D334C2528156E0030223F /* FireflyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D33472528156E0030223F /* FireflyTextView.swift */; };
+		4B6D334D2528156E0030223F /* FireflySyntaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6D33482528156E0030223F /* FireflySyntaxView.swift */; };
 		4B9A5C322523B8D8002BEE90 /* xcode-light.min.css in Resources */ = {isa = PBXBuildFile; fileRef = 4B9A5C312523B8D8002BEE90 /* xcode-light.min.css */; };
 		4BDCE8D3251A5377003393A4 /* Firefly.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BDCE8D1251A5377003393A4 /* Firefly.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4BDCE950251A5382003393A4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4BDCE8DD251A5382003393A4 /* LICENSE.txt */; };
-		4BE7E9AC2523B1A600091F80 /* SyntaxColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */; };
 		4BE7E9AD2523B1A600091F80 /* HTMLUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */; };
 		4BE7E9AE2523B1A600091F80 /* TypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */; };
 		4BE7E9AF2523B1A600091F80 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE7E9AB2523B1A600091F80 /* Theme.swift */; };
@@ -206,17 +205,16 @@
 		4B3EDB3A2523B5A4007BB734 /* atelier-lakeside-light.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "atelier-lakeside-light.min.css"; sourceTree = "<group>"; };
 		4B3EDB3B2523B5A4007BB734 /* monokai-sublime.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "monokai-sublime.min.css"; sourceTree = "<group>"; };
 		4B3EDB3C2523B5A4007BB734 /* an-old-hope.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "an-old-hope.min.css"; sourceTree = "<group>"; };
-		4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Paragraphs.swift; path = Firefly/Views/Paragraphs.swift; sourceTree = SOURCE_ROOT; };
-		4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FireflyTextView.swift; path = Firefly/Views/FireflyTextView.swift; sourceTree = SOURCE_ROOT; };
-		4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FireflySyntaxView + TextDelegate.swift"; path = "Firefly/Views/FireflySyntaxView + TextDelegate.swift"; sourceTree = SOURCE_ROOT; };
-		4B9A5C182523B6EF002BEE90 /* FireflySyntaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FireflySyntaxView.swift; path = Firefly/Views/FireflySyntaxView.swift; sourceTree = SOURCE_ROOT; };
-		4B9A5C192523B6EF002BEE90 /* LineNumberLayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineNumberLayoutManager.swift; path = Firefly/Views/LineNumberLayoutManager.swift; sourceTree = SOURCE_ROOT; };
+		4B6D33442528156E0030223F /* FireflyTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextViewDelegate.swift; sourceTree = "<group>"; };
+		4B6D33452528156E0030223F /* FireflySyntaxView + TextDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FireflySyntaxView + TextDelegate.swift"; sourceTree = "<group>"; };
+		4B6D33462528156E0030223F /* LineNumberLayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberLayoutManager.swift; sourceTree = "<group>"; };
+		4B6D33472528156E0030223F /* FireflyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextView.swift; sourceTree = "<group>"; };
+		4B6D33482528156E0030223F /* FireflySyntaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflySyntaxView.swift; sourceTree = "<group>"; };
 		4B9A5C312523B8D8002BEE90 /* xcode-light.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = "xcode-light.min.css"; sourceTree = "<group>"; };
 		4BDCE8CE251A5377003393A4 /* Firefly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firefly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDCE8D1251A5377003393A4 /* Firefly.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Firefly.h; sourceTree = "<group>"; };
 		4BDCE8D2251A5377003393A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BDCE8DD251A5382003393A4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
-		4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxColorTheme.swift; sourceTree = "<group>"; };
 		4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTMLUtils.swift; sourceTree = "<group>"; };
 		4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAlias.swift; sourceTree = "<group>"; };
 		4BE7E9AB2523B1A600091F80 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -350,6 +348,18 @@
 			path = themes;
 			sourceTree = "<group>";
 		};
+		4B6D33432528156E0030223F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4B6D33482528156E0030223F /* FireflySyntaxView.swift */,
+				4B6D33452528156E0030223F /* FireflySyntaxView + TextDelegate.swift */,
+				4B6D33472528156E0030223F /* FireflyTextView.swift */,
+				4B6D33442528156E0030223F /* FireflyTextViewDelegate.swift */,
+				4B6D33462528156E0030223F /* LineNumberLayoutManager.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4BDCE8C4251A5377003393A4 = {
 			isa = PBXGroup;
 			children = (
@@ -369,7 +379,7 @@
 		4BDCE8D0251A5377003393A4 /* Firefly */ = {
 			isa = PBXGroup;
 			children = (
-				4BE7E9B12523B1AC00091F80 /* Views */,
+				4B6D33432528156E0030223F /* Views */,
 				4BE7E9A72523B1A600091F80 /* Models */,
 				4BE7E9BD2523B1B800091F80 /* HighlightJS */,
 				4B3EDADE2523B5A4007BB734 /* Assets */,
@@ -383,25 +393,11 @@
 		4BE7E9A72523B1A600091F80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4BE7E9A82523B1A600091F80 /* SyntaxColorTheme.swift */,
 				4BE7E9A92523B1A600091F80 /* HTMLUtils.swift */,
 				4BE7E9AA2523B1A600091F80 /* TypeAlias.swift */,
 				4BE7E9AB2523B1A600091F80 /* Theme.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		4BE7E9B12523B1AC00091F80 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				4B9A5C182523B6EF002BEE90 /* FireflySyntaxView.swift */,
-				4B9A5C172523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift */,
-				4B9A5C162523B6EF002BEE90 /* FireflyTextView.swift */,
-				4B9A5C192523B6EF002BEE90 /* LineNumberLayoutManager.swift */,
-				4B9A5C152523B6EE002BEE90 /* Paragraphs.swift */,
-			);
-			name = Views;
-			path = Models/Views;
 			sourceTree = "<group>";
 		};
 		4BE7E9BD2523B1B800091F80 /* HighlightJS */ = {
@@ -584,17 +580,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B6D33492528156E0030223F /* FireflyTextViewDelegate.swift in Sources */,
 				4BE7E9AE2523B1A600091F80 /* TypeAlias.swift in Sources */,
-				4B9A5C1B2523B6EF002BEE90 /* FireflyTextView.swift in Sources */,
+				4B6D334B2528156E0030223F /* LineNumberLayoutManager.swift in Sources */,
+				4B6D334D2528156E0030223F /* FireflySyntaxView.swift in Sources */,
 				4BE7E9AF2523B1A600091F80 /* Theme.swift in Sources */,
-				4B9A5C1D2523B6EF002BEE90 /* FireflySyntaxView.swift in Sources */,
-				4B9A5C1E2523B6EF002BEE90 /* LineNumberLayoutManager.swift in Sources */,
+				4B6D334A2528156E0030223F /* FireflySyntaxView + TextDelegate.swift in Sources */,
 				4BE7E9C12523B1B800091F80 /* Highlightr.swift in Sources */,
+				4B6D334C2528156E0030223F /* FireflyTextView.swift in Sources */,
 				4BE7E9AD2523B1A600091F80 /* HTMLUtils.swift in Sources */,
-				4B9A5C1C2523B6EF002BEE90 /* FireflySyntaxView + TextDelegate.swift in Sources */,
 				4BE7E9C02523B1B800091F80 /* CodeAttributedString.swift in Sources */,
-				4BE7E9AC2523B1A600091F80 /* SyntaxColorTheme.swift in Sources */,
-				4B9A5C1A2523B6EF002BEE90 /* Paragraphs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
