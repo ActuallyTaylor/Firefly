@@ -62,7 +62,8 @@ public class Theme {
     }
     
     public init?(name: String, fontName: String) {
-        let bundle = Bundle.module
+        #warning("Change back to Bundle.module")
+        let bundle = Bundle(for: Highlightr.self)
         guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
         let themeString = try! String.init(contentsOfFile: defTheme)
         
@@ -78,7 +79,8 @@ public class Theme {
     
     
     public init?(name: String) {
-        let bundle = Bundle.module
+        #warning("Change back to Bundle.module")
+        let bundle = Bundle(for: Highlightr.self)
         guard let defTheme = bundle.path(forResource: name + ".min", ofType: "css") else { print("Error Getting Theme \(name)"); return nil }
         let themeString = try! String.init(contentsOfFile: defTheme)
         
@@ -368,7 +370,8 @@ public class Theme {
     
     /// Takes a string and returns the Theme with that name
     public static func getTheme(name: String, fontName: String) -> Theme {
-        let bundle = Bundle.module
+        #warning("Change back to Bundle.module")
+        let bundle = Bundle(for: Highlightr.self)
         guard let defTheme = bundle.path(forResource: name+".min", ofType: "css") else { return Theme(themeString: "", fontName: "Courier") }
         let themeString = try! String.init(contentsOfFile: defTheme)
         return Theme(themeString: themeString, fontName: fontName)
