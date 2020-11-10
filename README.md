@@ -97,6 +97,14 @@ Highlightr()?.availableThemes()
 
 - [ ] Autocompletion
 
+- [ ] Speed upgrades
+
+- [ ] Upgrade Highlighter version
+
+- [ ] Multi-line string support
+
+- [ ] Collapsable lines
+
 # Credits
 Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy. Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
 
