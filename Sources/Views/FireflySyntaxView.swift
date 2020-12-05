@@ -149,7 +149,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
             textView.contentInset = .zero
         } else {
             let top = textView.contentInset.top; let left = textView.contentInset.left; let right = textView.contentInset.right
-            textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height, right: right)
+            textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height + keyboardOffset, right: right)
         }
         textView.scrollIndicatorInsets = textView.contentInset
 
