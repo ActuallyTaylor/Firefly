@@ -140,21 +140,23 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     /// This detects keyboards height and adjusts the view to account for the keyboard in the way.
     @objc func adjustForKeyboard(notification: Notification) {
-        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        if shouldOffsetKeyboard {
+            guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
 
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = self.convert(keyboardScreenEndFrame, from: self.window)
+            let keyboardScreenEndFrame = keyboardValue.cgRectValue
+            let keyboardViewEndFrame = self.convert(keyboardScreenEndFrame, from: self.window)
 
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            textView.contentInset = .zero
-        } else {
-            let top = textView.contentInset.top; let left = textView.contentInset.left; let right = textView.contentInset.right
-            textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height + keyboardOffset, right: right)
+            if notification.name == UIResponder.keyboardWillHideNotification {
+                textView.contentInset = .zero
+            } else {
+                let top = textView.contentInset.top; let left = textView.contentInset.left; let right = textView.contentInset.right
+                textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height + keyboardOffset, right: right)
+            }
+            textView.scrollIndicatorInsets = textView.contentInset
+
+            let selectedRange = textView.selectedRange
+            textView.scrollRangeToVisible(selectedRange)
         }
-        textView.scrollIndicatorInsets = textView.contentInset
-
-        let selectedRange = textView.selectedRange
-        textView.scrollRangeToVisible(selectedRange)
     }
     
     /// Just updates the views appearence
