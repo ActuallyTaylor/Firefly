@@ -60,6 +60,14 @@ class LineNumberLayoutManager: NSLayoutManager {
             return paraNumber
         }
     }
+    
+    override func glyphRange(forBoundingRect bounds: CGRect, in container: NSTextContainer) -> NSRange {
+        var range = super.glyphRange(forBoundingRect: bounds, in: container)
+        if range.length == 0 && bounds.intersects(self.extraLineFragmentRect) {
+            range = NSMakeRange(textStorage!.length - 1, 1)
+        }
+        return range
+    }
 
     override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorage.EditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
         super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
