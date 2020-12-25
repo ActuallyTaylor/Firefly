@@ -15,7 +15,7 @@ class LineNumberLayoutManager: NSLayoutManager {
     
     var lastParaLocation = 0
     var lastParaNumber = 0
-    var theme = Theme(themeString: "xcode-light", fontName: "system")
+    var theme: Theme?
     var gutterWidth: CGFloat = 0
 
     func _paraNumber(for charRange: NSRange) -> Int {
@@ -84,8 +84,8 @@ class LineNumberLayoutManager: NSLayoutManager {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
         let atts: [NSAttributedString.Key: Any] = [
-            .font: theme.mainFont!,
-            .foregroundColor : theme.fontColor!
+            .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
+            .foregroundColor : theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
         ]
         
         var gutterRect: CGRect = .zero

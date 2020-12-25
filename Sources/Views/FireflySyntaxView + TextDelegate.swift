@@ -14,7 +14,13 @@ extension FireflySyntaxView {
         let selectedRange = textView.selectedRange
         var insertingText = text
         
+        if insertingText == "" && range.length > 0 {
+            // Update on backspace
+            updateGutterWidth()
+        }
+        
         if insertingText == "\n" {
+            // Update on new line
             let nsText = textView.text as NSString
             var currentLine = nsText.substring(with: nsText.lineRange(for: textView.selectedRange))
             if currentLine.hasSuffix("\n") {
@@ -32,6 +38,7 @@ extension FireflySyntaxView {
             }
             insertingText += newLinePrefix
             textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+            
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
             textView.setNeedsDisplay()
             guard let tView = textView as? FireflyTextView  else { return false }
