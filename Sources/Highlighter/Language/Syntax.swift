@@ -39,8 +39,9 @@ public class Syntax {
                 let group: Int = dict["group"] as? Int ?? 0
                 let relevance: Int = dict["relevance"] as? Int ?? 0
                 let options: [NSRegularExpression.Options] = dict["options"] as? [NSRegularExpression.Options] ?? []
-                
-                definitions.append(Definition(type: type, regex: regex, group: group, relevance: relevance, matches: options))
+                let multi: Bool = dict["multiline"] as? Bool ?? false
+
+                definitions.append(Definition(type: type, regex: regex, group: group, relevance: relevance, matches: options, multiLine: multi))
             }
         }
         definitions.sort { (def1, def2) -> Bool in return def1.relevance > def2.relevance }
@@ -74,5 +75,25 @@ public class Syntax {
     
     func getHighlightColor(for type: String) -> UIColor {
         return theme.colors[type] ?? theme.defaultFontColor
+    }
+    
+    func highlightAttributedString(string: NSAttributedString) -> NSMutableAttributedString {
+        let nsString = NSMutableAttributedString(attributedString: string)
+        let totalRange = NSRange(location: 0, length: nsString.string.count)
+        nsString.setAttributes([NSAttributedString.Key.foregroundColor: theme.defaultFontColor, NSAttributedString.Key.font: currentFont], range: totalRange)
+        
+        for item in definitions {
+            var regex = try? NSRegularExpression(pattern: item.regex)
+            if let option = item.matches.first {
+                regex = try? NSRegularExpression(pattern: item.regex, options: option)
+            }//NSRange(location: 0, length: string.utf16.count)
+            if let matches = regex?.matches(in: nsString.string, options: [], range: totalRange) {
+                for aMatch in matches {
+                    let color = getHighlightColor(for: item.type)
+                    nsString.setAttributes([NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: currentFont], range: aMatch.range(at: item.group))
+                }
+            }
+        }
+        return nsString
     }
 }

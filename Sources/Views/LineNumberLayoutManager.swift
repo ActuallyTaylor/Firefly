@@ -95,7 +95,7 @@ class LineNumberLayoutManager: NSLayoutManager {
             
             let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
             let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
-            
+        
             //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
             if charRange.location == paraRange?.location {
                 gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)

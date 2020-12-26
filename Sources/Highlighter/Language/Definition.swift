@@ -13,5 +13,6 @@ struct Definition {
     var group: Int
     var relevance: Int
     var matches: [NSRegularExpression.Options]
+    var multiLine: Bool
 }
 

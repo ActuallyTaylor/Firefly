@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-public class FireflySyntaxView: UIView, UITextViewDelegate {
+public class FireflySyntaxView: UIView {
     
     ///The highlighting language
     @IBInspectable
@@ -80,6 +80,11 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     internal var layoutManager = LineNumberLayoutManager()
     
+    internal var shouldHighlightOnChange: Bool = false
+    
+    internal var highlightAll: Bool = false
+
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -94,7 +99,8 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     /// Sets up the basic parts of the view
     private func setup() {
-        //Setup the Text storage and layout managers and actually add the textView to the screen.s
+        //Setup the Text storage and layout managers and actually add the textView to the screen.
+        layoutManager.textStorage = textStorage
         textStorage.addLayoutManager(layoutManager)
 
         //This caused a ton of issues. Has to be the greatest finite magnitude so that the text container is big enough. Not setting to greatest finite magnitude would cause issues with text selection.
@@ -125,7 +131,6 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView.smartInsertDeleteType = .no
         textView.keyboardAppearance = .dark
         textView.delegate = self
-        
     }
     
     /// Sets up keyboard movement notifications
