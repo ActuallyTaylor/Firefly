@@ -177,6 +177,15 @@ public class FireflySyntaxView: UIView {
         updateAppearence()
     }
     
+    /// Retuns the name of every available theme
+    public func getAvailableThemes() -> [String] {
+        var arr: [String] = []
+        for item in themes {
+            arr.append(item.key)
+        }
+        return arr
+    }
+    
     /// Sets the language that is highlighted
     public func setLanguage(nLanguage: String) {
 //        if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
