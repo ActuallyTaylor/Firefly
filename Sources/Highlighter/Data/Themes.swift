@@ -99,7 +99,7 @@ let themes: [String: [String: Any]] = [
         ]
     ],
     "Classic Dark": [
-        "default": "#FFFFFFD9", // Plain Text
+        "default": "#ffffffD9", // Plain Text
         "background": "#1F1F24",
         "currentLine": "#23252B",
         "selection": "#515B70",
