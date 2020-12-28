@@ -166,6 +166,7 @@ public class FireflySyntaxView: UIView {
     /// Just updates the views appearence
     private func updateAppearence() {
         textView.backgroundColor = textStorage.syntax.theme.backgroundColor
+        textView.tintColor = textStorage.syntax.theme.cursor
     }
     
     /// Sets the theme of the view. Supply with a theme name

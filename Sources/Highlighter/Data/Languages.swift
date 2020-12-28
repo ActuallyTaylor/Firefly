@@ -14,7 +14,7 @@ let languages: [String: [String: Any]] = [
 
 let jellyLanguage: [String: Any] = [
     "function": [
-        "regex": "([a-zA-Z_0-9\"\\.\\[\\]\\+-]+)\\(",
+        "regex": "([a-zA-Z_0-9\"\\.\\[\\]\\+-]+)\\(.*?\\)",
         "group": 1,
         "relevance": 0,
         "options": [],

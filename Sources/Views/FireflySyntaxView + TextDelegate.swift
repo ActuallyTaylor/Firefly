@@ -67,6 +67,7 @@ extension FireflySyntaxView: UITextViewDelegate {
         guard let tView = textView as? FireflyTextView  else { return }
         if shouldHighlightOnChange {
             shouldHighlightOnChange = false
+            textStorage.editingRange = tView.selectedRange
             textStorage.highlight(getVisibleRange())
         } else if highlightAll {
             highlightAll = false
