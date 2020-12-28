@@ -103,9 +103,11 @@ extension SyntaxAttributedString {
             if let matches = regex?.matches(in: string, options: [], range: range) {
                 for aMatch in matches {
                     let textRange: NSRange = aMatch.range(at: item.group)
-                    let color = syntax.getHighlightColor(for: item.type)
-                    addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                    self.setAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                    if notInsideToken(range: textRange) {
+                        let color = syntax.getHighlightColor(for: item.type)
+                        addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                        self.setAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                    }
                 }
             }
         }
@@ -121,6 +123,12 @@ extension SyntaxAttributedString {
         let timeInterval = Double(nanoTime) / 1_000_000_000
         debugPrint("Highlighting range: \(range) took \(timeInterval)")
         #endif
+    }
+    
+    func notInsideToken(range: NSRange) -> Bool {
+        return !cachedTokens.contains { (token) -> Bool in
+            return token.range.encompasses(r2: range)
+        }
     }
     
     func addToken(range: NSRange, type: String, multiline: Bool) {
