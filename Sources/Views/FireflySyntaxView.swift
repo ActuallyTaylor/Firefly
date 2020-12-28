@@ -76,13 +76,15 @@ public class FireflySyntaxView: UIView {
     
     public var textView: FireflyTextView!
     
-    internal var textStorage = SyntaxAttributedString(syntax: Syntax(language: "default", theme: "default", font: "system"))
+    internal var textStorage = SyntaxAttributedString(syntax: Syntax(language: "default", theme: "Basic", font: "system"))
     
     internal var layoutManager = LineNumberLayoutManager()
     
     internal var shouldHighlightOnChange: Bool = false
     
     internal var highlightAll: Bool = false
+    
+    internal var lastChar: Character?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)

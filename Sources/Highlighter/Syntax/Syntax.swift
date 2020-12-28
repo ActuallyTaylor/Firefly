@@ -8,7 +8,7 @@
 import UIKit
 
 public class Syntax {
-    var currentLanguage: String = "Basic" {
+    var currentLanguage: String = "default" {
         didSet(value) {
             setLanguage(to: value)
         }
@@ -31,7 +31,7 @@ public class Syntax {
     }
     
     func setLanguage(to name: String) {
-        if let language = languages[name] {
+        if let language = languages[name.lowercased()] {
             for item in language {
                 let type = item.key
                 let dict: [String: Any] = item.value as! [String : Any]
