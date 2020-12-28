@@ -15,7 +15,7 @@ class LineNumberLayoutManager: NSLayoutManager {
     
     var lastParaLocation = 0
     var lastParaNumber = 0
-    var theme = Theme(themeString: "xcode-light", fontName: "system")
+    var theme: Theme?
     var gutterWidth: CGFloat = 0
 
     func _paraNumber(for charRange: NSRange) -> Int {
@@ -60,6 +60,14 @@ class LineNumberLayoutManager: NSLayoutManager {
             return paraNumber
         }
     }
+    
+    override func glyphRange(forBoundingRect bounds: CGRect, in container: NSTextContainer) -> NSRange {
+        var range = super.glyphRange(forBoundingRect: bounds, in: container)
+        if range.length == 0 && bounds.intersects(self.extraLineFragmentRect) {
+            range = NSMakeRange(textStorage!.length - 1, 1)
+        }
+        return range
+    }
 
     override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorage.EditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
         super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
@@ -76,8 +84,8 @@ class LineNumberLayoutManager: NSLayoutManager {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
         let atts: [NSAttributedString.Key: Any] = [
-            .font: theme.mainFont!,
-            .foregroundColor : theme.fontColor!
+            .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
+            .foregroundColor : theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
         ]
         
         var gutterRect: CGRect = .zero
@@ -87,7 +95,7 @@ class LineNumberLayoutManager: NSLayoutManager {
             
             let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
             let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
-            
+        
             //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
             if charRange.location == paraRange?.location {
                 gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)

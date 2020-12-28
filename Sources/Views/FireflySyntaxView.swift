@@ -8,7 +8,7 @@
 import UIKit
 
 @IBDesignable
-public class FireflySyntaxView: UIView, UITextViewDelegate {
+public class FireflySyntaxView: UIView {
     
     ///The highlighting language
     @IBInspectable
@@ -30,8 +30,9 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         }
         set(nText) {
             textView.text = nText
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count))
             if dynamicGutterWidth {
-            updateGutterWidth()
+                updateGutterWidth()
             }
         }
     }
@@ -56,7 +57,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     /// The views offset from the top of the keyboard
     @IBInspectable
     public var keyboardOffset: CGFloat = 20
-
+    
     /// Set to true if the view should be offset when the keyboard opens and closes.
     @IBInspectable
     public var shouldOffsetKeyboard: Bool = false {
@@ -75,9 +76,14 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     public var textView: FireflyTextView!
     
-    internal var textStorage = CodeAttributedString()
+    internal var textStorage = SyntaxAttributedString(syntax: Syntax(language: "default", theme: "default", font: "system"))
     
     internal var layoutManager = LineNumberLayoutManager()
+    
+    internal var shouldHighlightOnChange: Bool = false
+    
+    internal var highlightAll: Bool = false
+
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,9 +100,7 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     /// Sets up the basic parts of the view
     private func setup() {
         //Setup the Text storage and layout managers and actually add the textView to the screen.
-        guard let nTheme = Theme(name: theme, fontName: fontName) else { print("Error"); return }
-        textStorage.language = language
-        textStorage.highlightr.setTheme(to: nTheme)
+        layoutManager.textStorage = textStorage
         textStorage.addLayoutManager(layoutManager)
 
         //This caused a ton of issues. Has to be the greatest finite magnitude so that the text container is big enough. Not setting to greatest finite magnitude would cause issues with text selection.
@@ -109,15 +113,15 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
         textView.isScrollEnabled = true
         textView.text = ""
-
+        
         self.addSubview(textView)
-
+        
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-
+        
         // Sets default values for the text view to make it more like an editor.
         textView.autocapitalizationType = .none
         textView.keyboardType = .default
@@ -140,50 +144,52 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
     
     /// This detects keyboards height and adjusts the view to account for the keyboard in the way.
     @objc func adjustForKeyboard(notification: Notification) {
-        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = self.convert(keyboardScreenEndFrame, from: self.window)
-
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            textView.contentInset = .zero
-        } else {
-            let top = textView.contentInset.top; let left = textView.contentInset.left; let right = textView.contentInset.right
-            textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height, right: right)
+        if shouldOffsetKeyboard {
+            guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+            
+            let keyboardScreenEndFrame = keyboardValue.cgRectValue
+            let keyboardViewEndFrame = self.convert(keyboardScreenEndFrame, from: self.window)
+            
+            if notification.name == UIResponder.keyboardWillHideNotification {
+                textView.contentInset = .zero
+            } else {
+                let top = textView.contentInset.top; let left = textView.contentInset.left; let right = textView.contentInset.right
+                textView.contentInset = UIEdgeInsets(top: top, left: left, bottom: keyboardViewEndFrame.height + keyboardOffset, right: right)
+            }
+            textView.scrollIndicatorInsets = textView.contentInset
+            
+            let selectedRange = textView.selectedRange
+            textView.scrollRangeToVisible(selectedRange)
         }
-        textView.scrollIndicatorInsets = textView.contentInset
-
-        let selectedRange = textView.selectedRange
-        textView.scrollRangeToVisible(selectedRange)
     }
     
     /// Just updates the views appearence
-    private func updateAppearence(theme: Theme) {
-        textView.backgroundColor = theme.backgroundColor
+    private func updateAppearence() {
+        textView.backgroundColor = textStorage.syntax.theme.backgroundColor
+        textView.tintColor = textStorage.syntax.theme.cursor
     }
     
     /// Sets the theme of the view. Supply with a theme name
     public func setTheme(name: String) {
-        guard let nTheme = Theme(name: name, fontName: fontName) else { return }
         theme = name
-        textStorage.highlightr.setTheme(to: nTheme)
-        updateAppearence(theme: textStorage.highlightr.theme)
-        layoutManager.theme = nTheme
+        textStorage.syntax.setTheme(to: name)
+        layoutManager.theme = textStorage.syntax.theme
+        updateAppearence()
     }
     
     /// Sets the language that is highlighted
     public func setLanguage(nLanguage: String) {
-        if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
+//        if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
         language = nLanguage
-        textStorage.language = nLanguage
+        textStorage.syntax.setLanguage(to: nLanguage)
+        updateAppearence()
     }
     
     /// Sets the font of the highlighter. Should be set to a font name, or "system" for the system.
     public func setFont(font: String) {
-        guard let nTheme = Theme(name: theme, fontName: font) else { return }
         fontName = font
-        textStorage.highlightr.setTheme(to: nTheme)
-        updateAppearence(theme: textStorage.highlightr.theme)
+        textStorage.syntax.setFont(to: font)
+        updateAppearence()
     }
     
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
@@ -191,12 +197,13 @@ public class FireflySyntaxView: UIView, UITextViewDelegate {
         let components = text.components(separatedBy: .newlines)
         let count = components.count
         let maxNumberOfDigits = "\(count)".count
-
+        
         let leftInset: CGFloat = 4.0
         let rightInset: CGFloat = 4.0
         let charWidth: CGFloat = 10.0
-        let newWidth = max(gutterWidth, CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset)
-        if newWidth > gutterWidth {
+        let newWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
+        
+        if newWidth != gutterWidth {
             gutterWidth = newWidth
             textView.setNeedsDisplay()
         }
