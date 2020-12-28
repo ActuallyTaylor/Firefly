@@ -84,7 +84,6 @@ public class FireflySyntaxView: UIView {
     
     internal var highlightAll: Bool = false
 
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -169,6 +168,34 @@ public class FireflySyntaxView: UIView {
         textView.tintColor = textStorage.syntax.theme.cursor
     }
     
+   /// Returns the current theme so you can get colors from that
+    public func getCurrentTheme() -> Theme {
+        return textStorage.syntax.theme
+    }
+    
+    /// Returns the current theme so you can get colors from that
+    static public func getTheme(name: String) -> Theme? {
+        if let theme = themes[name] {
+            let defaultColor = UIColor(hex: (theme["default"] as? String) ?? "#000000")
+            let backgroundColor = UIColor(hex: (theme["background"] as? String) ?? "#000000")
+            
+            let currentLineColor = UIColor(hex: (theme["currentLine"] as? String) ?? "#000000")
+            let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
+            let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
+
+            var colors: [String: UIColor] = [:]
+            
+            if let cDefs = theme["definitions"] as? [String: String] {
+                for item in cDefs {
+                    colors.merge([item.key: UIColor(hex: (item.value))]) { (first, _) -> UIColor in return first }
+                }
+            }
+            
+            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize))
+        }
+        return nil
+     }
+    
     /// Sets the theme of the view. Supply with a theme name
     public func setTheme(name: String) {
         theme = name
@@ -178,7 +205,7 @@ public class FireflySyntaxView: UIView {
     }
     
     /// Retuns the name of every available theme
-    public func getAvailableThemes() -> [String] {
+    static public func getAvailableThemes() -> [String] {
         var arr: [String] = []
         for item in themes {
             arr.append(item.key)
@@ -216,5 +243,6 @@ public class FireflySyntaxView: UIView {
             gutterWidth = newWidth
             textView.setNeedsDisplay()
         }
+        textStorage.highlight(NSRange(location: 0, length: textStorage.string.count))
     }
 }

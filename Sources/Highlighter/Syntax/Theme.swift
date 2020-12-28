@@ -7,13 +7,13 @@
 
 import UIKit
 
-struct Theme {
+public struct Theme {
     // Key: Hex Color
-    var defaultFontColor: UIColor
-    var backgroundColor: UIColor
-    var currentLine: UIColor
-    var selection: UIColor
-    var cursor: UIColor
-    var colors: [String: UIColor]
-    var font: UIFont
+    public var defaultFontColor: UIColor
+    public var backgroundColor: UIColor
+    public var currentLine: UIColor
+    public var selection: UIColor
+    public var cursor: UIColor
+    public var colors: [String: UIColor]
+    public var font: UIFont
 }

@@ -25,12 +25,12 @@ open class SyntaxAttributedString : NSTextStorage {
 
     /// Initialize the CodeAttributedString
     public override init() {
-        self.syntax = Syntax(language: "default", theme: "default", font: "system")
+        self.syntax = Syntax(language: "default", theme: "basic", font: "system")
         super.init()
     }
     
     required public init?(coder: NSCoder) {
-        self.syntax = Syntax(language: "default", theme: "default", font: "system")
+        self.syntax = Syntax(language: "default", theme: "basic", font: "system")
         super.init(coder: coder)
     }
     
