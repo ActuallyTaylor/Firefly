@@ -139,7 +139,10 @@ extension SyntaxAttributedString {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: range) }
         let lengthDifference = string.count - lastLength
+//        guard let stringRange = Range(range, in: string) else { return currRange }
+//        print(string[stringRange])
 
+        
         for token in tokens {
             //Upper and lower bounds
             let tokenLower = token.range.lowerBound
@@ -170,7 +173,7 @@ extension SyntaxAttributedString {
                 debugPrint("Upper screen")
                 newLength = tokenUpper + lengthDifference
             }
-            
+
             if newLength + newLocation > string.count {
                 debugPrint("Is Greater")
                 newLength = string.count - newLocation

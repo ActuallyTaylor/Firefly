@@ -11,7 +11,7 @@
 </p>
 
 # Firefly
-Firefly is an iOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
+Firefly is a pure swift iOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
 
 # How does Firefly Work?
 Firefly is written in pure swift, and uses NSRegularExpressions for detecting tokens to highlight. Once tokens are detected they are colored based on the current theme.
@@ -32,10 +32,11 @@ This project is was inspired by Paul Hudson’s (@twostraws) Sourceful syntax hi
 * 2 Languages
 * 49 Themes
 
-## How To Use
-To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller.
+# How To Use
+To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller. Firefly also lightly supports Swift UI.
 
-### Sample Code
+## Sample Code
+### UI Kit
 A basic setup for a Firefly View
 ```swift
 import UIKit
@@ -61,51 +62,87 @@ class ViewController: UIViewController {
     }
 }
 ```
-### Set the text in the Firefly View
+#### Set the text in the Firefly View
 ```swift
 fireflyView.text = “My code string”
 ```
-### Set the Firefly View's Theme
+#### Set the Firefly View's Theme
 ```swift
 fireflyView.setTheme(name: "Basic")
 ```
-### Set the Firefly View's Language
+#### Set the Firefly View's Language
 ```swift
 fireflyView.setLanguage(nLanguage: "default")
 ```
-### Set the Firefly View's Gutter Width
+#### Set the Firefly View's Gutter Width
 ```swift
 fireflyView.gutterWidth = 20
 ```
-### Set the Firefly View’s Keyboard Offset
+#### Set the Firefly View’s Keyboard Offset
 The keyboard offset is the space between the bottom of firefly view and the keyboard frame. You should use this to make space for any keyboard input views.
 ```swift
 fireflyView.keyboardOffset = 85
 ```
-### Set the Firefly View’s Font
+#### Set the Firefly View’s Font
 ```swift
 fireflyView.setFont(font: "Source Code Pro")
 ```
-### Tell the view if it should dynamically update the gutter width
+#### Tell the view if it should dynamically update the gutter width
 ```swift
 fireflyView.dynamicGutterWidth = true
 ```
 
-### Get the current theme set for the Firefly View
+#### Get the current theme set for the Firefly View
 This returns the value for the current theme. You can use this to get details about what the View looks like and color other parts of your app accordingly.
 ```swift
 let theme = fireflyView.getCurrentTheme()
 ```
 
-### List all supported languages
+#### List all supported languages
 ```swift
 fireflyView().availableLanguages()
 ```
 
-### List all supported themes
+#### List all supported themes
 ```swift
 fireflyView().availableThemes()
 ```
+
+### Swift UI
+Swift UI is not fully supported but it is still supported. An example view for Swift UI is below. This will set you up with a basic swift UI Fiefly view.
+
+```swift
+struct ContentView: View {
+    @State var text = """
+    if(x == 3) {
+        quickLook()
+    }
+    import Shortcuts 1090.2
+    #Color: red, #Icon: shortcuts
+    Function()
+    functionWithParams(test: test)
+    // This is a comment
+    /*
+    This is a multi line comment
+    */
+    "String"
+    \"""
+    Multi Line Text
+    More Text
+    \"""
+    """
+    var body: some View {
+        FireflySyntaxEditor(text: $text, language: "jelly", theme: "Xcode Dark", fontName: "system" , didChangeText: { (editor) in
+            print("Did change text")
+        }, didChangeSelectedRange: { (editor, range) in
+            print("Did change selected range")
+        }, textViewDidBeginEditing: { (editor) in
+            print("Did begin editing")
+        })
+    }
+}
+```
+
 
 # Adding your own content
 ## Adding your own language
