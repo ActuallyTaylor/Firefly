@@ -17,7 +17,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#2B839F",
             "keyword": "#0000FF",
-            "literal": "#2B839F",
+            "identifier": "#2B839F",
             "string": "#A31515",
             "mult_string": "#A31515",
             "comment": "#008000",
@@ -35,7 +35,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#1DA9A2",
             "keyword": "#D7008F",
-            "literal": "#25908D",
+            "identifier": "#25908D",
             "string": "#D3232E",
             "mult_string": "#D3232E",
             "comment": "#45BB3E",
@@ -53,7 +53,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#67B7A4", // Project Function and Method Names
             "keyword": "#FC5FA3", // Keywords
-            "literal": "#A167E6", // Other Function and Method Names
+            "identifier": "#A167E6", // Other Function and Method Names | Other Class Names
             "string": "#FC6A5D", // Strings
             "mult_string": "#FC6A5D", // String
             "comment": "#6C7986", // Comments
@@ -71,7 +71,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#326D74", // Project Function and Method Names
             "keyword": "#9B2393", // Keywords
-            "literal": "#6C36A9", // Other Function and Method Names
+            "identifier": "#6C36A9", // Other Function and Method Names | Other Class Names
             "string": "#C41A16", // Strings
             "mult_string": "#C41A16", // String
             "comment": "#5D6C79", // Comments
@@ -89,7 +89,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#83C057", // Project Function and Method Names
             "keyword": "#83C057", // Keywords
-            "literal": "#83C057", // Other Function and Method Names
+            "identifier": "#83C057", // Other Function and Method Names | Other Class Names
             "string": "#DB2C38", // Strings
             "mult_string": "#DB2C38", // String
             "comment": "#41B645", // Comments
@@ -107,7 +107,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#67B7A4", // Project Function and Method Names
             "keyword": "#FC5FA3", // Keywords
-            "literal": "#A167E6", // Other Function and Method Names
+            "identifier": "#A167E6", // Other Function and Method Names | Other Class Names
             "string": "#FC6A5D", // Strings
             "mult_string": "#FC6A5D", // String
             "comment": "#73A74E", // Comments
@@ -125,7 +125,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#326D74", // Project Function and Method Names
             "keyword": "#9B2393", // Keywords
-            "literal": "#6C36A9", // Other Function and Method Names
+            "identifier": "#6C36A9", // Other Function and Method Names | Other Class Names
             "string": "#C41A16", // Strings
             "mult_string": "#C41A16", // String
             "comment": "#267507", // Comments
@@ -143,7 +143,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#476A97", // Project Function and Method Names
             "keyword": "#262C6A", // Keywords
-            "literal": "#476A97", // Other Function and Method Names
+            "identifier": "#476A97", // Other Function and Method Names | Other Class Names
             "string": "#702C51", // Strings
             "mult_string": "#702C51", // String
             "comment": "#435138", // Comments
@@ -161,7 +161,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#23FF83", // Project Function and Method Names
             "keyword": "#D31895", // Keywords
-            "literal": "#00A0FF", // Other Function and Method Names
+            "identifier": "#00A0FF", // Other Function and Method Names | Other Class Names
             "string": "#FF2C38", // Strings
             "mult_string": "#FF2C38", // String
             "comment": "#41CC45", // Comments
@@ -179,7 +179,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#476A97", // Project Function and Method Names
             "keyword": "#294277", // Keywords
-            "literal": "#476A97", // Other Function and Method Names
+            "identifier": "#476A97", // Other Function and Method Names | Other Class Names
             "string": "#DF0700", // Strings
             "mult_string": "#DF0700", // String
             "comment": "#C3741C", // Comments
@@ -197,7 +197,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#FF640E", // Project Function and Method Names
             "keyword": "#FADE2D", // Keywords
-            "literal": "#8DA6CE", // Other Function and Method Names
+            "identifier": "#8DA6CE", // Other Function and Method Names | Other Class Names
             "string": "#54C539", // Strings
             "mult_string": "#54C539", // String
             "comment": "#AEAEAE", // Comments
@@ -215,7 +215,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#EDB272", // Project Function and Method Names
             "keyword": "#B4DE61", // Keywords
-            "literal": "#B4DE61", // Other Function and Method Names
+            "identifier": "#B4DE61", // Other Function and Method Names | Other Class Names
             "string": "#9CB9CE", // Strings
             "mult_string": "#9CB9CE", // String
             "comment": "#515151", // Comments
@@ -233,7 +233,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#00FF00", // Project Function and Method Names
             "keyword": "#FF9D00", // Keywords
-            "literal": "#00FF00", // Other Function and Method Names
+            "identifier": "#00FF00", // Other Function and Method Names | Other Class Names
             "string": "#3AD900", // Strings
             "mult_string": "#3AD900", // String
             "comment": "#0088FF", // Comments
@@ -251,7 +251,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#50FA7B", // Project Function and Method Names
             "keyword": "#FF79C6", // Keywords
-            "literal": "#8BE9FD", // Other Function and Method Names
+            "identifier": "#8BE9FD", // Other Function and Method Names | Other Class Names
             "string": "#D15555", // Strings
             "mult_string": "#D15555", // String
             "comment": "#6272A4", // Comments
@@ -269,7 +269,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#83C057", // Project Function and Method Names
             "keyword": "#F7DA7C", // Keywords
-            "literal": "#96D5F2", // Other Function and Method Names
+            "identifier": "#96D5F2", // Other Function and Method Names | Other Class Names
             "string": "#E48181", // Strings
             "mult_string": "#E48181", // String
             "comment": "#605860", // Comments
@@ -287,7 +287,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#1ABC9C", // Project Function and Method Names
             "keyword": "#E74C3C", // Keywords
-            "literal": "#3498DB", // Other Function and Method Names
+            "identifier": "#3498DB", // Other Function and Method Names | Other Class Names
             "string": "#F1C40F", // Strings
             "mult_string": "#F1C40F", // String
             "comment": "#7F8C8D", // Comments
@@ -305,7 +305,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#1ABC9C", // Project Function and Method Names
             "keyword": "#C0392B", // Keywords
-            "literal": "#3498DB", // Other Function and Method Names
+            "identifier": "#3498DB", // Other Function and Method Names | Other Class Names
             "string": "#8E44AD", // Strings
             "mult_string": "#8E44AD", // String
             "comment": "#7F8C8D", // Comments
@@ -323,7 +323,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#1872A2", // Project Function and Method Names
             "keyword": "#930049", // Keywords
-            "literal": "#1872A2", // Other Function and Method Names
+            "identifier": "#1872A2", // Other Function and Method Names | Other Class Names
             "string": "#D2360B", // Strings
             "mult_string": "#D2360B", // String
             "comment": "#848684", // Comments
@@ -341,7 +341,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#705393", // Project Function and Method Names
             "keyword": "#DAB900", // Keywords
-            "literal": "#705393", // Other Function and Method Names
+            "identifier": "#705393", // Other Function and Method Names | Other Class Names
             "string": "#4D6537", // Strings
             "mult_string": "#4D6537", // String
             "comment": "#44444E", // Comments
@@ -359,7 +359,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#305F65", // Project Function and Method Names
             "keyword": "#400080", // Keywords
-            "literal": "#6132A3", // Other Function and Method Names
+            "identifier": "#6132A3", // Other Function and Method Names | Other Class Names
             "string": "#2643D6", // Strings
             "mult_string": "#2643D6", // String
             "comment": "#937A42", // Comments
@@ -377,7 +377,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#88A2BD", // Project Function and Method Names
             "keyword": "#A2D412", // Keywords
-            "literal": "#88A2BD", // Other Function and Method Names
+            "identifier": "#88A2BD", // Other Function and Method Names | Other Class Names
             "string": "#D5C38C", // Strings
             "mult_string": "#D5C38C", // String
             "comment": "#515151", // Comments
@@ -395,7 +395,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#EC7600", // Project Function and Method Names
             "keyword": "#E1ED5D", // Keywords
-            "literal": "#93C763", // Other Function and Method Names
+            "identifier": "#93C763", // Other Function and Method Names | Other Class Names
             "string": "#EC7600", // Strings
             "mult_string": "#EC7600", // String
             "comment": "#709CD8", // Comments
@@ -413,7 +413,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#63CEFF", // Project Function and Method Names
             "keyword": "#C71449", // Keywords
-            "literal": "#63CEFF", // Other Function and Method Names
+            "identifier": "#63CEFF", // Other Function and Method Names | Other Class Names
             "string": "#FED721", // Strings
             "mult_string": "#FED721", // String
             "comment": "#585751", // Comments
@@ -431,7 +431,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#FD971F", // Project Function and Method Names
             "keyword": "#F92672", // Keywords
-            "literal": "#FD971F", // Other Function and Method Names
+            "identifier": "#FD971F", // Other Function and Method Names | Other Class Names
             "string": "#E7DC74", // Strings
             "mult_string": "#E7DC74", // String
             "comment": "#75715E", // Comments
@@ -449,7 +449,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#24CD77", // Project Function and Method Names
             "keyword": "#FC9C16", // Keywords
-            "literal": "#00A0FF", // Other Function and Method Names
+            "identifier": "#00A0FF", // Other Function and Method Names | Other Class Names
             "string": "#FC5407", // Strings
             "mult_string": "#FC5407", // String
             "comment": "#247423", // Comments
@@ -467,7 +467,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#FF83FF", // Project Function and Method Names
             "keyword": "#00CFF8", // Keywords
-            "literal": "#8858DE", // Other Function and Method Names
+            "identifier": "#8858DE", // Other Function and Method Names | Other Class Names
             "string": "#9DCBFF", // Strings
             "mult_string": "#9DCBFF", // String
             "comment": "#8C8C8C", // Comments
@@ -485,7 +485,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#8F9F9E", // Project Function and Method Names
             "keyword": "#8397A7", // Keywords
-            "literal": "#698B33", // Other Function and Method Names
+            "identifier": "#698B33", // Other Function and Method Names | Other Class Names
             "string": "#D96B14", // Strings
             "mult_string": "#D96B14", // String
             "comment": "#7DA43D", // Comments
@@ -503,7 +503,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#C8CAD0", // Project Function and Method Names
             "keyword": "#91C155", // Keywords
-            "literal": "#5D7C9D", // Other Function and Method Names
+            "identifier": "#5D7C9D", // Other Function and Method Names | Other Class Names
             "string": "#E87500", // Strings
             "mult_string": "#E87500", // String
             "comment": "#78816D", // Comments
@@ -521,7 +521,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#EF7A6D", // Project Function and Method Names
             "keyword": "#CC762E", // Keywords
-            "literal": "#EF7A6D", // Other Function and Method Names
+            "identifier": "#EF7A6D", // Other Function and Method Names | Other Class Names
             "string": "#A0C25F", // Strings
             "mult_string": "#A0C25F", // String
             "comment": "#666666", // Comments
@@ -539,7 +539,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#AA3731", // Project Function and Method Names
             "keyword": "#325A8E", // Keywords
-            "literal": "#AA3731", // Other Function and Method Names
+            "identifier": "#AA3731", // Other Function and Method Names | Other Class Names
             "string": "#448C27", // Strings
             "mult_string": "#448C27", // String
             "comment": "#AAAAAA", // Comments
@@ -557,7 +557,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#35AB5F", // Project Function and Method Names
             "keyword": "#A16FB6", // Keywords
-            "literal": "#867DB6", // Other Function and Method Names
+            "identifier": "#867DB6", // Other Function and Method Names | Other Class Names
             "string": "#80959A", // Strings
             "mult_string": "#80959A", // String
             "comment": "#4FFF91", // Comments
@@ -575,7 +575,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#9B89E3", // Project Function and Method Names
             "keyword": "#9BD464", // Keywords
-            "literal": "#9BD464", // Other Function and Method Names
+            "identifier": "#9BD464", // Other Function and Method Names | Other Class Names
             "string": "#F1A642", // Strings
             "mult_string": "#F1A642", // String
             "comment": "#59A6FF", // Comments
@@ -593,7 +593,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#D98339", // Project Function and Method Names
             "keyword": "#B2ED5D", // Keywords
-            "literal": "#D98339", // Other Function and Method Names
+            "identifier": "#D98339", // Other Function and Method Names | Other Class Names
             "string": "#B49CDA", // Strings
             "mult_string": "#B49CDA", // String
             "comment": "#8B8B8B", // Comments
@@ -611,7 +611,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#7A7EB5", // Project Function and Method Names
             "keyword": "#63667F", // Keywords
-            "literal": "#A0A4E1", // Other Function and Method Names
+            "identifier": "#A0A4E1", // Other Function and Method Names | Other Class Names
             "string": "#BBAAD0", // Strings
             "mult_string": "#BBAAD0", // String
             "comment": "#99A1BC", // Comments
@@ -629,7 +629,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#0080FF", // Project Function and Method Names
             "keyword": "#0080FF", // Keywords
-            "literal": "#0080FF", // Other Function and Method Names
+            "identifier": "#0080FF", // Other Function and Method Names | Other Class Names
             "string": "#FF8000", // Strings
             "mult_string": "#FF8000", // String
             "comment": "#008000", // Comments
@@ -647,7 +647,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#FFC56C", // Project Function and Method Names
             "keyword": "#CC7833", // Keywords
-            "literal": "#DA4839", // Other Function and Method Names
+            "identifier": "#DA4839", // Other Function and Method Names | Other Class Names
             "string": "#A4C260", // Strings
             "mult_string": "#A4C260", // String
             "comment": "#BB9357", // Comments
@@ -665,7 +665,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#86AEE1", // Project Function and Method Names
             "keyword": "#7DE35A", // Keywords
-            "literal": "#55B2D3", // Other Function and Method Names
+            "identifier": "#55B2D3", // Other Function and Method Names | Other Class Names
             "string": "#64ADF8", // Strings
             "mult_string": "#64ADF8", // String
             "comment": "#626262", // Comments
@@ -683,7 +683,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#259286", // Project Function and Method Names
             "keyword": "#738A05", // Keywords
-            "literal": "#738A05", // Other Function and Method Names
+            "identifier": "#738A05", // Other Function and Method Names | Other Class Names
             "string": "#259286", // Strings
             "mult_string": "#259286", // String
             "comment": "#475B62", // Comments
@@ -701,7 +701,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#259286", // Project Function and Method Names
             "keyword": "#738A05", // Keywords
-            "literal": "#738A05", // Other Function and Method Names
+            "identifier": "#738A05", // Other Function and Method Names | Other Class Names
             "string": "#259286", // Strings
             "mult_string": "#259286", // String
             "comment": "#475B62", // Comments
@@ -718,8 +718,8 @@ let themes: [String: [String: Any]] = [
         "cursor": "#CCCCCC",
         "definitions": [
             "function": "#337AC4", // Project Function and Method Names
-            "keyword": "#337AC4", // Keywords
-            "literal": "#337AC4", // Other Function and Method Names
+            "keyword": "#5DD8FF", // Keywords
+            "identifier": "#337AC4", // Other Function and Method Names | Other Class Names
             "string": "#9F761A", // Strings
             "mult_string": "#9F761A", // String
             "comment": "#4A5A61", // Comments
@@ -736,8 +736,8 @@ let themes: [String: [String: Any]] = [
         "cursor": "#CCCCCC",
         "definitions": [
             "function": "#337AC4", // Project Function and Method Names
-            "keyword": "#337AC4", // Keywords
-            "literal": "#337AC4", // Other Function and Method Names
+            "keyword": "#5DD8FF", // Keywords
+            "identifier": "#337AC4", // Other Function and Method Names | Other Class Names
             "string": "#9F761A", // Strings
             "mult_string": "#9F761A", // String
             "comment": "#848F8F", // Comments
@@ -755,7 +755,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#7D8FA3", // Project Function and Method Names
             "keyword": "#A57A9E", // Keywords
-            "literal": "#B04C58", // Other Function and Method Names
+            "identifier": "#B04C58", // Other Function and Method Names | Other Class Names
             "string": "#95B47B", // Strings
             "mult_string": "#95B47B", // String
             "comment": "#3E4853", // Comments
@@ -773,7 +773,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#009FC5", // Project Function and Method Names
             "keyword": "#EBC562", // Keywords
-            "literal": "#039FC5", // Other Function and Method Names
+            "identifier": "#039FC5", // Other Function and Method Names | Other Class Names
             "string": "#4A9D8F", // Strings
             "mult_string": "#4A9D8F", // String
             "comment": "#6E5346", // Comments
@@ -791,7 +791,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#F0C674", // Project Function and Method Names
             "keyword": "#B294BB", // Keywords
-            "literal": "#81A2BF", // Other Function and Method Names
+            "identifier": "#81A2BF", // Other Function and Method Names | Other Class Names
             "string": "#B5BD68", // Strings
             "mult_string": "#B5BD68", // String
             "comment": "#969896", // Comments
@@ -809,7 +809,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#F7F7F7", // Project Function and Method Names
             "keyword": "#F9EE98", // Keywords
-            "literal": "#F9EE98", // Other Function and Method Names
+            "identifier": "#F9EE98", // Other Function and Method Names | Other Class Names
             "string": "#8F9D6A", // Strings
             "mult_string": "#8F9D6A", // String
             "comment": "#5E5E5E", // Comments
@@ -827,7 +827,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#B97C50", // Project Function and Method Names
             "keyword": "#419B92", // Keywords
-            "literal": "#B97C50", // Other Function and Method Names
+            "identifier": "#B97C50", // Other Function and Method Names | Other Class Names
             "string": "#85BF5D", // Strings
             "mult_string": "#85BF5D", // String
             "comment": "#63A845", // Comments
@@ -845,7 +845,7 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#EA2015", // Project Function and Method Names
             "keyword": "#CCFF66", // Keywords
-            "literal": "#609000", // Other Function and Method Names
+            "identifier": "#609000", // Other Function and Method Names | Other Class Names
             "string": "#80959A", // Strings
             "mult_string": "#80959A", // String
             "comment": "#D8D8A8", // Comments
@@ -863,13 +863,31 @@ let themes: [String: [String: Any]] = [
         "definitions": [
             "function": "#C9AF55", // Project Function and Method Names
             "keyword": "#8E530D", // Keywords
-            "literal": "#C9AF55", // Other Function and Method Names
+            "identifier": "#C9AF55", // Other Function and Method Names | Other Class Names
             "string": "#68A354", // Strings
             "mult_string": "#68A354", // String
             "comment": "#615339", // Comments
             "multi_comment": "#615339", // Comments
             "numbers": "#5C5C5C", // Numbers
             "url": "#A3E7FF" // URL
+        ]
+    ],
+    "Sundells Colors": [
+        "default": "#94ABAB", // Plain Text
+        "background": "#191919",
+        "currentLine": "#272D2FDB",
+        "selection": "#52687073",
+        "cursor": "#E7E7E7",
+        "definitions": [
+            "function": "#1A74CA", // Project Function and Method Names
+            "keyword": "#CA186F", // Keywords
+            "identifier": "#5957B9", // Other Function and Method Names | Other Class Names
+            "string": "#C13707", // Strings
+            "mult_string": "#C13707", // String
+            "comment": "#465B62", // Comments
+            "multi_comment": "#465B62", // Comments
+            "numbers": "#D75D42", // Numbers
+            "url": "#526870" // URL
         ]
     ],
 ]

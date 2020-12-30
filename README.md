@@ -1,4 +1,3 @@
-
 <p align="center">
     <img src="/Icon.png" alt="Firefly logo" width="128" maxHeight=“128" />
 </p>
@@ -12,26 +11,32 @@
 </p>
 
 # Firefly
-Firefly is an iOS syntax highlighter based of off [Highlightr](https://github.com/raspu/Highlightr), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and [Sourceful](https://github.com/twostraws/Sourceful). These projects allowed for the basis of Firefly with Highlightr as the main syntax highlighter and the other repositories for sources and references of code. The firefly syntax highlighter is extremely easy to use with only one view needed to get full syntax highlighting up and running.
+Firefly is an iOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
+
+# How does Firefly Work?
+Firefly is written in pure swift, and uses NSRegularExpressions for detecting tokens to highlight. Once tokens are detected they are colored based on the current theme.
 
 # Using Firefly in your project
 If you are going to use Firefly in your project, I request that you include a link back to this github page somewhere. If you would like to you can also [email me](mailto:zachary.lineman@gmail.com) and I will add you into the list of apps that use Firefly on this page.
 
 # About this project
-This project is a combination of Sourceful by Paul Hudson (@twostraws) and Highlightr by J.P. Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
+This project is was inspired by Paul Hudson’s (@twostraws) Sourceful syntax highlighter and Highlightr by J.P Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
 
 ## Features
-Firefly includes a line number counter, changeable themes, and changeable languages. It is not the fastest solution but works well on large files.
+* Line Numbers
+* Changeable Themes
+* Changeable Languages
+* Basic String, Parentheses, and Bracket completion
 
 ### Supports
-* 186 Languages
-* 90 Themes
+* 2 Languages
+* 49 Themes
 
 ## How To Use
 To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller.
 
 ### Sample Code
-Set the Editor langauge to Swift and the theme too xcode dark
+A basic setup for a Firefly View
 ```swift
 import UIKit
 import Firefly
@@ -43,38 +48,126 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Sets the Firefly View's theme to a theme that corresponds to the given name
-        fireflyView.setTheme(name: "xcode-dark")
+        fireflyView.setTheme(name: "Xcode Dark")
+
         // Sets the Firefly View's language to the corresponding language
-        fireflyView.setLanguage(nLanguage: "swift")
+        fireflyView.setLanguage(nLanguage: "jelly")
+
         // Sets the gutter width of the Firefly view
         fireflyView.gutterWidth = 20
+
+        // Sets the views Keyboard Offset
+        fireflyView.keyboardOffset = 85
     }
 }
 ```
-### Set the Firefly View's Theme
+### Set the text in the Firefly View
+```swift
+fireflyView.text = “My code string”
 ```
-fireflyView.setTheme(name: "xcode-dark")
+### Set the Firefly View's Theme
+```swift
+fireflyView.setTheme(name: "Basic")
 ```
 ### Set the Firefly View's Language
-```
-fireflyView.setLanguage(nLanguage: "swift")
+```swift
+fireflyView.setLanguage(nLanguage: "default")
 ```
 ### Set the Firefly View's Gutter Width
-```
+```swift
 fireflyView.gutterWidth = 20
+```
+### Set the Firefly View’s Keyboard Offset
+The keyboard offset is the space between the bottom of firefly view and the keyboard frame. You should use this to make space for any keyboard input views.
+```swift
+fireflyView.keyboardOffset = 85
+```
+### Set the Firefly View’s Font
+```swift
+fireflyView.setFont(font: "Source Code Pro")
+```
+### Tell the view if it should dynamically update the gutter width
+```swift
+fireflyView.dynamicGutterWidth = true
+```
+
+### Get the current theme set for the Firefly View
+This returns the value for the current theme. You can use this to get details about what the View looks like and color other parts of your app accordingly.
+```swift
+let theme = fireflyView.getCurrentTheme()
 ```
 
 ### List all supported languages
 ```swift
-Highlightr()?.supportedLanguages()
+fireflyView().availableLanguages()
 ```
+
 ### List all supported themes
 ```swift
-Highlightr()?.availableThemes()
+fireflyView().availableThemes()
+```
+
+# Adding your own content
+## Adding your own language
+Languages are a dictionary of definitions that tell the syntax highlighter how to detect a token.
+
+Example of a language definition:
+```swift
+let defaultLanguage: [String: Any] = [
+    "comment": [
+        "regex": "//.*?(\\n|$)", // The regex used for highlighting
+        "group": 0, // The regex group that should be highlighted
+        "relevance": 5, // The releavance over other tokens
+        "options": [], // Regular expression options
+        "multiline": false // If the token is multiline
+    ],
+    "multi_comment": [
+        "regex": "/\\*.*?\\*/", // The regex used for highlighting
+        "group": 0, // The regex group that should be highlighted
+        "relevance": 5, // The releavance over other tokens
+        "options": [NSRegularExpression.Options.dotMatchesLineSeparators],  // Regular expression options
+        "multiline": true // If the token is multiline
+    ],
+]
+```
+
+### Adding your language
+To add your own language  to the languages array within the languages dictionary.
+```swift
+let languages: [String: [String: Any]] = [
+    "default": defaultLanguage,
+    "jelly": jellyLanguage,
+    "swift": swiftLanguage
+]
+```
+
+## Adding a Theme
+Themes are a dictionary with color values telling the highlighter what color to highlight different tokens.
+
+Example of a theme definition:
+```swift
+"Basic": [
+    "default": "#000000", // The default font color
+    "background": "#FFFFFF", // The background color
+    "currentLine": "#F3F3F4", // Color of the current line
+    "selection": "#A4CDFF", // The selection color of the text view
+    "cursor": "#000000", // The cursor color of the text view
+    "definitions": [ // These are the definitions that tell the highlighter what color to highlight different types of definitions.
+        "function": "#2B839F",
+        "keyword": "#0000FF",
+        "identifier": "#2B839F",
+        "string": "#A31515",
+        "mult_string": "#A31515",
+        "comment": "#008000",
+        "multi_comment": "#008000",
+        "numbers": "#000000",
+        "url": "#0000FF"
+    ]
+]
 ```
 
 # Apps that use Firefly
-1. Jellycuts
+1. [Jellycuts](https://jellycuts.com)
 
 # To-Do
 - [x] Support for Theme Changing
@@ -87,34 +180,27 @@ Highlightr()?.availableThemes()
 
 - [x] Modify, update and implement SavannaKit / SyntaxKit LineNumberLayoutManager for better and faster line numbers
 
+- [x] Speed increasments for loading larger files
+
+- [x] Multi-line string support
+
 - [ ] Swift UI support
-
-- [ ] Collapsable Lines
-
-- [ ] Speed increasments for loading larger files
 
 - [ ] Placeholders
 
 - [ ] Autocompletion
 
-- [ ] Speed upgrades
-
-- [ ] Upgrade Highlighter version
-
-- [ ] Multi-line string support
-
 - [ ] Collapsable lines
+
+- [ ] More languages
+
+~~- [ ] Upgrade Highlighter version~~
 
 # Credits
 Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy. Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
 
-Highlightr is a project taking Highlight.js and allowing it to interact with Swift. This project is used for syntax highlighting in Firefly. Highlightr is licensed under the MIT license; see [Highlightr LICENSE](https://github.com/raspu/Highlightr/blob/master/LICENSE) for more information.
+Highlightr is a project taking Highlight.js and allowing it to interact with Swift. Highlighter has been removed from the working copy in favor of a full swift approach. Highlightr is licensed under the MIT license; see [Highlightr LICENSE](https://github.com/raspu/Highlightr/blob/master/LICENSE) for more information.
 
 SyntaxKit is a project created by Palle Klewitz for iOS syntax highlighting. This project was used as a reference for issues in code. SyntaxKit is licensed under the MIT license; see [SyntaxKit LICENSE](https://github.com/palle-k/SyntaxKit/blob/master/license) for more information.
 
 SavannaKit is a project created by Louis D'hauwe. Firefly uses a modified version of LineNumberLayoutManager. SavannaKit is licensed under the MIT license; see [SavannaKit LICENSE](https://github.com/louisdh/savannakit/blob/master/LICENSE) for more information.
-
-
-
-
-

@@ -12,15 +12,15 @@ public class FireflySyntaxView: UIView {
     
     ///The highlighting language
     @IBInspectable
-    public var language: String = "Swift"
+    private var language: String = "default"
     
     ///The highlighting theme name
     @IBInspectable
-    public var theme: String = "xcode-light"
+    private var theme: String = "Basic"
     
     /// The name of the highlighters font
     @IBInspectable
-    public var fontName: String = "system"
+    private var fontName: String = "system"
     
     /// If set, sets the text views text to the given text. If gotten gets the text views text.
     @IBInspectable
@@ -176,7 +176,7 @@ public class FireflySyntaxView: UIView {
         return textStorage.syntax.theme
     }
     
-    /// Returns the current theme so you can get colors from that
+    /// Returns the given theme so you can get colors from that
     static public func getTheme(name: String) -> Theme? {
         if let theme = themes[name] {
             let defaultColor = UIColor(hex: (theme["default"] as? String) ?? "#000000")
@@ -208,9 +208,18 @@ public class FireflySyntaxView: UIView {
     }
     
     /// Retuns the name of every available theme
-    static public func getAvailableThemes() -> [String] {
+    static public func availableThemes() -> [String] {
         var arr: [String] = []
         for item in themes {
+            arr.append(item.key)
+        }
+        return arr
+    }
+    
+    /// Retuns the name of every available theme
+    static public func availableLanguages() -> [String] {
+        var arr: [String] = []
+        for item in languages {
             arr.append(item.key)
         }
         return arr
