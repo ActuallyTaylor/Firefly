@@ -92,7 +92,8 @@ extension SyntaxAttributedString {
         
         if !(range.location + range.length > string.count) {
             self.beginEditing()
-            self.setAttributes([.foregroundColor: syntax.theme.defaultFontColor, .font: syntax.currentFont], range: range)
+            
+            self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
             
     // Commented out because it causes a nasty flash
     //        Dispatch.background { [self] in
@@ -107,7 +108,7 @@ extension SyntaxAttributedString {
                         if notInsideToken(range: textRange) {
                             let color = syntax.getHighlightColor(for: item.type)
                             addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                            self.setAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
                         }
                     }
                 }
@@ -204,7 +205,7 @@ extension SyntaxAttributedString {
     
     func invalidateTokens(in range: NSRange) {
         cachedTokens.removeAll { (token) -> Bool in
-            return range.encompasses(r2: token.range)
+            return range.touches(r2: token.range)
         }
     }
 }
