@@ -61,7 +61,7 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
         }
         
         public func didChangeText(_ syntaxTextView: FireflyTextView) {
-            DispatchQueue.main.async {
+            Dispatch.main {
                 self.parent.text = syntaxTextView.text
             }
             parent.didChangeText(parent)
