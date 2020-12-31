@@ -46,9 +46,7 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
         return wrappedView
     }
 
-    public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {
-        uiView.text = text
-    }
+    public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {}
     
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -63,6 +61,9 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
         }
         
         public func didChangeText(_ syntaxTextView: FireflyTextView) {
+            DispatchQueue.main.async {
+                self.parent.text = syntaxTextView.text
+            }
             parent.didChangeText(parent)
         }
         
