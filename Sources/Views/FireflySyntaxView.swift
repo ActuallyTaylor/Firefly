@@ -199,14 +199,6 @@ public class FireflySyntaxView: UIView {
         return nil
      }
     
-    /// Sets the theme of the view. Supply with a theme name
-    public func setTheme(name: String) {
-        theme = name
-        textStorage.syntax.setTheme(to: name)
-        layoutManager.theme = textStorage.syntax.theme
-        updateAppearence()
-    }
-    
     /// Retuns the name of every available theme
     static public func availableThemes() -> [String] {
         var arr: [String] = []
@@ -225,9 +217,16 @@ public class FireflySyntaxView: UIView {
         return arr
     }
     
+    /// Sets the theme of the view. Supply with a theme name
+    public func setTheme(name: String) {
+        theme = name
+        textStorage.syntax.setTheme(to: name)
+        layoutManager.theme = textStorage.syntax.theme
+        updateAppearence()
+    }
+    
     /// Sets the language that is highlighted
     public func setLanguage(nLanguage: String) {
-//        if !(Highlightr()?.supportedLanguages().contains(nLanguage) ?? true) { return }
         language = nLanguage
         textStorage.syntax.setLanguage(to: nLanguage)
         updateAppearence()

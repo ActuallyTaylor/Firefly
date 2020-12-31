@@ -89,34 +89,35 @@ extension SyntaxAttributedString {
         let start = DispatchTime.now()
         #endif
         let range = changeCurrentRange(currRange: range)
-
-        self.beginEditing()
-        self.setAttributes([.foregroundColor: syntax.theme.defaultFontColor, .font: syntax.currentFont], range: range)
         
-// Commented out because it causes a nasty flash
-//        Dispatch.background { [self] in
-        for item in syntax.definitions {
-            var regex = try? NSRegularExpression(pattern: item.regex)
-            if let option = item.matches.first {
-                regex = try? NSRegularExpression(pattern: item.regex, options: option)
-            }//NSRange(location: 0, length: string.utf16.count)
-            if let matches = regex?.matches(in: string, options: [], range: range) {
-                for aMatch in matches {
-                    let textRange: NSRange = aMatch.range(at: item.group)
-                    if notInsideToken(range: textRange) {
-                        let color = syntax.getHighlightColor(for: item.type)
-                        addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                        self.setAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+        if !(range.location + range.length > string.count) {
+            self.beginEditing()
+            self.setAttributes([.foregroundColor: syntax.theme.defaultFontColor, .font: syntax.currentFont], range: range)
+            
+    // Commented out because it causes a nasty flash
+    //        Dispatch.background { [self] in
+            for item in syntax.definitions {
+                var regex = try? NSRegularExpression(pattern: item.regex)
+                if let option = item.matches.first {
+                    regex = try? NSRegularExpression(pattern: item.regex, options: option)
+                }//NSRange(location: 0, length: string.utf16.count)
+                if let matches = regex?.matches(in: string, options: [], range: range) {
+                    for aMatch in matches {
+                        let textRange: NSRange = aMatch.range(at: item.group)
+                        if notInsideToken(range: textRange) {
+                            let color = syntax.getHighlightColor(for: item.type)
+                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                            self.setAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                        }
                     }
                 }
             }
         }
 //        }
         
-        #if DEBUG
         self.endEditing()
         self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
-
+        #if debug
         let end = DispatchTime.now()
 
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
