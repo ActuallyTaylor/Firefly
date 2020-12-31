@@ -231,6 +231,8 @@ Example of a theme definition:
 
 - [ ] More languages
 
+- [ ] Rewrite the NSTextStorage subclass in obj-c. This will bring speed improvments.
+
 ~~- [ ] Upgrade Highlighter version~~
 
 # Credits
