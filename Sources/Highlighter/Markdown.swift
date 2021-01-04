@@ -7,7 +7,7 @@
 
 import UIKit
 
-/// A simple markdown parser
+/// A simple markdown parsera
 public class Markdown {
 
     public static func createAttributedString(input: String, theme: Theme, shouldTint: Bool = false) -> NSMutableAttributedString {
