@@ -89,37 +89,34 @@ extension SyntaxAttributedString {
         #if DEBUG
         let start = DispatchTime.now()
         #endif
-        if cachedRange != range {
-            let range = changeCurrentRange(currRange: range)
+        let range = changeCurrentRange(currRange: range)
+        
+        if !(range.location + range.length > string.count) {
+            self.beginEditing()
             
-            if !(range.location + range.length > string.count) {
-                self.beginEditing()
-                
-                self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
-                
-                for item in syntax.definitions {
-                    var regex = try? NSRegularExpression(pattern: item.regex)
-                    if let option = item.matches.first {
-                        regex = try? NSRegularExpression(pattern: item.regex, options: option)
-                    }//NSRange(location: 0, length: string.utf16.count)
-                    if let matches = regex?.matches(in: string, options: [], range: range) {
-                        for aMatch in matches {
-                            let textRange: NSRange = aMatch.range(at: item.group)
-                            if notInsideToken(range: textRange) {
-                                let color = syntax.getHighlightColor(for: item.type)
-                                addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                                self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
-                            }
+            self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
+            
+            for item in syntax.definitions {
+                var regex = try? NSRegularExpression(pattern: item.regex)
+                if let option = item.matches.first {
+                    regex = try? NSRegularExpression(pattern: item.regex, options: option)
+                }//NSRange(location: 0, length: string.utf16.count)
+                if let matches = regex?.matches(in: string, options: [], range: range) {
+                    for aMatch in matches {
+                        let textRange: NSRange = aMatch.range(at: item.group)
+                        if notInsideToken(range: textRange) {
+                            let color = syntax.getHighlightColor(for: item.type)
+                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
                         }
                     }
                 }
-                
-                self.endEditing()
-                self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
             }
-            cachedRange = range
+            
+            self.endEditing()
+            self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         }
-        
+
         #if debug
         let end = DispatchTime.now()
 
