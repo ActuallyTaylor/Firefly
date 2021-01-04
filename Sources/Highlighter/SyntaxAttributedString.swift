@@ -15,6 +15,7 @@ open class SyntaxAttributedString : NSTextStorage {
     /// Returns a standard String based on the current one.
     open override var string: String { get { return stringStorage.string } }
     var syntax: Syntax
+    var cachedRange: NSRange = NSRange(location: 0, length: 0)
     var editingRange: NSRange = NSRange(location: 0, length: 0)
     var lastLength: Int = 0
     
@@ -42,7 +43,7 @@ open class SyntaxAttributedString : NSTextStorage {
 //            let string = (self.string as NSString)
 //            let range: NSRange = string.paragraphRange(for: editedRange)
 
-            //            highlight(range)
+//            highlight(range)
         }
     }
     
@@ -88,36 +89,37 @@ extension SyntaxAttributedString {
         #if DEBUG
         let start = DispatchTime.now()
         #endif
-        let range = changeCurrentRange(currRange: range)
-        
-        if !(range.location + range.length > string.count) {
-            self.beginEditing()
+        if cachedRange != range {
+            let range = changeCurrentRange(currRange: range)
             
-            self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
-            
-    // Commented out because it causes a nasty flash
-    //        Dispatch.background { [self] in
-            for item in syntax.definitions {
-                var regex = try? NSRegularExpression(pattern: item.regex)
-                if let option = item.matches.first {
-                    regex = try? NSRegularExpression(pattern: item.regex, options: option)
-                }//NSRange(location: 0, length: string.utf16.count)
-                if let matches = regex?.matches(in: string, options: [], range: range) {
-                    for aMatch in matches {
-                        let textRange: NSRange = aMatch.range(at: item.group)
-                        if notInsideToken(range: textRange) {
-                            let color = syntax.getHighlightColor(for: item.type)
-                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+            if !(range.location + range.length > string.count) {
+                self.beginEditing()
+                
+                self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
+                
+                for item in syntax.definitions {
+                    var regex = try? NSRegularExpression(pattern: item.regex)
+                    if let option = item.matches.first {
+                        regex = try? NSRegularExpression(pattern: item.regex, options: option)
+                    }//NSRange(location: 0, length: string.utf16.count)
+                    if let matches = regex?.matches(in: string, options: [], range: range) {
+                        for aMatch in matches {
+                            let textRange: NSRange = aMatch.range(at: item.group)
+                            if notInsideToken(range: textRange) {
+                                let color = syntax.getHighlightColor(for: item.type)
+                                addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                                self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                            }
                         }
                     }
                 }
+                
+                self.endEditing()
+                self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
             }
+            cachedRange = range
         }
-//        }
         
-        self.endEditing()
-        self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         #if debug
         let end = DispatchTime.now()
 
@@ -141,9 +143,6 @@ extension SyntaxAttributedString {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: range) }
         let lengthDifference = string.count - lastLength
-//        guard let stringRange = Range(range, in: string) else { return currRange }
-//        print(string[stringRange])
-
         
         for token in tokens {
             //Upper and lower bounds

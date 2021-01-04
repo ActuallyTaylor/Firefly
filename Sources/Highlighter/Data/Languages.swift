@@ -70,28 +70,28 @@ let jellyLanguage: [String: Any] = [
     "string": [
         "regex": "\"(.*?)\"",
         "group": 0,
-        "relevance": 3,
+        "relevance": 5,
         "options": [],
         "multiline": false
     ],
     "mult_string": [
         "regex": "\"\"\"(.*?)\"\"\"",
         "group": 0,
-        "relevance": 4,
+        "relevance": 5,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
     ],
     "comment": [
         "regex": "//.*?(\\n|$)",
         "group": 0,
-        "relevance": 5,
+        "relevance": 4,
         "options": [],
         "multiline": false
     ],
     "multi_comment": [
         "regex": "/\\*.*?\\*/",
         "group": 0,
-        "relevance": 5,
+        "relevance": 4,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
     ],
