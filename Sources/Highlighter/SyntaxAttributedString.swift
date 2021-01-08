@@ -100,7 +100,8 @@ extension SyntaxAttributedString {
                 var regex = try? NSRegularExpression(pattern: item.regex)
                 if let option = item.matches.first {
                     regex = try? NSRegularExpression(pattern: item.regex, options: option)
-                }//NSRange(location: 0, length: string.utf16.count)
+                }
+                
                 if let matches = regex?.matches(in: string, options: [], range: range) {
                     for aMatch in matches {
                         let textRange: NSRange = aMatch.range(at: item.group)
@@ -163,12 +164,12 @@ extension SyntaxAttributedString {
                 newLength = (origLength + locationDifference + leDifference)
                 newLocation = multLocation
             } else if tokenLower < rangeLower {
-                debugPrint("Lower off screen")
+                debugPrint("Lower end off screen")
                 let locationDifference = origLocation - multLocation
                 newLength = origLength + locationDifference
                 newLocation = multLocation
             } else if tokenUpper > rangeUpper {
-                debugPrint("Upper screen")
+                debugPrint("Upper end off screen")
                 newLength = tokenUpper + lengthDifference
             }
 

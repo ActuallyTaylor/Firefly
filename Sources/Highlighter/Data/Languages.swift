@@ -54,7 +54,7 @@ let jellyLanguage: [String: Any] = [
     ],
 
     "keyword": [
-        "regex": "(#[a-zA-Z_0-9\"\\.\\[\\]\\+-]+)|(if|else|menu|get|var|list|dictionary|repeat|nil|repeatEach|Get|import)",
+        "regex": "(#[a-zA-Z_0-9\"\\.\\[\\]\\+-]+)|\\b(if|else|menu|get|var|list|dictionary|repeat|nil|repeatEach|Get|import)\\b",
         "group": 0,
         "relevance": 2,
         "options": [],

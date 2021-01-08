@@ -10,8 +10,11 @@ import UIKit
 /// A simple markdown parsera
 public class Markdown {
 
-    public static func createAttributedString(input: String, theme: Theme, shouldTint: Bool = false) -> NSMutableAttributedString {
-        let tColor = theme.defaultFontColor
+    public static func createAttributedString(input: String, theme: Theme, themeTColor: Bool = false, shouldTint: Bool = false) -> NSMutableAttributedString {
+        var tColor = UIColor.label
+        if themeTColor {
+            tColor = theme.defaultFontColor
+        }
         let fontSize: CGFloat = UIFont.systemFontSize
         let regularFont = UIFont.systemFont(ofSize: fontSize)
         let attributedString = NSMutableAttributedString(string: input, attributes: [NSAttributedString.Key.font: regularFont, NSAttributedString.Key.foregroundColor: tColor])
@@ -179,6 +182,7 @@ public class Markdown {
                 let attrString: NSAttributedString = NSAttributedString(string: text)
 
                 let nString = Syntax.highlightAttributedString(string: attrString, theme: theme, language: "jelly")
+                nString.append(NSAttributedString(string: "\n"))
                 nString.addAttributes([.backgroundColor: theme.backgroundColor], range: NSRange(location: 0, length: nString.string.count))
                 attributedString.replaceCharacters(in: aMatch.range, with: nString)
             }

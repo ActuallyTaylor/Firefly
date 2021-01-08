@@ -112,10 +112,11 @@ public class Syntax {
             if let matches = regex?.matches(in: nsString.string, options: [], range: totalRange) {
                 for aMatch in matches {
                     let color = theme.colors[item.type] ?? theme.defaultFontColor
-                    nsString.setAttributes([NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: theme.font], range: aMatch.range(at: item.group))
+                    nsString.addAttributes([NSAttributedString.Key.foregroundColor: color, NSAttributedString.Key.font: theme.font], range: aMatch.range(at: item.group))
                 }
             }
         }
+
         return nsString
     }
 }
