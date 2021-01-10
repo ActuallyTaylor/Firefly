@@ -205,4 +205,9 @@ extension SyntaxAttributedString {
             return range.touches(r2: token.range)
         }
     }
+    
+    func resetView() {
+        cachedTokens.removeAll()
+        self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: NSRange(location: 0, length: string.utf16.count))
+    }
 }

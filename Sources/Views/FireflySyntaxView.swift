@@ -164,6 +164,11 @@ public class FireflySyntaxView: UIView {
         }
     }
     
+    /// Reset Highlighting
+    public func resetHighlighting() {
+        textStorage.resetView()
+    }
+    
     /// Just updates the views appearence
     private func updateAppearence() {
         textView.backgroundColor = textStorage.syntax.theme.backgroundColor
