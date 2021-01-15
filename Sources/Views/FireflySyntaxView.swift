@@ -30,7 +30,7 @@ public class FireflySyntaxView: UIView {
         }
         set(nText) {
             textView.text = nText
-            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count))
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
             if dynamicGutterWidth {
                 updateGutterWidth()
             }
@@ -63,6 +63,13 @@ public class FireflySyntaxView: UIView {
     public var shouldOffsetKeyboard: Bool = false {
         didSet {
             setupNotifs()
+        }
+    }
+    
+    @IBInspectable
+    public var maxTokenLength: Int = 30000 {
+        didSet(length) {
+            textStorage.maxTokenLength = length
         }
     }
     
@@ -173,7 +180,7 @@ public class FireflySyntaxView: UIView {
     private func updateAppearence() {
         textView.backgroundColor = textStorage.syntax.theme.backgroundColor
         textView.tintColor = textStorage.syntax.theme.cursor
-        textStorage.highlight(NSRange(location: 0, length: textStorage.string.count))
+        textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
     }
     
    /// Returns the current theme so you can get colors from that
@@ -259,6 +266,5 @@ public class FireflySyntaxView: UIView {
             gutterWidth = newWidth
             textView.setNeedsDisplay()
         }
-        textStorage.highlight(NSRange(location: 0, length: textStorage.string.count))
     }
 }

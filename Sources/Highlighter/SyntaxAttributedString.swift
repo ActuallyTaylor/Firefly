@@ -127,7 +127,7 @@ extension SyntaxAttributedString {
         
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
         let timeInterval = Double(nanoTime) / 1_000_000_000
-//        debugPrint("Highlighting range: \(range) took \(timeInterval)")
+        debugPrint("Highlighting range: \(range) took \(timeInterval)")
         //        #endif
     }
     
@@ -145,11 +145,11 @@ extension SyntaxAttributedString {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: currRange) }
         let lengthDifference = string.count - lastLength
-
+        print(tokens)
         for token in tokens {
             var token = token
             // When typing a character directly before a multi-line token the system will recognize it as part of the current token. This is because the lowerbound is the same as the upper bound of the newly placed character
-            if token.range.touches(r2: cursorRange) {
+            if token.range.touchesAdjusted(r2: cursorRange) {
                 if token.range.length <= maxTokenLength {
                     print("Multi-Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
                     //Upper and lower bounds
@@ -191,23 +191,11 @@ extension SyntaxAttributedString {
                     range = newRange
                 }
             } else {
-                if let index = cachedTokens.firstIndex(of: token) {
-                    if lastLength < string.count {
-                        print("Add")
-                        cachedTokens[index].range = NSRange(location: token.range.location + 1, length: token.range.length)
-                        token.range = NSRange(location: token.range.location + 1, length: token.range.length)
-                    } else if lastLength > string.count {
-                        print("Delete")
-                        cachedTokens[index].range = NSRange(location: token.range.location - 1, length: token.range.length)
-                        token.range = NSRange(location: token.range.location + 1, length: token.range.length)
-                    }
-                }
-
 //                print("Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
-                let tokenLower = token.range.lowerBound
-                let tokenUpper = token.range.upperBound
-                let cursorLower = cursorRange.lowerBound
-                let cursorUpper = cursorRange.upperBound
+                var tokenLower = token.range.lowerBound
+                var tokenUpper = token.range.upperBound
+                var cursorLower = cursorRange.lowerBound
+                var cursorUpper = cursorRange.upperBound
 
                 //TODO: Finish this lol
                 let origLocation: Int = range.location
@@ -218,28 +206,56 @@ extension SyntaxAttributedString {
                 
                 if cursorLower > tokenUpper {
                     // Token off top of screen
-                    debugPrint("Above Cursor")
+                    debugPrint("Token Physically Above Cursor")
                     newLocation = tokenUpper
-                    newLength = range.upperBound - tokenUpper + 1
-                } else if tokenLower > cursorUpper {
+                    newLength = range.upperBound - tokenUpper
+                } else if tokenLower > cursorLower {
                     // Token off bottom of screen
-                    debugPrint("Below Cursor")
-                    let spaceBetweenCursorAndToken: Int = tokenLower - cursorUpper
-                    let startToCursorEnd: Int = cursorUpper - origLocation
-                    newLength = startToCursorEnd + spaceBetweenCursorAndToken
+                    debugPrint("Token Physically Below Cursor")
+                    adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
                 } else {
-                    debugPrint("None")
+                    print("None")
+                    if cursorUpper == tokenLower {
+                        debugPrint("Token Physically Below Cursor")
+                        adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
+                    } else if tokenUpper == cursorLower {
+                        debugPrint("Token Physically Above Cursor")
+                        newLocation = tokenUpper
+                        newLength = range.upperBound - tokenUpper
+                    } else {
+                        adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
+                    }
                 }
                 
                 let newRange = NSRange(location: newLocation, length: newLength)
                 range = newRange
-                print("Cursor:", cursorRange, "View:", currRange, "Edited Range:", range, "Token Range:", token.range)
             }
         }
 
         lastLength = string.count
         invalidateTokens(in: range)
         return range
+    }
+    
+    func adjustBelowRange(_ token: inout Token, _ tokenLower: inout Int, _ tokenUpper: inout Int, _ cursorLower: inout Int, _ cursorRange: NSRange, _ cursorUpper: inout Int, _ origLocation: Int, _ newLength: inout Int) {
+        if let index = cachedTokens.firstIndex(of: token) {
+            if lastLength < string.count {
+                let difference = string.count - lastLength
+                cachedTokens[index].range = NSRange(location: token.range.location + difference, length: token.range.length)
+                token.range = NSRange(location: token.range.location + difference, length: token.range.length)
+            } else if lastLength > string.count {
+                let difference = lastLength - string.count
+                cachedTokens[index].range = NSRange(location: token.range.location - difference, length: token.range.length)
+                token.range = NSRange(location: token.range.location - difference, length: token.range.length)
+            }
+            tokenLower = token.range.lowerBound
+            tokenUpper = token.range.upperBound
+            cursorLower = cursorRange.lowerBound
+            cursorUpper = cursorRange.upperBound
+        }
+        let spaceBetweenCursorAndToken: Int = tokenLower - cursorUpper
+        let startToCursorEnd: Int = cursorUpper - origLocation
+        newLength = startToCursorEnd + spaceBetweenCursorAndToken
     }
     
     func isEditingInMultiline() -> (Bool, Token?) {
@@ -256,12 +272,8 @@ extension SyntaxAttributedString {
     }
     
     func invalidateTokens(in range: NSRange) {
-        print("Removing Range \(range)")
         cachedTokens.removeAll { (token) -> Bool in
-            if range.touches(r2: token.range) {
-                print(token)
-            }
-            return range.touches(r2: token.range)
+            return range.touchesAdjusted(r2: token.range)
         }
     }
     
