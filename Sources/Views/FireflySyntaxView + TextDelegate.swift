@@ -38,6 +38,10 @@ extension FireflySyntaxView: UITextViewDelegate {
                 updateSelectedRange(NSRange(location: selectedRange.lowerBound + 3 + newlineInsert.count, length: 0))
                 textView.setNeedsDisplay()
                 self.lastChar = insertingText.last
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
                 return false
             } else if lastChar == "\"" {
                 insertingText += "\""
@@ -46,6 +50,10 @@ extension FireflySyntaxView: UITextViewDelegate {
                 updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
                 textView.setNeedsDisplay()
                 self.lastChar = text.last
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
                 return false
             }
         }
@@ -61,6 +69,9 @@ extension FireflySyntaxView: UITextViewDelegate {
             guard let tView = textView as? FireflyTextView  else { return false }
             delegate?.didChangeText(tView)
             updateGutterWidth()
+            shouldHighlightOnChange = false
+            textStorage.editingRange = selectedRange
+            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
 
             return false
         } else if insertingText == "{" {
@@ -70,14 +81,20 @@ extension FireflySyntaxView: UITextViewDelegate {
             
             textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + 3 + newlineInsert.count, length: 0))
-            textView.setNeedsDisplay()
+            shouldHighlightOnChange = false
+            textStorage.editingRange = selectedRange
+            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
             return false
         } else if insertingText == "(" {
             insertingText += ")"
             
             textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
-            textView.setNeedsDisplay()
+            shouldHighlightOnChange = false
+            textStorage.editingRange = selectedRange
+            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
             return false
         }
 

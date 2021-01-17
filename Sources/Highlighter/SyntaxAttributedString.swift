@@ -86,9 +86,9 @@ open class SyntaxAttributedString : NSTextStorage {
 extension SyntaxAttributedString {
     
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
-        //        #if DEBUG
+        #if DEBUG
         let start = DispatchTime.now()
-        //        #endif
+        #endif
         var cursorRange = cursorRange
         if cursorRange == nil {
             cursorRange = range
@@ -122,13 +122,13 @@ extension SyntaxAttributedString {
             self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         }
         
-        //        #if debug
+        #if debug
         let end = DispatchTime.now()
         
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
         let timeInterval = Double(nanoTime) / 1_000_000_000
         debugPrint("Highlighting range: \(range) took \(timeInterval)")
-        //        #endif
+        #endif
     }
     
     func notInsideToken(range: NSRange) -> Bool {
@@ -145,13 +145,12 @@ extension SyntaxAttributedString {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: currRange) }
         let lengthDifference = string.count - lastLength
-        print(tokens)
+
         for token in tokens {
             var token = token
             // When typing a character directly before a multi-line token the system will recognize it as part of the current token. This is because the lowerbound is the same as the upper bound of the newly placed character
             if token.range.touchesAdjusted(r2: cursorRange) {
                 if token.range.length <= maxTokenLength {
-                    print("Multi-Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
                     //Upper and lower bounds
                     let tokenLower = token.range.lowerBound
                     let tokenUpper = token.range.upperBound
@@ -179,6 +178,9 @@ extension SyntaxAttributedString {
                         newLocation = multLocation
                     } else if tokenUpper > rangeUpper {
                         debugPrint("Upper end off screen")
+                        newLength = tokenUpper + lengthDifference
+                    } else  if tokenUpper == rangeUpper {
+                        debugPrint("Weird Placement")
                         newLength = tokenUpper + lengthDifference
                     }
                     
@@ -214,7 +216,6 @@ extension SyntaxAttributedString {
                     debugPrint("Token Physically Below Cursor")
                     adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
                 } else {
-                    print("None")
                     if cursorUpper == tokenLower {
                         debugPrint("Token Physically Below Cursor")
                         adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
