@@ -52,7 +52,6 @@ let jellyLanguage: [String: Any] = [
         "options": [],
         "multiline": false
     ],
-
     "keyword": [
         "regex": "(#[a-zA-Z_0-9\"\\.\\[\\]\\+-]+)|\\b(if|else|menu|get|var|list|dictionary|repeat|nil|repeatEach|Get|import)\\b",
         "group": 0,
@@ -82,7 +81,7 @@ let jellyLanguage: [String: Any] = [
         "multiline": true
     ],
     "comment": [
-        "regex": "//.*?(\\n|$)",
+        "regex": "//.*?(\n|$)",
         "group": 0,
         "relevance": 4,
         "options": [],

@@ -109,11 +109,11 @@ extension SyntaxAttributedString {
                 regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
                     if let result = result {
                         let textRange: NSRange = result.range(at: item.group)
-                        if notInsideToken(range: textRange) {
+//                        if notInsideToken(range: textRange) {
                             let color = syntax.getHighlightColor(for: item.type)
                             addToken(range: textRange, type: item.type, multiline: item.multiLine)
                             self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
-                        }
+//                        }
                     }
                 })
             }
@@ -187,6 +187,8 @@ extension SyntaxAttributedString {
                     
                     let newRange = NSRange(location: newLocation, length: newLength)
                     range = newRange
+                } else {
+                    debugPrint("Token over max length")
                 }
             }
             /*
