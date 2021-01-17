@@ -31,14 +31,14 @@ let defaultLanguage: [String: Any] = [
     "comment": [
         "regex": "//.*?(\\n|$)", // The regex used for highlighting
         "group": 0, // The regex group that should be highlighted
-        "relevance": 5, // The releavance over other tokens
+        "relevance": 5, // The relevance over other tokens
         "options": [], // Regular expression options
         "multiline": false // If the token is multiline
     ],
     "multi_comment": [
         "regex": "/\\*.*?\\*/", // The regex used for highlighting
         "group": 0, // The regex group that should be highlighted
-        "relevance": 5, // The releavance over other tokens
+        "relevance": 5, // The relevance over other tokens
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],  // Regular expression options
         "multiline": true // If the token is multiline
     ],
@@ -69,14 +69,14 @@ let jellyLanguage: [String: Any] = [
     "string": [
         "regex": "\"(.*?)\"",
         "group": 0,
-        "relevance": 5,
+        "relevance": 6,
         "options": [],
         "multiline": false
     ],
     "mult_string": [
         "regex": "\"\"\"(.*?)\"\"\"",
         "group": 0,
-        "relevance": 5,
+        "relevance": 6,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
     ],
@@ -93,6 +93,13 @@ let jellyLanguage: [String: Any] = [
         "relevance": 4,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
+    ],
+    "parentheses": [
+        "regex": "\\(.*?\\)",
+        "group": 0,
+        "relevance": 5,
+        "options": [],
+        "multiline": false
     ],
 ]
 

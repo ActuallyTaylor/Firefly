@@ -109,11 +109,9 @@ extension SyntaxAttributedString {
                 regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
                     if let result = result {
                         let textRange: NSRange = result.range(at: item.group)
-//                        if notInsideToken(range: textRange) {
-                            let color = syntax.getHighlightColor(for: item.type)
-                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
-//                        }
+                        let color = syntax.getHighlightColor(for: item.type)
+                        addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                        self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
                     }
                 })
             }
@@ -145,7 +143,7 @@ extension SyntaxAttributedString {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: currRange) }
         let lengthDifference = string.count - lastLength
-
+        
         for token in tokens {
             // When typing a character directly before a multi-line token the system will recognize it as part of the current token. This is because the lowerbound is the same as the upper bound of the newly placed character
             if token.range.touches(r2: cursorRange) {
@@ -193,43 +191,43 @@ extension SyntaxAttributedString {
             }
             /*
              else {
- //                print("Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
-                 var tokenLower = token.range.lowerBound
-                 var tokenUpper = token.range.upperBound
-                 var cursorLower = cursorRange.lowerBound
-                 var cursorUpper = cursorRange.upperBound
-
-                 //TODO: Finish this lol
-                 let origLocation: Int = range.location
- //                let origLength: Int = range.length
-
-                 var newLocation: Int = range.location
-                 var newLength: Int = range.length
-                 
-                 if cursorLower > tokenUpper {
-                     // Token off top of screen
-                     debugPrint("Token Physically Above Cursor")
-                     newLocation = tokenUpper
-                     newLength = range.upperBound - tokenUpper
-                 } else if tokenLower > cursorLower {
-                     // Token off bottom of screen
-                     debugPrint("Token Physically Below Cursor")
-                     adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-                 } else {
-                     if cursorUpper == tokenLower {
-                         debugPrint("Token Physically Below Cursor")
-                         adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-                     } else if tokenUpper == cursorLower {
-                         debugPrint("Token Physically Above Cursor")
-                         newLocation = tokenUpper
-                         newLength = range.upperBound - tokenUpper
-                     } else {
-                         adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-                     }
-                 }
-                 
-                 let newRange = NSRange(location: newLocation, length: newLength)
-                 range = newRange
+             //                print("Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
+             var tokenLower = token.range.lowerBound
+             var tokenUpper = token.range.upperBound
+             var cursorLower = cursorRange.lowerBound
+             var cursorUpper = cursorRange.upperBound
+             
+             //TODO: Finish this lol
+             let origLocation: Int = range.location
+             //                let origLength: Int = range.length
+             
+             var newLocation: Int = range.location
+             var newLength: Int = range.length
+             
+             if cursorLower > tokenUpper {
+             // Token off top of screen
+             debugPrint("Token Physically Above Cursor")
+             newLocation = tokenUpper
+             newLength = range.upperBound - tokenUpper
+             } else if tokenLower > cursorLower {
+             // Token off bottom of screen
+             debugPrint("Token Physically Below Cursor")
+             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
+             } else {
+             if cursorUpper == tokenLower {
+             debugPrint("Token Physically Below Cursor")
+             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
+             } else if tokenUpper == cursorLower {
+             debugPrint("Token Physically Above Cursor")
+             newLocation = tokenUpper
+             newLength = range.upperBound - tokenUpper
+             } else {
+             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
+             }
+             }
+             
+             let newRange = NSRange(location: newLocation, length: newLength)
+             range = newRange
              }
              }
              */
