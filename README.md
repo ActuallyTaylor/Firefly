@@ -104,6 +104,10 @@ A placeholder can be used to deeplink to a different part of your app or open a 
 fireView.setPlaceholdersAllowed(bool: true)
 ```
 
+#### Tell the view if it placeholders should also be links
+```swift
+fireView.setLinkPlaceholders(bool: true)
+```
 
 #### Get the current theme set for the Firefly View
 This returns the value for the current theme. You can use this to get details about what the View looks like and color other parts of your app accordingly.

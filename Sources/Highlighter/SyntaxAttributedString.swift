@@ -19,6 +19,7 @@ open class SyntaxAttributedString : NSTextStorage {
     var lastLength: Int = 0
     var maxTokenLength: Int = 300000
     var placeholdersAllowed: Bool = false
+    var linkPlaceholders: Bool = false
     
     public init(syntax: Syntax) {
         self.syntax = syntax
@@ -120,12 +121,13 @@ extension SyntaxAttributedString {
 
 //                            let state: EditorPlaceholderState = cursorRange!.touches(r2: textRange) ? .active : .inactive
                             self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont], range: textRange)
-                            if let strRange = Range(textRange, in: string) {
-                                let str = String(string[strRange])
-                                
-                                self.addAttributes([.link: URL(string: str)!], range: textRange)
-                                addToken(range: result.range, type: item.type, multiline: item.multiLine)
+                            if linkPlaceholders {
+                                if let strRange = Range(textRange, in: string) {
+                                    let str = String(string[strRange])
+                                    self.addAttributes([.link: URL(string: str)!], range: textRange)
+                                }
                             }
+                            addToken(range: result.range, type: item.type, multiline: item.multiLine)
                         } else {
                             let textRange: NSRange = result.range(at: item.group)
                             let color = syntax.getHighlightColor(for: item.type)
@@ -149,37 +151,45 @@ extension SyntaxAttributedString {
         #endif
     }
 
-    /*
+    
      func updatePlaceholders(cursorRange: NSRange) {
-         #if DEBUG
-         let start = DispatchTime.now()
-         #endif
-         Dispatch.background { [self] in
-             let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
+        if placeholdersAllowed {
+            #if DEBUG
+            let start = DispatchTime.now()
+            #endif
+            Dispatch.background { [self] in
+                let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
 
-             for token in opt {
-                 let startRange: NSRange = NSRange(location: token.range.location, length: 2)
-                 let endRange: NSRange = NSRange(location: token.range.upperBound - 2, length: 2)
-                 let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
-                 let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
+                for token in opt {
+                    let startRange: NSRange = NSRange(location: token.range.location, length: 2)
+                    let endRange: NSRange = NSRange(location: token.range.upperBound - 2, length: 2)
+                    let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
+                    let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
 
-                 Dispatch.main {
-                     self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
-                     self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
-                     self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
-                 }
+                    Dispatch.main {
+                        self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
+                        self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
+                        self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
+                    }
 
-             }
-         }
-         #if DEBUG
-         let end = DispatchTime.now()
-         
-         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-         let timeInterval = Double(nanoTime) / 1_000_000_000
-         debugPrint("Updating placeholders took \(timeInterval)")
-         #endif
+                }
+            }
+            #if DEBUG
+            let end = DispatchTime.now()
+            
+            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+            let timeInterval = Double(nanoTime) / 1_000_000_000
+            debugPrint("Updating placeholders took \(timeInterval)")
+            #endif
+        }
      }
-     */
+    
+    func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
+        let tokens = cachedTokens.filter { (token) -> Bool in return cursorRange.touches(r2: token.range) }
+        print(!tokens.isEmpty)
+        return (!tokens.isEmpty, tokens.first)
+    }
+     
     
     func addToken(range: NSRange, type: String, multiline: Bool) {
         cachedTokens.append(Token(range: range, type: type, isMultiline: multiline))

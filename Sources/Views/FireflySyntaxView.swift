@@ -12,15 +12,15 @@ public class FireflySyntaxView: UIView {
     
     ///The highlighting language
     @IBInspectable
-    private var language: String = "default"
+    internal var language: String = "default"
     
     ///The highlighting theme name
     @IBInspectable
-    private var theme: String = "Basic"
+    internal var theme: String = "Basic"
     
     /// The name of the highlighters font
     @IBInspectable
-    private var fontName: String = "system"
+    internal var fontName: String = "system"
     
     /// If set, sets the text views text to the given text. If gotten gets the text views text.
     @IBInspectable
@@ -39,26 +39,28 @@ public class FireflySyntaxView: UIView {
     
     /// The minimum / standard gutter width. Becomes the minimum if dynamicGutterWidth is true otherwise it is the standard gutterWidth
     @IBInspectable
-    private var gutterWidth: CGFloat = 20
+    internal var gutterWidth: CGFloat = 20
     
     /// If set the view will use a dynamic gutter width
     @IBInspectable
-    private var dynamicGutterWidth: Bool = true
+    internal var dynamicGutterWidth: Bool = true
     
     /// The views offset from the top of the keyboard
     @IBInspectable
-    private var keyboardOffset: CGFloat = 20
+    internal var keyboardOffset: CGFloat = 20
     
     /// Set to true if the view should be offset when the keyboard opens and closes.
     @IBInspectable
-    private var shouldOffsetKeyboard: Bool = false
+    internal var shouldOffsetKeyboard: Bool = false
     
     @IBInspectable
-    private var maxTokenLength: Int = 30000
+    internal var maxTokenLength: Int = 30000
     
     @IBInspectable
-    private var placeholdersAllowed: Bool = false
+    internal var placeholdersAllowed: Bool = false
 
+    @IBInspectable
+    internal var linkPlaceholders: Bool = false
     
     /// The delegate that allows for you to get access the UITextViewDelegate from outside this class !
     /// !!DO NOT CHANGE textViews Delegate directly!!!
@@ -272,6 +274,12 @@ public class FireflySyntaxView: UIView {
     public func setPlaceholdersAllowed(bool: Bool) {
         self.placeholdersAllowed = bool
         textStorage.placeholdersAllowed = bool
+    }
+    
+    /// Tells the view if it links should also be links
+    public func setLinkPlaceholders(bool: Bool) {
+        self.linkPlaceholders = bool
+        textStorage.linkPlaceholders = bool
     }
 
     

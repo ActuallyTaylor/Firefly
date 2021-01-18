@@ -22,6 +22,17 @@ extension FireflySyntaxView: UITextViewDelegate {
             updateGutterWidth()
         }
         
+        if placeholdersAllowed {
+            let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
+            if inside.0 {
+                if let token = inside.1 {
+                    textStorage.replaceCharacters(in: token.range, with: "")
+                    updateSelectedRange(NSRange(location: token.range.location, length: 0))
+                    textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
+                }
+            }
+        }
+
         let nsText = textView.text as NSString
         var currentLine = nsText.substring(with: nsText.lineRange(for: textView.selectedRange))
         if currentLine.hasSuffix("\n") {
@@ -142,11 +153,9 @@ extension FireflySyntaxView: UITextViewDelegate {
         return newLinePrefix
     }
     
-    /*
     public func textViewDidChangeSelection(_ textView: UITextView) {
         textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
     }
-    */
     
     func updateSelectedRange(_ range: NSRange) {
         textView.selectedRange = range
