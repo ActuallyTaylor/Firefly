@@ -185,8 +185,7 @@ extension SyntaxAttributedString {
      }
     
     func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
-        let tokens = cachedTokens.filter { (token) -> Bool in return cursorRange.touches(r2: token.range) }
-        print(!tokens.isEmpty)
+        let tokens = cachedTokens.filter { (token) -> Bool in return cursorRange.touches(r2: token.range) && token.type == "placeholder" }
         return (!tokens.isEmpty, tokens.first)
     }
      
