@@ -221,9 +221,9 @@ Example of a theme definition:
 
 - [x] Multi-line string support
 
-- [ ] Swift UI support
+- [x] Swift UI support
 
-- [ ] Placeholders
+- [x] Placeholders
 
 - [ ] Autocompletion
 
