@@ -39,39 +39,26 @@ public class FireflySyntaxView: UIView {
     
     /// The minimum / standard gutter width. Becomes the minimum if dynamicGutterWidth is true otherwise it is the standard gutterWidth
     @IBInspectable
-    public var gutterWidth: CGFloat = 20 {
-        didSet {
-            textView.gutterWidth = gutterWidth
-            layoutManager.gutterWidth = gutterWidth
-        }
-    }
+    private var gutterWidth: CGFloat = 20
     
     /// If set the view will use a dynamic gutter width
     @IBInspectable
-    public var dynamicGutterWidth: Bool = true {
-        didSet {
-            updateGutterWidth()
-        }
-    }
+    private var dynamicGutterWidth: Bool = true
     
     /// The views offset from the top of the keyboard
     @IBInspectable
-    public var keyboardOffset: CGFloat = 20
+    private var keyboardOffset: CGFloat = 20
     
     /// Set to true if the view should be offset when the keyboard opens and closes.
     @IBInspectable
-    public var shouldOffsetKeyboard: Bool = false {
-        didSet {
-            setupNotifs()
-        }
-    }
+    private var shouldOffsetKeyboard: Bool = false
     
     @IBInspectable
-    public var maxTokenLength: Int = 30000 {
-        didSet(length) {
-            textStorage.maxTokenLength = length
-        }
-    }
+    private var maxTokenLength: Int = 30000
+    
+    @IBInspectable
+    private var placeholdersAllowed: Bool = false
+
     
     /// The delegate that allows for you to get access the UITextViewDelegate from outside this class !
     /// !!DO NOT CHANGE textViews Delegate directly!!!
@@ -250,6 +237,43 @@ public class FireflySyntaxView: UIView {
         textStorage.syntax.setFont(to: font)
         updateAppearence()
     }
+    
+    /// Sets the gutter width.
+    public func setShouldOffsetKeyboard(bool: Bool) {
+        self.shouldOffsetKeyboard = bool
+        setupNotifs()
+    }
+    
+    /// Sets the gutter width.
+    public func setGutterWidth(width: CGFloat) {
+        self.gutterWidth = width
+        textView.gutterWidth = gutterWidth
+        layoutManager.gutterWidth = gutterWidth
+    }
+    
+    /// Sets dynamicGutterWidth
+    public func setDynamicGutter(bool: Bool) {
+        self.dynamicGutterWidth = bool
+        updateGutterWidth()
+    }
+    
+    /// Sets the Keyboard Offset
+    public func setKeyboardOffset(offset: CGFloat) {
+        self.keyboardOffset = offset
+    }
+    
+    /// Sets the max token length
+    public func setMaxTokenLength(length: Int) {
+        self.maxTokenLength = length
+        textStorage.maxTokenLength = length
+    }
+    
+    /// Sets placeholders allowed
+    public func setPlaceholdersAllowed(bool: Bool) {
+        self.placeholdersAllowed = bool
+        textStorage.placeholdersAllowed = bool
+    }
+
     
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
     func updateGutterWidth() {

@@ -46,6 +46,10 @@ public class Syntax {
         }
         definitions.sort { (def1, def2) -> Bool in return def1.relevance > def2.relevance }
         definitions.reverse()
+        var editorPlaceholderPattern = "(<#)[^\"\\n]*"
+        editorPlaceholderPattern += "(#>)"
+        
+        definitions.insert(Definition(type: "placeholder", regex: editorPlaceholderPattern, group: 0, relevance: 10, matches: [], multiLine: false), at: 0)
     }
     
     func setTheme(to name: String) {

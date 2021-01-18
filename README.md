@@ -55,7 +55,7 @@ class ViewController: UIViewController {
         fireflyView.setLanguage(nLanguage: "jelly")
 
         // Sets the gutter width of the Firefly view
-        fireflyView.gutterWidth = 20
+        fireView.setGutterWidth(width: 20)
 
         // Sets the views Keyboard Offset
         fireflyView.keyboardOffset = 85
@@ -76,21 +76,34 @@ fireflyView.setLanguage(nLanguage: "default")
 ```
 #### Set the Firefly View's Gutter Width
 ```swift
-fireflyView.gutterWidth = 20
+fireView.setGutterWidth(width: 20)
 ```
 #### Set the Firefly View’s Keyboard Offset
 The keyboard offset is the space between the bottom of firefly view and the keyboard frame. You should use this to make space for any keyboard input views.
 ```swift
-fireflyView.keyboardOffset = 85
+fireflyView.setKeyboardOffset(offset: 85)
 ```
+
+#### Tell the view if it should dynamically adjust for the keyboard
+```swift
+fireView.setShouldOffsetKeyboard(bool: true)
+```
+
 #### Set the Firefly View’s Font
 ```swift
 fireflyView.setFont(font: "Source Code Pro")
 ```
 #### Tell the view if it should dynamically update the gutter width
 ```swift
-fireflyView.dynamicGutterWidth = true
+fireflyView.setDynamicGutter(bool: true)
 ```
+
+#### Tell the view if it should show placeholders or not
+A placeholder can be used to deeplink to a different part of your app or open a link. Used for documentation in Jellycuts.
+```swift
+fireView.setPlaceholdersAllowed(bool: true)
+```
+
 
 #### Get the current theme set for the Firefly View
 This returns the value for the current theme. You can use this to get details about what the View looks like and color other parts of your app accordingly.

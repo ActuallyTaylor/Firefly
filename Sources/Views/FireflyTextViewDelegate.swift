@@ -15,6 +15,8 @@ public protocol FireflyDelegate: class {
     func didChangeSelectedRange(_ syntaxTextView: FireflyTextView, selectedRange: NSRange)
 
     func textViewDidBeginEditing(_ syntaxTextView: FireflyTextView)
+    
+    func didClickLink(_ link: URL)
 
 }
 
@@ -25,4 +27,6 @@ public extension FireflyDelegate {
     func didChangeSelectedRange(_ syntaxTextView: FireflyTextView, selectedRange: NSRange) { }
 
     func textViewDidBeginEditing(_ syntaxTextView: FireflyTextView) { }
+    
+    func didClickLink(_ link: URL) { }
 }

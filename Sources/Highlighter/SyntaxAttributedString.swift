@@ -17,7 +17,8 @@ open class SyntaxAttributedString : NSTextStorage {
     var syntax: Syntax
     var editingRange: NSRange = NSRange(location: 0, length: 0)
     var lastLength: Int = 0
-    var maxTokenLength: Int = 30000
+    var maxTokenLength: Int = 300000
+    var placeholdersAllowed: Bool = false
     
     public init(syntax: Syntax) {
         self.syntax = syntax
@@ -108,10 +109,29 @@ extension SyntaxAttributedString {
                 
                 regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
                     if let result = result {
-                        let textRange: NSRange = result.range(at: item.group)
-                        let color = syntax.getHighlightColor(for: item.type)
-                        addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                        self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                        if item.type == "placeholder" && placeholdersAllowed {
+                            var textRange: NSRange = result.range(at: item.group)
+                            let startRange: NSRange = NSRange(location: textRange.location, length: 2)
+                            let endRange: NSRange = NSRange(location: textRange.upperBound - 2, length: 2)
+                            textRange = NSRange(location: textRange.location + 2, length: textRange.length - 4)
+
+                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
+                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
+
+//                            let state: EditorPlaceholderState = cursorRange!.touches(r2: textRange) ? .active : .inactive
+                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont], range: textRange)
+                            if let strRange = Range(textRange, in: string) {
+                                let str = String(string[strRange])
+                                
+                                self.addAttributes([.link: URL(string: str)!], range: textRange)
+                                addToken(range: result.range, type: item.type, multiline: item.multiLine)
+                            }
+                        } else {
+                            let textRange: NSRange = result.range(at: item.group)
+                            let color = syntax.getHighlightColor(for: item.type)
+                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                        }
                     }
                 })
             }
@@ -120,7 +140,7 @@ extension SyntaxAttributedString {
             self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         }
         
-        #if debug
+        #if DEBUG
         let end = DispatchTime.now()
         
         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
@@ -128,12 +148,38 @@ extension SyntaxAttributedString {
         debugPrint("Highlighting range: \(range) took \(timeInterval)")
         #endif
     }
-    
-    func notInsideToken(range: NSRange) -> Bool {
-        return !cachedTokens.contains { (token) -> Bool in
-            return token.range.encompasses(r2: range)
-        }
-    }
+
+    /*
+     func updatePlaceholders(cursorRange: NSRange) {
+         #if DEBUG
+         let start = DispatchTime.now()
+         #endif
+         Dispatch.background { [self] in
+             let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
+
+             for token in opt {
+                 let startRange: NSRange = NSRange(location: token.range.location, length: 2)
+                 let endRange: NSRange = NSRange(location: token.range.upperBound - 2, length: 2)
+                 let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
+                 let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
+
+                 Dispatch.main {
+                     self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
+                     self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
+                     self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
+                 }
+
+             }
+         }
+         #if DEBUG
+         let end = DispatchTime.now()
+         
+         let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+         let timeInterval = Double(nanoTime) / 1_000_000_000
+         debugPrint("Updating placeholders took \(timeInterval)")
+         #endif
+     }
+     */
     
     func addToken(range: NSRange, type: String, multiline: Bool) {
         cachedTokens.append(Token(range: range, type: type, isMultiline: multiline))
@@ -146,7 +192,7 @@ extension SyntaxAttributedString {
         
         for token in tokens {
             // When typing a character directly before a multi-line token the system will recognize it as part of the current token. This is because the lowerbound is the same as the upper bound of the newly placed character
-            if token.range.touches(r2: cursorRange) {
+            if token.range.touches(r2: range) {
                 if token.range.length <= maxTokenLength {
                     //Upper and lower bounds
                     let tokenLower = token.range.lowerBound
@@ -235,6 +281,7 @@ extension SyntaxAttributedString {
         
         lastLength = string.count
         invalidateTokens(in: range)
+        
         return range
     }
     
@@ -274,7 +321,7 @@ extension SyntaxAttributedString {
     
     func invalidateTokens(in range: NSRange) {
         cachedTokens.removeAll { (token) -> Bool in
-            return range.touchesAdjusted(r2: token.range)
+            return range.touches(r2: token.range)
         }
     }
     

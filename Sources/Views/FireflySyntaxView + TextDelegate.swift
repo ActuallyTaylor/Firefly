@@ -41,9 +41,12 @@ extension FireflySyntaxView: UITextViewDelegate {
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                guard let tView = textView as? FireflyTextView  else { return false }
+                delegate?.didChangeText(tView)
 
                 return false
-            } else if lastChar == "\"" {
+            } else if lastChar == "\"" && text != "\"" {
                 insertingText += "\""
                 
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
@@ -53,6 +56,47 @@ extension FireflySyntaxView: UITextViewDelegate {
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                guard let tView = textView as? FireflyTextView  else { return false }
+                delegate?.didChangeText(tView)
+
+                return false
+            } else if lastChar == "{" && text != "}" {
+                //Maybe change it so after you hit enter it adds the }
+                // Update on new line
+                if text == "\n" {
+                    insertingText += "\t\(newlineInsert)\n\(newlineInsert)}"
+                    textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                    updateSelectedRange(NSRange(location: selectedRange.lowerBound + 2 + newlineInsert.count, length: 0))
+                } else {
+                    insertingText += "}"
+                    textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                    updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
+                }
+                
+                textView.setNeedsDisplay()
+                self.lastChar = text.last
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                guard let tView = textView as? FireflyTextView  else { return false }
+                delegate?.didChangeText(tView)
+
+                return false
+            } else if lastChar == "(" && text != ")" {
+                insertingText += ")"
+                
+                textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
+                textView.setNeedsDisplay()
+                self.lastChar = text.last
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                guard let tView = textView as? FireflyTextView  else { return false }
+                delegate?.didChangeText(tView)
 
                 return false
             }
@@ -66,39 +110,23 @@ extension FireflySyntaxView: UITextViewDelegate {
             
             updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
             textView.setNeedsDisplay()
-            guard let tView = textView as? FireflyTextView  else { return false }
-            delegate?.didChangeText(tView)
             updateGutterWidth()
             shouldHighlightOnChange = false
             textStorage.editingRange = selectedRange
             textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
-            return false
-        } else if insertingText == "{" {
-            //Maybe change it so after you hit enter it adds the }
-            // Update on new line
-            insertingText += "\n\t\(newlineInsert)\n\(newlineInsert)}"
             
-            textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
-            updateSelectedRange(NSRange(location: selectedRange.lowerBound + 3 + newlineInsert.count, length: 0))
-            shouldHighlightOnChange = false
-            textStorage.editingRange = selectedRange
-            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
-            return false
-        } else if insertingText == "(" {
-            insertingText += ")"
-            
-            textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
-            updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
-            shouldHighlightOnChange = false
-            textStorage.editingRange = selectedRange
-            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+            guard let tView = textView as? FireflyTextView  else { return false }
+            delegate?.didChangeText(tView)
 
             return false
         }
 
         return true
+    }
+    
+    public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        delegate?.didClickLink(URL)
+        return false
     }
     
     func getNewlineInsert(_ currentLine: String) -> String {
@@ -113,6 +141,12 @@ extension FireflySyntaxView: UITextViewDelegate {
         }
         return newLinePrefix
     }
+    
+    /*
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
+    }
+    */
     
     func updateSelectedRange(_ range: NSRange) {
         textView.selectedRange = range
