@@ -102,6 +102,7 @@ public class Syntax {
                 definitions.append(Definition(type: type, regex: regex, group: group, relevance: relevance, matches: options, multiLine: multi))
             }
         }
+        
         definitions.sort { (def1, def2) -> Bool in return def1.relevance > def2.relevance }
         definitions.reverse()
 

@@ -10,12 +10,39 @@ import UIKit
 /// A simple markdown parsera
 public class Markdown {
 
-    public static func createAttributedString(input: String, theme: Theme, themeTColor: Bool = false, shouldTint: Bool = false) -> NSMutableAttributedString {
+    public static func createAttributedString(input: String, themeName: String, fontName: String, themeTColor: Bool = false, shouldTint: Bool = false) -> (string: NSMutableAttributedString, background: UIColor) {
+        let fontSize: CGFloat = UIFont.systemFontSize
+
+        var currentFont = UIFont.systemFont(ofSize: fontSize)
+        if fontName == "system" {
+            currentFont = UIFont.systemFont(ofSize: fontSize)
+        } else {
+            currentFont = UIFont(name: fontName, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+        }
+
+        var theme: Theme?
+        if let nTheme = themes[themeName] {
+            let defaultColor = UIColor(hex: (nTheme["default"] as? String) ?? "#000000")
+            let backgroundColor = UIColor(hex: (nTheme["background"] as? String) ?? "#000000")
+            
+            let currentLineColor = UIColor(hex: (nTheme["currentLine"] as? String) ?? "#000000")
+            let selectionColor = UIColor(hex: (nTheme["selection"] as? String) ?? "#000000")
+            let cursorColor = UIColor(hex: (nTheme["cursor"] as? String) ?? "#000000")
+
+            var colors: [String: UIColor] = [:]
+            
+            if let cDefs = nTheme["definitions"] as? [String: String] {
+                for item in cDefs {
+                    colors.merge([item.key: UIColor(hex: (item.value))]) { (first, _) -> UIColor in return first }
+                }
+            }
+            
+            theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont)
+        }
         var tColor = UIColor.label
         if themeTColor {
-            tColor = theme.defaultFontColor
+            tColor = theme?.defaultFontColor ?? UIColor.label
         }
-        let fontSize: CGFloat = UIFont.systemFontSize
         let regularFont = UIFont.systemFont(ofSize: fontSize)
         let attributedString = NSMutableAttributedString(string: input, attributes: [NSAttributedString.Key.font: regularFont, NSAttributedString.Key.foregroundColor: tColor])
 
@@ -174,20 +201,22 @@ public class Markdown {
             }
         }
         
-        let codeRegex = try? NSRegularExpression(pattern: "(\t)*?(\\`\\`\\`|\\`)(.*?)(\\`\\`\\`|\\`)", options: [.dotMatchesLineSeparators])
-        if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
-            for aMatch in matches.reversed() {
-                guard let tRange = Range(aMatch.range(at: 3), in: attributedString.string) else { break }
-                let text: String = String(attributedString.string[tRange])
-                let attrString: NSAttributedString = NSAttributedString(string: text)
+        if let theme = theme {
+            let codeRegex = try? NSRegularExpression(pattern: "(\t)*?(\\`\\`\\`|\\`)(.*?)(\\`\\`\\`|\\`)", options: [.dotMatchesLineSeparators])
+            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+                for aMatch in matches.reversed() {
+                    guard let tRange = Range(aMatch.range(at: 3), in: attributedString.string) else { break }
+                    let text: String = String(attributedString.string[tRange])
+                    let attrString: NSAttributedString = NSAttributedString(string: text)
 
-                let nString = Syntax.highlightAttributedString(string: attrString, theme: theme, language: "jelly")
-                nString.append(NSAttributedString(string: "\n"))
-                nString.addAttributes([.backgroundColor: theme.backgroundColor], range: NSRange(location: 0, length: nString.string.count))
-                attributedString.replaceCharacters(in: aMatch.range, with: nString)
+                    let nString = Syntax.highlightAttributedString(string: attrString, theme: theme, language: "jelly")
+                    nString.append(NSAttributedString(string: "\n"))
+                    nString.addAttributes([.backgroundColor: theme.backgroundColor], range: NSRange(location: 0, length: nString.string.count))
+                    attributedString.replaceCharacters(in: aMatch.range, with: nString)
+                }
             }
         }
 
-        return attributedString
+        return (attributedString, theme?.backgroundColor ?? UIColor.systemBackground)
     }
 }
