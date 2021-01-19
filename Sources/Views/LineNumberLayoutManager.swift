@@ -11,22 +11,13 @@
 import Foundation
 import UIKit
 
-public enum EditorPlaceholderState {
-    case active
-    case inactive
-}
-
-public extension NSAttributedString.Key {
-    static let editorPlaceholder = NSAttributedString.Key("editorPlaceholder")
-}
-
 class LineNumberLayoutManager: NSLayoutManager {
     
     var lastParaLocation = 0
     var lastParaNumber = 0
     var theme: Theme?
     var gutterWidth: CGFloat = 0
-
+    
     func _paraNumber(for charRange: NSRange) -> Int {
         //  NSString does not provide a means of efficiently determining the paragraph number of a range of text.  This code
         //  attempts to optimize what would normally be a series linear searches by keeping track of the last paragraph number
@@ -77,7 +68,7 @@ class LineNumberLayoutManager: NSLayoutManager {
         }
         return range
     }
-
+    
     override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorage.EditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
         super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
         if invalidatedCharRange.location < lastParaLocation {
@@ -99,12 +90,12 @@ class LineNumberLayoutManager: NSLayoutManager {
         
         var gutterRect: CGRect = .zero
         var paraNumber: Int = 0
-
+        
         enumerateLineFragments(forGlyphRange: glyphsToShow, using: {(_ rect: CGRect, _ usedRect: CGRect, _ textContainer: NSTextContainer?, _ glyphRange: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>?) -> Void in
             
             let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
             let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
-        
+            
             //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
             if charRange.location == paraRange?.location {
                 gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
@@ -132,136 +123,81 @@ class LineNumberLayoutManager: NSLayoutManager {
             ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: atts)
         }
     }
-    
-    override func drawGlyphs(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
-        var placeholders = [(CGRect, EditorPlaceholderState)]()
-        let range = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
-        guard let context = UIGraphicsGetCurrentContext() else {  return }
-
-        textStorage?.enumerateAttribute(.editorPlaceholder, in: range, options: [], using: { (value, range, stop) in
-            if let state = value as? EditorPlaceholderState {
-                let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-                let container = self.textContainer(forGlyphAt: glyphRange.location, effectiveRange: nil)
-                
-                let rect = self.boundingRect(forGlyphRange: glyphRange, in: container ?? NSTextContainer())
-                
-                placeholders.append((rect, state))
-            }
-        })
         
-        context.saveGState()
-        context.translateBy(x: origin.x, y: origin.y)
+    override func drawUnderline(forGlyphRange glyphRange: NSRange, underlineType underlineVal: NSUnderlineStyle, baselineOffset: CGFloat, lineFragmentRect lineRect: CGRect, lineFragmentGlyphRange lineGlyphRange: NSRange, containerOrigin: CGPoint) {
+        
+        super.drawUnderline(forGlyphRange: glyphRange, underlineType: NSUnderlineStyle(rawValue: 0x00), baselineOffset: baselineOffset, lineFragmentRect: lineRect, lineFragmentGlyphRange: lineGlyphRange, containerOrigin: containerOrigin)
+        let firstPosition  = location(forGlyphAt: glyphRange.location).x
 
-        for (rect, state) in placeholders {
-            var color: UIColor = UIColor.systemBlue
-            
-            switch state {
-            case .active:
-                color = color.withAlphaComponent(0.8)
-            case .inactive:
-                color = UIColor.darkGray.withAlphaComponent(0.8)
-            }
+        let lastPosition: CGFloat
 
-            color.setFill()
-            
-            let radius: CGFloat = 4.0
-            
-            let path = UIBezierPath(roundedRect: rect, cornerRadius: radius)
-            
-            path.fill()
+        if NSMaxRange(glyphRange) < NSMaxRange(lineGlyphRange) { lastPosition = location(forGlyphAt: NSMaxRange(glyphRange)).x
+        } else {
+            lastPosition = lineFragmentUsedRect( forGlyphAt: NSMaxRange(glyphRange) - 1, effectiveRange: nil).size.width
         }
+
+        var lineRect = lineRect
+        let height = lineRect.size.height * 3.5 / 4.0 // replace your under line height
+        lineRect.origin.x += firstPosition
+        lineRect.size.width = lastPosition - firstPosition
+        lineRect.size.height = height
+
+        lineRect.origin.x += containerOrigin.x
+        lineRect.origin.y += containerOrigin.y + 1.5
+
+        lineRect = lineRect.integral.insetBy(dx: 0.5, dy: 0.5)
+
+//        let path = UIBezierPath(rect: lineRect)
+        let path = UIBezierPath(roundedRect: lineRect, cornerRadius: 3)
+        path.fill()
         
-        context.restoreGState()
-        super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
     }
 }
+
+
 /*
- 
- #if os(macOS)
+ Removed because when the placeholder would get split by the device needing to go to a new line the rect would not be correct. It now works off the underline of the text.
+  
+override func drawGlyphs(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
+    var placeholders = [(CGRect, EditorPlaceholderState)]()
+    let range = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
+    guard let context = UIGraphicsGetCurrentContext() else {  return }
+    
+    textStorage?.enumerateAttribute(.editorPlaceholder, in: range, options: [], using: { (value, range, stop) in
+        if let state = value as? EditorPlaceholderState {
+            let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
+            let container = self.textContainer(forGlyphAt: glyphRange.location, effectiveRange: nil)
+            
+            let rect = self.boundingRect(forGlyphRange: glyphRange, in: container ?? NSTextContainer())
+            
+            placeholders.append((rect, state))
+        }
+    })
+    
+    context.saveGState()
+    context.translateBy(x: origin.x, y: origin.y)
+    
+    for (rect, state) in placeholders {
+        var color: UIColor = UIColor.systemBlue
+        
+        switch state {
+        case .active:
+            color = color.withAlphaComponent(0.8)
+        case .inactive:
+            color = UIColor.darkGray.withAlphaComponent(0.8)
+        }
+        
+        color.setFill()
+        
+        let radius: CGFloat = 4.0
+        
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: radius)
+        
+        path.fill()
+    }
+    
+    context.restoreGState()
+    super.drawGlyphs(forGlyphRange: glyphsToShow, at: origin)
+}
+*/
 
-     guard let context = NSGraphicsContext.current else {
-         return
-     }
-     
- #else
- 
-     guard let context = UIGraphicsGetCurrentContext() else {
-         return
-     }
-     
- #endif
- 
- let range = characterRange(forGlyphRange: glyphsToShow, actualGlyphRange: nil)
- 
- var placeholders = [(CGRect, EditorPlaceholderState)]()
- 
- textStorage?.enumerateAttribute(.editorPlaceholder, in: range, options: [], using: { (value, range, stop) in
-     
-     if let state = value as? EditorPlaceholderState {
-         
-         // the color set above
-         let glyphRange = self.glyphRange(forCharacterRange: range, actualCharacterRange: nil)
-         let container = self.textContainer(forGlyphAt: glyphRange.location, effectiveRange: nil)
-         
-         let rect = self.boundingRect(forGlyphRange: glyphRange, in: container ?? NSTextContainer())
-         
-         placeholders.append((rect, state))
-         
-     }
-     
- })
- 
- #if os(macOS)
-
-     context.saveGraphicsState()
-     context.cgContext.translateBy(x: origin.x, y: origin.y)
- 
- #else
-     
-     context.saveGState()
-     context.translateBy(x: origin.x, y: origin.y)
- 
- #endif
- 
- for (rect, state) in placeholders {
-     
-     // UIBezierPath with rounded
-     
-     let color: Color
-     
-     switch state {
-     case .active:
-         color = Color.white.withAlphaComponent(0.8)
-     case .inactive:
-         color = .darkGray
-     }
-
-     color.setFill()
-     
-     let radius: CGFloat = 4.0
-     
-     #if os(macOS)
-
-         let path = BezierPath(roundedRect: rect, xRadius: radius, yRadius: radius)
-
-     #else
-         
-         let path = BezierPath(roundedRect: rect, cornerRadius: radius)
-
-     #endif
-     
-     path.fill()
-     
- }
- 
- #if os(macOS)
-
-     context.restoreGraphicsState()
-
- #else
-
-     context.restoreGState()
-
- #endif
-
- */

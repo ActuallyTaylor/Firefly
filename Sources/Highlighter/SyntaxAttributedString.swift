@@ -7,6 +7,15 @@
 
 import UIKit
 
+public enum EditorPlaceholderState {
+    case active
+    case inactive
+}
+
+public extension NSAttributedString.Key {
+    static let editorPlaceholder = NSAttributedString.Key("editorPlaceholder")
+}
+
 open class SyntaxAttributedString : NSTextStorage {
     /// Internal Storage
     let stringStorage = NSTextStorage()
@@ -82,6 +91,11 @@ open class SyntaxAttributedString : NSTextStorage {
         stringStorage.setAttributes(attrs, range: range)
         self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
     }
+    
+    open override func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) {
+        stringStorage.addAttributes(attrs, range: range)
+        self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+    }
 }
 
 //MARK: Highlighting
@@ -101,6 +115,7 @@ extension SyntaxAttributedString {
             self.beginEditing()
             
             self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
+            self.removeAttribute(.editorPlaceholder, range: range)
             
             for item in syntax.definitions {
                 var regex = try? NSRegularExpression(pattern: item.regex)
@@ -111,20 +126,21 @@ extension SyntaxAttributedString {
                 regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
                     if let result = result {
                         if item.type == "placeholder" && placeholdersAllowed {
-                            var textRange: NSRange = result.range(at: item.group)
-                            let startRange: NSRange = NSRange(location: textRange.location, length: 2)
-                            let endRange: NSRange = NSRange(location: textRange.upperBound - 2, length: 2)
-                            textRange = NSRange(location: textRange.location + 2, length: textRange.length - 4)
+                            let textRange: NSRange = result.range(at: 2)
+                            let startRange: NSRange = result.range(at: 1)
+                            let endRange: NSRange = result.range(at: 3)
 
                             self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
                             self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
 
 //                            let state: EditorPlaceholderState = cursorRange!.touches(r2: textRange) ? .active : .inactive
-                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont], range: textRange)
+//                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor], range: textRange)
+  
+                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: UIColor.darkGray.withAlphaComponent(0.8)], range: textRange)
                             if linkPlaceholders {
                                 if let strRange = Range(textRange, in: string) {
-                                    let str = String(string[strRange])
-                                    self.addAttributes([.link: URL(string: str)!], range: textRange)
+                                    let str = String(string[strRange]).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+                                    self.addAttributes([.link: str], range: textRange)
                                 }
                             }
                             addToken(range: result.range, type: item.type, multiline: item.multiLine)
@@ -139,7 +155,6 @@ extension SyntaxAttributedString {
             }
             
             self.endEditing()
-            self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
         }
         
         #if DEBUG
@@ -151,38 +166,35 @@ extension SyntaxAttributedString {
         #endif
     }
 
-    
-     func updatePlaceholders(cursorRange: NSRange) {
-        if placeholdersAllowed {
-            #if DEBUG
-            let start = DispatchTime.now()
-            #endif
-            Dispatch.background { [self] in
-                let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
-
-                for token in opt {
-                    let startRange: NSRange = NSRange(location: token.range.location, length: 2)
-                    let endRange: NSRange = NSRange(location: token.range.upperBound - 2, length: 2)
-                    let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
-                    let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
-
-                    Dispatch.main {
-                        self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
-                        self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
-                        self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
-                    }
-
-                }
-            }
-            #if DEBUG
-            let end = DispatchTime.now()
-            
-            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-            let timeInterval = Double(nanoTime) / 1_000_000_000
-            debugPrint("Updating placeholders took \(timeInterval)")
-            #endif
-        }
-     }
+//    
+//     func updatePlaceholders(cursorRange: NSRange) {
+//        if placeholdersAllowed {
+//            #if DEBUG
+//            let start = DispatchTime.now()
+//            #endif
+//            Dispatch.background { [self] in
+//                let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
+//
+//                for token in opt {
+//                    let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
+//                    let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
+//
+//                    Dispatch.main {
+//                        self.removeAttribute(.editorPlaceholder, range: range)
+//                        self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
+//                    }
+//                    cachedTokens.removeAll { (token) -> Bool in return token == token }
+//                }
+//            }
+//            #if DEBUG
+//            let end = DispatchTime.now()
+//
+//            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+//            let timeInterval = Double(nanoTime) / 1_000_000_000
+//            debugPrint("Updating placeholders took \(timeInterval)")
+//            #endif
+//        }
+//     }
     
     func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
         let tokens = cachedTokens.filter { (token) -> Bool in return cursorRange.touches(r2: token.range) && token.type == "placeholder" }

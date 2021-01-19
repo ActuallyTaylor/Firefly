@@ -34,6 +34,7 @@ public class FireflySyntaxView: UIView {
             if dynamicGutterWidth {
                 updateGutterWidth()
             }
+            textView.selectedRange = NSRange(location: 0, length: 0)
         }
     }
     

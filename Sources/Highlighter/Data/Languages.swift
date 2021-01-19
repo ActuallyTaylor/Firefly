@@ -53,7 +53,7 @@ let jellyLanguage: [String: Any] = [
         "multiline": false
     ],
     "keyword": [
-        "regex": "[^<>](#[a-zA-Z_0-9\"\\.\\[\\]\\+-]+|\\b(if|else|menu|get|var|list|dictionary|repeat|nil|repeatEach|Get|import)\\b)",
+        "regex": "(#[a-zA-Z_0-9\"\\.\\[\\]\\+-]+|\\b(if|else|menu|get|var|list|dictionary|repeat|nil|repeatEach|Get|import)\\b)",
         "group": 0,
         "relevance": 2,
         "options": [],
@@ -93,14 +93,7 @@ let jellyLanguage: [String: Any] = [
         "relevance": 4,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
-    ],
-    "parentheses": [
-        "regex": "\\(.*?\\)",
-        "group": 0,
-        "relevance": 5,
-        "options": [],
-        "multiline": false
-    ],
+    ]
 ]
 
 let swiftLanguage: [String: Any] = [

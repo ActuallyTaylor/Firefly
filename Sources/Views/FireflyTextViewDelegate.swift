@@ -16,7 +16,7 @@ public protocol FireflyDelegate: class {
 
     func textViewDidBeginEditing(_ syntaxTextView: FireflyTextView)
     
-    func didClickLink(_ link: URL)
+    func didClickLink(_ link: String)
 
 }
 
@@ -28,5 +28,5 @@ public extension FireflyDelegate {
 
     func textViewDidBeginEditing(_ syntaxTextView: FireflyTextView) { }
     
-    func didClickLink(_ link: URL) { }
+    func didClickLink(_ link: String) { }
 }

@@ -53,6 +53,8 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     }
     
     public class Coordinator: FireflyDelegate {
+        public func didClickLink(_ link: URL) { }
+        
         let parent: FireflySyntaxEditor
         var wrappedView: FireflySyntaxView!
         

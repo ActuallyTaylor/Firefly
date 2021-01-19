@@ -18,17 +18,24 @@ extension FireflySyntaxView: UITextViewDelegate {
         var insertingText = text
         
         if insertingText == "" && range.length > 0 {
-            // Update on backspace
+            // Updater on backspace
             updateGutterWidth()
         }
-        
+
         if placeholdersAllowed {
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
             if inside.0 {
                 if let token = inside.1 {
-                    textStorage.replaceCharacters(in: token.range, with: "")
-                    updateSelectedRange(NSRange(location: token.range.location, length: 0))
+                    textStorage.removeAttribute(.font, range: token.range)
+                    textStorage.removeAttribute(.foregroundColor, range: token.range)
+                    textStorage.removeAttribute(.editorPlaceholder, range: token.range)
+                    
+                    textStorage.addAttributes([.font: textStorage.syntax.currentFont, .foregroundColor: textStorage.syntax.theme.defaultFontColor], range: token.range)
+                    textStorage.replaceCharacters(in: token.range, with: text)
                     textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
+                    updateSelectedRange(NSRange(location: token.range.location + 1, length: 0))
+                    textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                    return false
                 }
             }
         }
@@ -136,9 +143,10 @@ extension FireflySyntaxView: UITextViewDelegate {
     }
     
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
-        delegate?.didClickLink(URL)
+        delegate?.didClickLink(URL.absoluteString)
         return false
     }
+    
     
     func getNewlineInsert(_ currentLine: String) -> String {
         var newLinePrefix = ""
@@ -153,10 +161,10 @@ extension FireflySyntaxView: UITextViewDelegate {
         return newLinePrefix
     }
     
-    public func textViewDidChangeSelection(_ textView: UITextView) {
-        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
-    }
-    
+//    public func textViewDidChangeSelection(_ textView: UITextView) {
+//        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
+//    }
+
     func updateSelectedRange(_ range: NSRange) {
         textView.selectedRange = range
     }
