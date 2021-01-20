@@ -222,6 +222,7 @@ Example of a theme definition:
 
 # Apps that use Firefly
 1. [Jellycuts](https://jellycuts.com)
+2. [App Maker](https://appmakerios.com)
 
 # To-Do
 - [x] Support for Theme Changing
