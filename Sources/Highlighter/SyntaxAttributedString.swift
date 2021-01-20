@@ -133,9 +133,6 @@ extension SyntaxAttributedString {
                             self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
                             self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
 
-//                            let state: EditorPlaceholderState = cursorRange!.touches(r2: textRange) ? .active : .inactive
-//                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor], range: textRange)
-  
                             self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: syntax.theme.selection], range: textRange)
                             if linkPlaceholders {
                                 if let strRange = Range(textRange, in: string) {

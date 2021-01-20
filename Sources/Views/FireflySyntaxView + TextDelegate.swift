@@ -23,6 +23,7 @@ extension FireflySyntaxView: UITextViewDelegate {
         }
 
         if placeholdersAllowed {
+            //There is a bug here that when a multi-line string that is larger than the visible area is present, it will be partially highlighted because the ranges get messed up.
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
             if inside.0 {
                 if let token = inside.1 {
@@ -33,8 +34,9 @@ extension FireflySyntaxView: UITextViewDelegate {
                     textStorage.addAttributes([.font: textStorage.syntax.currentFont, .foregroundColor: textStorage.syntax.theme.defaultFontColor], range: token.range)
                     textStorage.replaceCharacters(in: token.range, with: text)
                     textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
-                    updateSelectedRange(NSRange(location: token.range.location + 1, length: 0))
+                    updateSelectedRange(NSRange(location: token.range.location + text.count, length: 0))
                     textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
                     return false
                 }
             }
@@ -147,7 +149,6 @@ extension FireflySyntaxView: UITextViewDelegate {
         return false
     }
     
-    
     func getNewlineInsert(_ currentLine: String) -> String {
         var newLinePrefix = ""
         for char in currentLine {
@@ -166,7 +167,9 @@ extension FireflySyntaxView: UITextViewDelegate {
 //    }
 
     func updateSelectedRange(_ range: NSRange) {
-        textView.selectedRange = range
+        if range.location + range.length < text.count {
+            textView.selectedRange = range
+        }
     }
     
     public func textViewDidChange(_ textView: UITextView) {

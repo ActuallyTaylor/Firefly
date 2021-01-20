@@ -24,7 +24,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#008000",
             "numbers": "#000000",
             "url": "#0000FF"
-        ]
+        ],
+        "style": "light"
     ],
     "Civic": [
         "default": "#E1E2E7",
@@ -42,7 +43,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#45BB3E",
             "numbers": "#149C92",
             "url": "#5124E3"
-        ]
+        ],
+        "style": "dark"
     ],
     "Xcode Dark": [
         "default": "#FFFFFFD9", // Plain Text
@@ -60,7 +62,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#6C7986", // Comments
             "numbers": "#D0BF69", // Numbers
             "url": "#5482FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Xcode Light": [
         "default": "#000000D9", // Plain Text
@@ -78,7 +81,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#5D6C79", // Comments
             "numbers": "#9B2393", // Numbers
             "url": "#0E0EFF" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Dusk": [
         "default": "#FFFFFF", // Plain Text
@@ -96,7 +100,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#41B645", // Comments
             "numbers": "#786DC4", // Numbers
             "url": "#4155D1" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Classic Dark": [
         "default": "#ffffffD9", // Plain Text
@@ -114,7 +119,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#73A74E", // Comments
             "numbers": "#D0BF69", // Numbers
             "url": "#5482FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Classic Light": [
         "default": "#000000D9", // Plain Text
@@ -132,7 +138,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#267507", // Comments
             "numbers": "#1C00CF", // Numbers
             "url": "#0E0EFF" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Low Key": [
         "default": "#000000", // Plain Text
@@ -150,7 +157,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#435138", // Comments
             "numbers": "#262C6A", // Numbers
             "url": "#12139F" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Midnight": [
         "default": "#FFFFFF", // Plain Text
@@ -168,7 +176,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#41CC45", // Comments
             "numbers": "#786DFF", // Numbers
             "url": "#4164FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Sunset": [
         "default": "#000000", // Plain Text
@@ -186,7 +195,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#C3741C", // Comments
             "numbers": "#294277", // Numbers
             "url": "#4349AC" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Blackboard": [
         "default": "#FFFFFF", // Plain Text
@@ -204,7 +214,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#AEAEAE", // Comments
             "numbers": "#786DFF", // Numbers
             "url": "#1919FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Coal Graal": [
         "default": "#ECECF6", // Plain Text
@@ -222,7 +233,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#515151", // Comments
             "numbers": "#DED43F", // Numbers
             "url": "#B4DE61" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Cobalt": [
         "default": "#FFFFFF", // Plain Text
@@ -240,7 +252,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#0088FF", // Comments
             "numbers": "#FF628C", // Numbers
             "url": "#3AD900" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Dracula": [
         "default": "#E0DFE0", // Plain Text
@@ -258,7 +271,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#6272A4", // Comments
             "numbers": "#BD93F9", // Numbers
             "url": "#6272A4" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "EGO": [
         "default": "#EDEDED", // Plain Text
@@ -276,7 +290,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#605860", // Comments
             "numbers": "#786DC4", // Numbers
             "url": "#9CB2EF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Flat Dark": [
         "default": "#ECF0F1", // Plain Text
@@ -294,7 +309,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#7F8C8D", // Comments
             "numbers": "#F1C40F", // Numbers
             "url": "#F1C40F" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Flat Light": [
         "default": "#2C3E50", // Plain Text
@@ -312,7 +328,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#7F8C8D", // Comments
             "numbers": "#8E44AD", // Numbers
             "url": "#8E44AD" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Github Light": [
         "default": "#262626", // Plain Text
@@ -330,7 +347,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#848684", // Comments
             "numbers": "#1872A2", // Numbers
             "url": "#333333" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Glitter Bomb": [
         "default": "#E9E2DE", // Plain Text
@@ -348,7 +366,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#44444E", // Comments
             "numbers": "#D3C788", // Numbers
             "url": "#DAB900" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Humane": [
         "default": "#000000", // Plain Text
@@ -366,7 +385,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#937A42", // Comments
             "numbers": "#259241", // Numbers
             "url": "#259241" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Kellys": [
         "default": "#ECECF6", // Plain Text
@@ -384,7 +404,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#515151", // Comments
             "numbers": "#FF8C34", // Numbers
             "url": "#A2D412" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Mangold": [
         "default": "#FFFFFF", // Plain Text
@@ -402,7 +423,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#709CD8", // Comments
             "numbers": "#C0C078", // Numbers
             "url": "#1919FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Monoguy": [
         "default": "#F6F6EF", // Plain Text
@@ -420,7 +442,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#585751", // Comments
             "numbers": "#FFB016", // Numbers
             "url": "#589FFF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Monokai": [
         "default": "#E9E2DE", // Plain Text
@@ -438,7 +461,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#75715E", // Comments
             "numbers": "#AE80FF", // Numbers
             "url": "#F92672" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Moodnight": [
         "default": "#C8C8C8", // Plain Text
@@ -456,7 +480,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#247423", // Comments
             "numbers": "#786DFF", // Numbers
             "url": "#1919FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Night": [
         "default": "#ECECF6", // Plain Text
@@ -474,7 +499,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#8C8C8C", // Comments
             "numbers": "#8FE763", // Numbers
             "url": "#00CFF8" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Objective Sheep": [
         "default": "#F1F1F1", // Plain Text
@@ -492,7 +518,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#7DA43D", // Comments
             "numbers": "#CBCCCB", // Numbers
             "url": "#CBCCCB" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Obsidian Code": [
         "default": "#D9D9D9", // Plain Text
@@ -510,7 +537,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#78816D", // Comments
             "numbers": "#CFAB00", // Numbers
             "url": "#A3E7FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Pastel Menlo": [
         "default": "#F5F5F5", // Plain Text
@@ -528,7 +556,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#666666", // Comments
             "numbers": "#6C99BB", // Numbers
             "url": "#5863FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Quiet Light": [
         "default": "#333333", // Plain Text
@@ -546,7 +575,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#AAAAAA", // Comments
             "numbers": "#AB6526", // Numbers
             "url": "#91B3E0" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Raspberry Sorbet": [
         "default": "#C1C1C1", // Plain Text
@@ -564,7 +594,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#4FFF91", // Comments
             "numbers": "#CE58B4", // Numbers
             "url": "#1919FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Rearden Steel": [
         "default": "#F3F3F3", // Plain Text
@@ -582,7 +613,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#59A6FF", // Comments
             "numbers": "#F1A642", // Numbers
             "url": "#528FC7" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Resesif": [
         "default": "#E9E2DE", // Plain Text
@@ -600,7 +632,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#8B8B8B", // Comments
             "numbers": "#B49CDA", // Numbers
             "url": "#B2ED5D" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Salander": [
         "default": "#F3F3ED", // Plain Text
@@ -618,7 +651,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#99A1BC", // Comments
             "numbers": "#63667F", // Numbers
             "url": "#564E7F" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Scratch Art": [
         "default": "#FFFFFF", // Plain Text
@@ -636,7 +670,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#008000", // Comments
             "numbers": "#FF0000", // Numbers
             "url": "#0080FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Second Gear": [
         "default": "#FFFFFF", // Plain Text
@@ -654,7 +689,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#BB9357", // Comments
             "numbers": "#A4C260", // Numbers
             "url": "#A4C260" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Sidewalk Chalk": [
         "default": "#F2F2F2", // Plain Text
@@ -672,7 +708,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#626262", // Comments
             "numbers": "#FFEE49", // Numbers
             "url": "#7DE35A" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Solarize Dark": [
         "default": "#708284", // Plain Text
@@ -690,7 +727,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#475B62", // Comments
             "numbers": "#259286", // Numbers
             "url": "#595AB7" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Solarize Light": [
         "default": "#708284", // Plain Text
@@ -708,7 +746,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#475B62", // Comments
             "numbers": "#259286", // Numbers
             "url": "#595AB7" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Solarized Dark": [
         "default": "#848F8F", // Plain Text
@@ -726,7 +765,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#4A5A61", // Comments
             "numbers": "#BC3332", // Numbers
             "url": "#337AC4" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Solarized Light": [
         "default": "#4A5A61", // Plain Text
@@ -744,7 +784,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#848F8F", // Comments
             "numbers": "#BC3332", // Numbers
             "url": "#337AC4" // URL
-        ]
+        ],
+        "style": "light"
     ],
     "Space Gray": [
         "default": "#B3B8C4", // Plain Text
@@ -762,7 +803,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#3E4853", // Comments
             "numbers": "#C5735E", // Numbers
             "url": "#C5735E" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Space Dust": [
         "default": "#ECF0C1", // Plain Text
@@ -780,7 +822,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#6E5346", // Comments
             "numbers": "#4A9D8F", // Numbers
             "url": "#0D7D7B" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Tomorrow Night": [
         "default": "#C4C8C6", // Plain Text
@@ -798,7 +841,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#969896", // Comments
             "numbers": "#DE935F", // Numbers
             "url": "#81A2BF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Twilight": [
         "default": "#F8F8F8", // Plain Text
@@ -816,7 +860,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#5E5E5E", // Comments
             "numbers": "#786DC4", // Numbers
             "url": "#8F9D6A" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "WWDC 2016": [
         "default": "#F9F8F5", // Plain Text
@@ -834,7 +879,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#63A845", // Comments
             "numbers": "#85BF5D", // Numbers
             "url": "#7579BD" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Wentworth": [
         "default": "#FFFFFF", // Plain Text
@@ -852,7 +898,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#D8D8A8", // Comments
             "numbers": "#C0C078", // Numbers
             "url": "#1919FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "XCasts": [
         "default": "#D9D9D9", // Plain Text
@@ -870,7 +917,8 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#615339", // Comments
             "numbers": "#5C5C5C", // Numbers
             "url": "#A3E7FF" // URL
-        ]
+        ],
+        "style": "dark"
     ],
     "Sundells Colors": [
         "default": "#94ABAB", // Plain Text
@@ -888,6 +936,7 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#465B62", // Comments
             "numbers": "#D75D42", // Numbers
             "url": "#526870" // URL
-        ]
+        ],
+        "style": "dark"
     ],
 ]

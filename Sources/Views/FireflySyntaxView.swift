@@ -127,7 +127,11 @@ public class FireflySyntaxView: UIView {
         textView.spellCheckingType = .no
         textView.smartQuotesType = .no
         textView.smartInsertDeleteType = .no
-        textView.keyboardAppearance = .dark
+        if self.textStorage.syntax.theme.style == .dark {
+            textView.keyboardAppearance = .dark
+        } else {
+            textView.keyboardAppearance = .light
+        }
         textView.delegate = self
     }
     
@@ -161,6 +165,11 @@ public class FireflySyntaxView: UIView {
         }
     }
     
+    /// Force highlights the current range
+    public func forceHighlight() {
+        textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
+    }
+    
     /// Reset Highlighting
     public func resetHighlighting() {
         textStorage.resetView()
@@ -171,6 +180,11 @@ public class FireflySyntaxView: UIView {
         textView.backgroundColor = textStorage.syntax.theme.backgroundColor
         textView.tintColor = textStorage.syntax.theme.cursor
         textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+        if textStorage.syntax.theme.style == .dark {
+            textView.keyboardAppearance = .dark
+        } else {
+            textView.keyboardAppearance = .light
+        }
     }
     
    /// Returns the current theme so you can get colors from that
@@ -187,6 +201,9 @@ public class FireflySyntaxView: UIView {
             let currentLineColor = UIColor(hex: (theme["currentLine"] as? String) ?? "#000000")
             let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
             let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
+            
+            let styleRaw = theme["style"] as? String
+            let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
             var colors: [String: UIColor] = [:]
             
@@ -196,7 +213,7 @@ public class FireflySyntaxView: UIView {
                 }
             }
             
-            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize))
+            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: style)
         }
         return nil
      }

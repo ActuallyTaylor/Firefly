@@ -24,11 +24,12 @@ public class Markdown {
         if let nTheme = themes[themeName] {
             let defaultColor = UIColor(hex: (nTheme["default"] as? String) ?? "#000000")
             let backgroundColor = UIColor(hex: (nTheme["background"] as? String) ?? "#000000")
-            
             let currentLineColor = UIColor(hex: (nTheme["currentLine"] as? String) ?? "#000000")
             let selectionColor = UIColor(hex: (nTheme["selection"] as? String) ?? "#000000")
             let cursorColor = UIColor(hex: (nTheme["cursor"] as? String) ?? "#000000")
-
+            let styleRaw = nTheme["style"] as? String
+            let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
+            
             var colors: [String: UIColor] = [:]
             
             if let cDefs = nTheme["definitions"] as? [String: String] {
@@ -37,7 +38,7 @@ public class Markdown {
                 }
             }
             
-            theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont)
+            theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont, style: style)
         }
         var tColor = UIColor.label
         if themeTColor {

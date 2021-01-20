@@ -22,7 +22,7 @@ public class Syntax {
     var fontSize: CGFloat = UIFont.systemFontSize
     
     var definitions: [Definition] = []
-    var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize))
+    var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light)
     
     init(language: String, theme: String, font: String) {
         currentLanguage = language
@@ -61,6 +61,9 @@ public class Syntax {
             let currentLineColor = UIColor(hex: (theme["currentLine"] as? String) ?? "#000000")
             let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
             let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
+            
+            let styleRaw = theme["style"] as? String
+            let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
             var colors: [String: UIColor] = [:]
             
@@ -70,7 +73,7 @@ public class Syntax {
                 }
             }
             
-            self.theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont)
+            self.theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont, style: style)
         }
     }
     

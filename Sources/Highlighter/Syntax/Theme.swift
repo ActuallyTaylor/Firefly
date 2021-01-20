@@ -8,6 +8,11 @@
 import UIKit
 
 public struct Theme {
+    public enum UIStyle {
+        case dark
+        case light
+    }
+    
     // Key: Hex Color
     public var defaultFontColor: UIColor
     public var backgroundColor: UIColor
@@ -16,4 +21,5 @@ public struct Theme {
     public var cursor: UIColor
     public var colors: [String: UIColor]
     public var font: UIFont
+    public var style: UIStyle
 }
