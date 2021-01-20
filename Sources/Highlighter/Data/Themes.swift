@@ -807,7 +807,7 @@ let themes: [String: [String: Any]] = [
         "selection": "#333327",
         "cursor": "#A6A6A6",
         "definitions": [
-            "function": "#F7F7F7", // Project Function and Method Names
+            "function": "#d2d2d2", // Project Function and Method Names
             "keyword": "#F9EE98", // Keywords
             "identifier": "#F9EE98", // Other Function and Method Names | Other Class Names
             "string": "#8F9D6A", // Strings
