@@ -24,9 +24,7 @@ let package = Package(
         .target(
             name: "Firefly",
             dependencies: [],
-            path: "Sources",
-            resources: [
-            .process("Assets")]),
+            path: "Sources"),
         .testTarget(
             name: "FireflyTests",
             dependencies: ["Firefly"],
