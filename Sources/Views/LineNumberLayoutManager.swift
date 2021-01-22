@@ -83,9 +83,15 @@ class LineNumberLayoutManager: NSLayoutManager {
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
+        var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
+        if let linNumberColor = theme?.lineNumber {
+            if linNumberColor != UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
+                foregroundColor = linNumberColor
+            }
+        }
         let atts: [NSAttributedString.Key: Any] = [
             .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
-            .foregroundColor : theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
+            .foregroundColor : foregroundColor
         ]
         
         var gutterRect: CGRect = .zero
@@ -122,6 +128,11 @@ class LineNumberLayoutManager: NSLayoutManager {
             gutterRect = gutterRect.offsetBy(dx: 0.0, dy: gutterRect.height)
             ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: atts)
         }
+        /*
+         let rect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
+         UIColor.red.withAlphaComponent(0.5).setFill()
+         rect.fill()
+         */
     }
         
     override func drawUnderline(forGlyphRange glyphRange: NSRange, underlineType underlineVal: NSUnderlineStyle, baselineOffset: CGFloat, lineFragmentRect lineRect: CGRect, lineFragmentGlyphRange lineGlyphRange: NSRange, containerOrigin: CGPoint) {

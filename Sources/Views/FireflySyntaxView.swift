@@ -205,6 +205,9 @@ public class FireflySyntaxView: UIView {
             let styleRaw = theme["style"] as? String
             let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
+            let lineNumber = UIColor(hex: (theme["lineNumber"] as? String) ?? "#000000")
+            let lineNumber_Active = UIColor(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
+
             var colors: [String: UIColor] = [:]
             
             if let cDefs = theme["definitions"] as? [String: String] {
@@ -213,7 +216,7 @@ public class FireflySyntaxView: UIView {
                 }
             }
             
-            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: style)
+            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: style, lineNumber: lineNumber, lineNumber_Active: lineNumber_Active)
         }
         return nil
      }

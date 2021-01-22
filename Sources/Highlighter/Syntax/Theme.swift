@@ -22,4 +22,6 @@ public struct Theme {
     public var colors: [String: UIColor]
     public var font: UIFont
     public var style: UIStyle
+    public var lineNumber: UIColor
+    public var lineNumber_Active: UIColor
 }

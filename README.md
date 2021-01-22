@@ -30,7 +30,7 @@ This project is was inspired by Paul Hudson’s (@twostraws) Sourceful syntax hi
 
 ### Supports
 * 2 Languages
-* 49 Themes
+* 59 Themes
 
 # How To Use
 To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller. Firefly also lightly supports Swift UI.
@@ -250,6 +250,10 @@ Example of a theme definition:
 - [ ] More languages
 
 - [ ] Rewrite the NSTextStorage subclass in obj-c. This will bring speed improvments.
+
+-[ ] Support VSCode Themes or a converter for VSCode -> Firefly theme
+
+-[ ] Highlight current line with tinting of line number and line fragmenet
 
 ~~- [ ] Upgrade Highlighter version~~
 

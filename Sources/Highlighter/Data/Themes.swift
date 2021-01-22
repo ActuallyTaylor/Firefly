@@ -23,7 +23,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#008000",
             "multi_comment": "#008000",
             "numbers": "#000000",
-            "url": "#0000FF"
         ],
         "style": "light"
     ],
@@ -42,7 +41,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#45BB3E",
             "multi_comment": "#45BB3E",
             "numbers": "#149C92",
-            "url": "#5124E3"
         ],
         "style": "dark"
     ],
@@ -61,7 +59,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#6C7986", // Comments
             "multi_comment": "#6C7986", // Comments
             "numbers": "#D0BF69", // Numbers
-            "url": "#5482FF" // URL
         ],
         "style": "dark"
     ],
@@ -80,7 +77,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#5D6C79", // Comments
             "multi_comment": "#5D6C79", // Comments
             "numbers": "#9B2393", // Numbers
-            "url": "#0E0EFF" // URL
         ],
         "style": "light"
     ],
@@ -99,7 +95,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#41B645", // Comments
             "multi_comment": "#41B645", // Comments
             "numbers": "#786DC4", // Numbers
-            "url": "#4155D1" // URL
         ],
         "style": "dark"
     ],
@@ -118,7 +113,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#73A74E", // Comments
             "multi_comment": "#73A74E", // Comments
             "numbers": "#D0BF69", // Numbers
-            "url": "#5482FF" // URL
         ],
         "style": "dark"
     ],
@@ -137,7 +131,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#267507", // Comments
             "multi_comment": "#267507", // Comments
             "numbers": "#1C00CF", // Numbers
-            "url": "#0E0EFF" // URL
         ],
         "style": "light"
     ],
@@ -156,7 +149,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#435138", // Comments
             "multi_comment": "#435138", // Comments
             "numbers": "#262C6A", // Numbers
-            "url": "#12139F" // URL
         ],
         "style": "light"
     ],
@@ -175,7 +167,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#41CC45", // Comments
             "multi_comment": "#41CC45", // Comments
             "numbers": "#786DFF", // Numbers
-            "url": "#4164FF" // URL
         ],
         "style": "dark"
     ],
@@ -194,7 +185,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#C3741C", // Comments
             "multi_comment": "#C3741C", // Comments
             "numbers": "#294277", // Numbers
-            "url": "#4349AC" // URL
         ],
         "style": "light"
     ],
@@ -213,7 +203,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#AEAEAE", // Comments
             "multi_comment": "#AEAEAE", // Comments
             "numbers": "#786DFF", // Numbers
-            "url": "#1919FF" // URL
         ],
         "style": "dark"
     ],
@@ -232,7 +221,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#515151", // Comments
             "multi_comment": "#515151", // Comments
             "numbers": "#DED43F", // Numbers
-            "url": "#B4DE61" // URL
         ],
         "style": "dark"
     ],
@@ -251,7 +239,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#0088FF", // Comments
             "multi_comment": "#0088FF", // Comments
             "numbers": "#FF628C", // Numbers
-            "url": "#3AD900" // URL
         ],
         "style": "dark"
     ],
@@ -270,7 +257,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#6272A4", // Comments
             "multi_comment": "#6272A4", // Comments
             "numbers": "#BD93F9", // Numbers
-            "url": "#6272A4" // URL
         ],
         "style": "dark"
     ],
@@ -289,7 +275,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#605860", // Comments
             "multi_comment": "#605860", // Comments
             "numbers": "#786DC4", // Numbers
-            "url": "#9CB2EF" // URL
         ],
         "style": "dark"
     ],
@@ -308,7 +293,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#7F8C8D", // Comments
             "multi_comment": "#7F8C8D", // Comments
             "numbers": "#F1C40F", // Numbers
-            "url": "#F1C40F" // URL
         ],
         "style": "dark"
     ],
@@ -327,7 +311,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#7F8C8D", // Comments
             "multi_comment": "#7F8C8D", // Comments
             "numbers": "#8E44AD", // Numbers
-            "url": "#8E44AD" // URL
         ],
         "style": "light"
     ],
@@ -346,7 +329,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#848684", // Comments
             "multi_comment": "#848684", // Comments
             "numbers": "#1872A2", // Numbers
-            "url": "#333333" // URL
         ],
         "style": "dark"
     ],
@@ -365,7 +347,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#44444E", // Comments
             "multi_comment": "#44444E", // Comments
             "numbers": "#D3C788", // Numbers
-            "url": "#DAB900" // URL
         ],
         "style": "dark"
     ],
@@ -384,7 +365,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#937A42", // Comments
             "multi_comment": "#937A42", // Comments
             "numbers": "#259241", // Numbers
-            "url": "#259241" // URL
         ],
         "style": "light"
     ],
@@ -403,7 +383,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#515151", // Comments
             "multi_comment": "#515151", // Comments
             "numbers": "#FF8C34", // Numbers
-            "url": "#A2D412" // URL
         ],
         "style": "dark"
     ],
@@ -422,7 +401,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#709CD8", // Comments
             "multi_comment": "#709CD8", // Comments
             "numbers": "#C0C078", // Numbers
-            "url": "#1919FF" // URL
         ],
         "style": "dark"
     ],
@@ -441,7 +419,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#585751", // Comments
             "multi_comment": "#585751", // Comments
             "numbers": "#FFB016", // Numbers
-            "url": "#589FFF" // URL
         ],
         "style": "dark"
     ],
@@ -460,7 +437,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#75715E", // Comments
             "multi_comment": "#75715E", // Comments
             "numbers": "#AE80FF", // Numbers
-            "url": "#F92672" // URL
         ],
         "style": "dark"
     ],
@@ -479,7 +455,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#247423", // Comments
             "multi_comment": "#247423", // Comments
             "numbers": "#786DFF", // Numbers
-            "url": "#1919FF" // URL
         ],
         "style": "dark"
     ],
@@ -498,7 +473,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#8C8C8C", // Comments
             "multi_comment": "#8C8C8C", // Comments
             "numbers": "#8FE763", // Numbers
-            "url": "#00CFF8" // URL
         ],
         "style": "dark"
     ],
@@ -517,7 +491,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#7DA43D", // Comments
             "multi_comment": "#7DA43D", // Comments
             "numbers": "#CBCCCB", // Numbers
-            "url": "#CBCCCB" // URL
         ],
         "style": "dark"
     ],
@@ -536,7 +509,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#78816D", // Comments
             "multi_comment": "#78816D", // Comments
             "numbers": "#CFAB00", // Numbers
-            "url": "#A3E7FF" // URL
         ],
         "style": "dark"
     ],
@@ -555,7 +527,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#666666", // Comments
             "multi_comment": "#666666", // Comments
             "numbers": "#6C99BB", // Numbers
-            "url": "#5863FF" // URL
         ],
         "style": "dark"
     ],
@@ -574,7 +545,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#AAAAAA", // Comments
             "multi_comment": "#AAAAAA", // Comments
             "numbers": "#AB6526", // Numbers
-            "url": "#91B3E0" // URL
         ],
         "style": "light"
     ],
@@ -593,7 +563,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#4FFF91", // Comments
             "multi_comment": "#4FFF91", // Comments
             "numbers": "#CE58B4", // Numbers
-            "url": "#1919FF" // URL
         ],
         "style": "dark"
     ],
@@ -612,7 +581,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#59A6FF", // Comments
             "multi_comment": "#59A6FF", // Comments
             "numbers": "#F1A642", // Numbers
-            "url": "#528FC7" // URL
         ],
         "style": "dark"
     ],
@@ -631,7 +599,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#8B8B8B", // Comments
             "multi_comment": "#8B8B8B", // Comments
             "numbers": "#B49CDA", // Numbers
-            "url": "#B2ED5D" // URL
         ],
         "style": "dark"
     ],
@@ -650,7 +617,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#99A1BC", // Comments
             "multi_comment": "#99A1BC", // Comments
             "numbers": "#63667F", // Numbers
-            "url": "#564E7F" // URL
         ],
         "style": "dark"
     ],
@@ -669,7 +635,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#008000", // Comments
             "multi_comment": "#008000", // Comments
             "numbers": "#FF0000", // Numbers
-            "url": "#0080FF" // URL
         ],
         "style": "dark"
     ],
@@ -688,7 +653,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#BB9357", // Comments
             "multi_comment": "#BB9357", // Comments
             "numbers": "#A4C260", // Numbers
-            "url": "#A4C260" // URL
         ],
         "style": "dark"
     ],
@@ -707,7 +671,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#626262", // Comments
             "multi_comment": "#626262", // Comments
             "numbers": "#FFEE49", // Numbers
-            "url": "#7DE35A" // URL
         ],
         "style": "dark"
     ],
@@ -726,7 +689,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#475B62", // Comments
             "multi_comment": "#475B62", // Comments
             "numbers": "#259286", // Numbers
-            "url": "#595AB7" // URL
         ],
         "style": "dark"
     ],
@@ -745,7 +707,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#475B62", // Comments
             "multi_comment": "#475B62", // Comments
             "numbers": "#259286", // Numbers
-            "url": "#595AB7" // URL
         ],
         "style": "light"
     ],
@@ -764,7 +725,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#4A5A61", // Comments
             "multi_comment": "#4A5A61", // Comments
             "numbers": "#BC3332", // Numbers
-            "url": "#337AC4" // URL
         ],
         "style": "dark"
     ],
@@ -783,7 +743,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#848F8F", // Comments
             "multi_comment": "#848F8F", // Comments
             "numbers": "#BC3332", // Numbers
-            "url": "#337AC4" // URL
         ],
         "style": "light"
     ],
@@ -802,7 +761,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#3E4853", // Comments
             "multi_comment": "#3E4853", // Comments
             "numbers": "#C5735E", // Numbers
-            "url": "#C5735E" // URL
         ],
         "style": "dark"
     ],
@@ -821,7 +779,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#6E5346", // Comments
             "multi_comment": "#6E5346", // Comments
             "numbers": "#4A9D8F", // Numbers
-            "url": "#0D7D7B" // URL
         ],
         "style": "dark"
     ],
@@ -840,7 +797,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#969896", // Comments
             "multi_comment": "#969896", // Comments
             "numbers": "#DE935F", // Numbers
-            "url": "#81A2BF" // URL
         ],
         "style": "dark"
     ],
@@ -859,7 +815,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#5E5E5E", // Comments
             "multi_comment": "#5E5E5E", // Comments
             "numbers": "#786DC4", // Numbers
-            "url": "#8F9D6A" // URL
         ],
         "style": "dark"
     ],
@@ -878,7 +833,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#63A845", // Comments
             "multi_comment": "#63A845", // Comments
             "numbers": "#85BF5D", // Numbers
-            "url": "#7579BD" // URL
         ],
         "style": "dark"
     ],
@@ -897,7 +851,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#D8D8A8", // Comments
             "multi_comment": "#D8D8A8", // Comments
             "numbers": "#C0C078", // Numbers
-            "url": "#1919FF" // URL
         ],
         "style": "dark"
     ],
@@ -916,7 +869,6 @@ let themes: [String: [String: Any]] = [
             "comment": "#615339", // Comments
             "multi_comment": "#615339", // Comments
             "numbers": "#5C5C5C", // Numbers
-            "url": "#A3E7FF" // URL
         ],
         "style": "dark"
     ],
@@ -935,8 +887,207 @@ let themes: [String: [String: Any]] = [
             "comment": "#465B62", // Comments
             "multi_comment": "#465B62", // Comments
             "numbers": "#D75D42", // Numbers
-            "url": "#526870" // URL
         ],
         "style": "dark"
+    ],
+    "Atom One Dark": [
+        "default": "#ABB2BF", // editor.foreground
+        "background": "#282C34", // editor.background
+        "currentLine": "#99BBFF0A", // editor.lineHighlightBackground
+        "selection": "#3E4451", // editor.selectionBackground
+        "cursor": "#528BFF", // editorCursor.foreground
+        "lineNumber": "#636D83", // editorLineNumber.foreground
+        "lineNumber-Active": "#ABB2BF", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#56B6C2", // support.function
+            "keyword": "#C678DD", // keyword.control
+            "identifier": "#C678DD",  // keyword.operator
+            "string": "#98C379", // string
+            "mult_string": "#98C379", // string
+            "comment": "#7f848e", // comment
+            "multi_comment": "#7f848e", // comment
+            "numbers": "#d19a66", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Atom One Light": [
+        "default": "#383A42", // editor.foreground
+        "background": "#FAFAFA", // editor.background
+        "currentLine": "#383A420C", // editor.lineHighlightBackground
+        "selection": "#E5E5E6", // editor.selectionBackground
+        "cursor": "#526FFF", // editorCursor.foreground
+        "lineNumber": "#9D9D9F", // editorLineNumber.foreground
+        "lineNumber-Active": "#383A42", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#0184BC", // support.function
+            "keyword": "#A626A4", // keyword.control
+            "identifier": "#383A42",  // keyword.operator
+            "string": "#50A14F", // string
+            "mult_string": "#50A14F", // string
+            "comment": "#A0A1A7", // comment
+            "multi_comment": "#A0A1A7", // comment
+            "numbers": "#986801", // constant.numeric
+        ],
+        "style": "light"
+    ],
+    "Shades of Purple 🦄": [
+        "default": "#FFFFFF", // editor.foreground
+        "background": "#2D2B55", // editor.background
+        "currentLine": "#1F1F41", // editor.lineHighlightBackground
+        "selection": "#B362FF88", // editor.selectionBackground
+        "cursor": "#FAD000", // editorCursor.foreground
+        "lineNumber": "#A599E9", // editorLineNumber.foreground
+        "lineNumber-Active": "#b6b6b6", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#FF9D00", // support.function
+            "keyword": "#FF9D00", // keyword.control
+            "identifier": "#FAD000",  // keyword.operator
+            "string": "#A5FF90", // string
+            "mult_string": "#A5FF90", // string
+            "comment": "#B362FF", // punctuation.definition.comment
+            "multi_comment": "#B362FF", // punctuation.definition.comment
+            "numbers": "#d19a66", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Night Owl": [
+        "default": "#d6deeb", // editor.foreground
+        "background": "#011627", // editor.background
+        "currentLine": "#000003", // editor.lineHighlightBackground
+        "selection": "#1d3b53", // editor.selectionBackground
+        "cursor": "#80a4c2", // editorCursor.foreground
+        "lineNumber": "#4b6479", // editorLineNumber.foreground
+        "lineNumber-Active": "#C5E4FD", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#c5e478", // support.function
+            "keyword": "#c792ea", // keyword.control
+            "identifier": "#7fdbca", // keyword.operator
+            "string": "#ecc48d", // string
+            "mult_string": "#ecc48d", // string
+            "comment": "#637777", // punctuation.definition.comment
+            "multi_comment": "#637777", // punctuation.definition.comment
+            "numbers": "#F78C6C", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Day Owl": [
+        "default": "#403f53", // editor.foreground
+        "background": "#FBFBFB", // editor.background
+        "currentLine": "#F0F0F0", // editor.lineHighlightBackground
+        "selection": "#E0E0E0", // editor.selectionBackground
+        "cursor": "#90A7B2", // editorCursor.foreground
+        "lineNumber": "#90A7B2", // editorLineNumber.foreground
+        "lineNumber-Active": "#403f53", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#4876d6", // support.function
+            "keyword": "#0c969b", // keyword.control
+            "identifier": "#0c969b", // keyword.operator
+            "string": "#4876d6", // string
+            "mult_string": "#4876d6", // string
+            "comment": "#989fb1", // punctuation.definition.comment
+            "multi_comment": "#989fb1", // punctuation.definition.comment
+            "numbers": "#aa0982", // constant.numeric
+        ],
+        "style": "light"
+    ],
+    "Tokyo Night": [
+        "default": "#a9b1d6", // editor.foreground
+        "background": "#1a1b26", // editor.background
+        "currentLine": "#1e202e", // editor.lineHighlightBackground
+        "selection": "#515c7e40", // editor.selectionBackground
+        "cursor": "#c0caf5", // editorCursor.foreground
+        "lineNumber": "#363b54", // editorLineNumber.foreground
+        "lineNumber-Active": "#737aa2", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#0db9d7", // support.function
+            "keyword": "#bb9af7", // keyword.control
+            "identifier": "#89ddff", // keyword.operator
+            "string": "#9ece6a", // string
+            "mult_string": "#9ece6a", // string
+            "comment": "#444b6a", // punctuation.definition.comment
+            "multi_comment": "#444b6a", // punctuation.definition.comment
+            "numbers": "#ff9e64", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Tokyo Day": [
+        "default": "#343b59", // editor.foreground
+        "background": "#d5d6db", // editor.background
+        "currentLine": "#dcdee3", // editor.lineHighlightBackground
+        "selection": "#fafbff40", // editor.selectionBackground
+        "cursor": "#4c505e", // editorCursor.foreground
+        "lineNumber": "#9da0ab", // editorLineNumber.foreground
+        "lineNumber-Active": "#4c505e", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#166775", // support.function
+            "keyword": "#5a4a78", // keyword.control
+            "identifier": "#4c505e", // keyword.operator
+            "string": "#485e30", // string
+            "mult_string": "#485e30", // string
+            "comment": "#9699a3", // punctuation.definition.comment
+            "multi_comment": "#9699a3", // punctuation.definition.comment
+            "numbers": "#965027", // constant.numeric
+        ],
+        "style": "light"
+    ],
+    "Tokyo Stormy": [
+        "default": "#a9b1d6", // editor.foreground
+        "background": "#24283b", // editor.background
+        "currentLine": "#292e42", // editor.lineHighlightBackground
+        "selection": "#6f7bb630", // editor.selectionBackground
+        "cursor": "#c0caf5", // editorCursor.foreground
+        "lineNumber": "#3b4261", // editorLineNumber.foreground
+        "lineNumber-Active": "#737aa2", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#2ac3de", // support.function
+            "keyword": "#bb9af7", // keyword.control
+            "identifier": "#89ddff", // keyword.operator
+            "string": "#9ece6a", // string
+            "mult_string": "#9ece6a", // string
+            "comment": "#565f89", // punctuation.definition.comment
+            "multi_comment": "#565f89", // punctuation.definition.comment
+            "numbers": "#ff9e64", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Gruvbox Dark": [
+        "default": "#ebdbb2", // editor.foreground
+        "background": "#1d2021", // editor.background
+        "currentLine": "#3c383660", // editor.lineHighlightBackground
+        "selection": "#689d6a40", // editor.selectionBackground
+        "cursor": "#ebdbb2", // editorCursor.foreground
+        "lineNumber": "#665c54", // editorLineNumber.foreground
+        "lineNumber-Active": "#665c54", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#fe8019", // support.function
+            "keyword": "#fb4934", // keyword.control
+            "identifier": "#8ec07c", // keyword.operator
+            "string": "#b8bb26", // string
+            "mult_string": "#b8bb26", // string
+            "comment": "#928374", // punctuation.definition.comment
+            "multi_comment": "#928374", // punctuation.definition.comment
+            "numbers": "#ebdbb2", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    "Gruvbox Light": [
+        "default": "#3c3836", // editor.foreground
+        "background": "#f9f5d7", // editor.background
+        "currentLine": "#ebdbb260", // editor.lineHighlightBackground
+        "selection": "#689d6a40", // editor.selectionBackground
+        "cursor": "#3c3836", // editorCursor.foreground
+        "lineNumber": "#bdae93", // editorLineNumber.foreground
+        "lineNumber-Active": "#bdae93", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#af3a03", // support.function
+            "keyword": "#9d0006", // keyword.control
+            "identifier": "#427b58", // keyword.operator
+            "string": "#79740e", // string
+            "mult_string": "#79740e", // string
+            "comment": "#928374", // punctuation.definition.comment
+            "multi_comment": "#v", // punctuation.definition.comment
+            "numbers": "#ebdbb2", // constant.numeric
+        ],
+        "style": "light"
     ],
 ]

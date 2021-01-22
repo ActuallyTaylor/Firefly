@@ -22,7 +22,7 @@ public class Syntax {
     var fontSize: CGFloat = UIFont.systemFontSize
     
     var definitions: [Definition] = []
-    var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light)
+    var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light, lineNumber: UIColor.white, lineNumber_Active: UIColor.white)
     
     init(language: String, theme: String, font: String) {
         currentLanguage = language
@@ -62,6 +62,9 @@ public class Syntax {
             let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
             let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
             
+            let lineNumber = UIColor(hex: (theme["lineNumber"] as? String) ?? "#000000")
+            let lineNumber_Active = UIColor(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
+
             let styleRaw = theme["style"] as? String
             let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
@@ -73,9 +76,19 @@ public class Syntax {
                 }
             }
             
-            self.theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont, style: style)
+            self.theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont, style: style, lineNumber: lineNumber, lineNumber_Active: lineNumber_Active)
         }
     }
+    /*
+     "default": "#3c3836", // editor.foreground
+     "background": "#f9f5d7", // editor.background
+     "currentLine": "#ebdbb260", // editor.lineHighlightBackground
+     "selection": "#689d6a40", // editor.selectionBackground
+     "cursor": "#3c3836", // editorCursor.foreground
+     "lineNumber": "#bdae93", // editorLineNumber.foreground
+     "lineNumber-Active": "#bdae93", // editorLineNumber.activeForeground
+
+     */
     
     func setFont(to name: String) {
         if name == "system" {
