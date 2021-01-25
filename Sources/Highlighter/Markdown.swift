@@ -207,7 +207,7 @@ public class Markdown {
         }
         
         if let theme = theme {
-            let codeRegex = try? NSRegularExpression(pattern: "(\t)*?(\\`\\`\\`|\\`)(.*?)(\\`\\`\\`|\\`)", options: [.dotMatchesLineSeparators])
+            let codeRegex = try? NSRegularExpression(pattern: "(\t)*?(\\`\\`\\`)(.*?)(\\`\\`\\`)", options: [.dotMatchesLineSeparators])
             if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
                 for aMatch in matches.reversed() {
                     guard let tRange = Range(aMatch.range(at: 3), in: attributedString.string) else { break }
@@ -221,6 +221,23 @@ public class Markdown {
                 }
             }
         }
+        
+        if let theme = theme {
+            let codeRegex = try? NSRegularExpression(pattern: "(\\`)(.*?)(\\`)", options: [.dotMatchesLineSeparators])
+            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+                for aMatch in matches.reversed() {
+                    guard let tRange = Range(aMatch.range(at: 2), in: attributedString.string) else { break }
+                    let text: String = String(attributedString.string[tRange])
+                    let attrString: NSAttributedString = NSAttributedString(string: text)
+
+                    let nString = Syntax.highlightAttributedString(string: attrString, theme: theme, language: "jelly")
+                    nString.addAttributes([.backgroundColor: theme.backgroundColor], range: NSRange(location: 0, length: nString.string.count))
+                    attributedString.replaceCharacters(in: aMatch.range, with: nString)
+                }
+            }
+        }
+
+        //|\\` |\\`
 
         return (attributedString, theme?.backgroundColor ?? UIColor.systemBackground)
     }
