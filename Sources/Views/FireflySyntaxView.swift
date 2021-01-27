@@ -7,7 +7,6 @@
 
 import UIKit
 
-@IBDesignable
 public class FireflySyntaxView: UIView {
     
     ///The highlighting language

@@ -7,7 +7,6 @@
 
 import UIKit
 
-@IBDesignable
 public class FireflyTextView: UITextView {
     var gutterWidth: CGFloat = 20 {
         didSet {
