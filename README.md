@@ -48,20 +48,18 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Sets the Firefly View's theme to a theme that corresponds to the given name
-        fireflyView.setTheme(name: "Xcode Dark")
-
-        // Sets the Firefly View's language to the corresponding language
-        fireflyView.setLanguage(nLanguage: "jelly")
-
-        // Sets the gutter width of the Firefly view
-        fireView.setGutterWidth(width: 20)
-
-        // Sets the views Keyboard Offset
-        fireflyView.keyboardOffset = 85
+        // Use the setup function
+        fireflyView.setup(theme: themeName, language: "jelly", font: "system", offsetKeyboard: true, keyboardOffset: 10, dynamicGutter: true, gutterWidth: 20, placeholdersAllowed: true, linkPlaceholders: false)
     }
 }
 ```
+### Set everything at once
+This allows you to set almost all ascpets of the view at once so you do not accidently cause extra highlight calls.
+```swift
+fireflyView.setup(theme: themeName, language: "jelly", font: "system", offsetKeyboard: true, keyboardOffset: 10, dynamicGutter: true, gutterWidth: 20, placeholdersAllowed: true, linkPlaceholders: false)
+```
+
+### Set individual parts about the view
 #### Set the text in the Firefly View
 ```swift
 fireflyView.text = “My code string”

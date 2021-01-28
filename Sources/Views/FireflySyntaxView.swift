@@ -166,6 +166,7 @@ public class FireflySyntaxView: UIView {
     
     /// Force highlights the current range
     public func forceHighlight() {
+        print("Force Highlight")
         textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
     }
     
@@ -236,6 +237,25 @@ public class FireflySyntaxView: UIView {
             arr.append(item.key)
         }
         return arr
+    }
+    
+    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool) {
+        self.language = language
+        textStorage.syntax.setLanguage(to: language)
+        self.fontName = font
+        textStorage.syntax.setFont(to: font)
+        self.shouldOffsetKeyboard = offsetKeyboard
+        self.keyboardOffset = keyboardOffset
+        self.dynamicGutterWidth = dynamicGutter
+        self.placeholdersAllowed = placeholdersAllowed
+        textStorage.placeholdersAllowed = placeholdersAllowed
+        self.linkPlaceholders = linkPlaceholders
+        textStorage.linkPlaceholders = linkPlaceholders
+        self.theme = theme
+        textStorage.syntax.setTheme(to: theme)
+        layoutManager.theme = textStorage.syntax.theme
+
+        updateAppearence()
     }
     
     /// Sets the theme of the view. Supply with a theme name
