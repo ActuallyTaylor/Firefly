@@ -176,10 +176,12 @@ public class FireflySyntaxView: UIView {
     }
     
     /// Just updates the views appearence
-    private func updateAppearence() {
+    private func updateAppearence(highlight: Bool = true) {
         textView.backgroundColor = textStorage.syntax.theme.backgroundColor
         textView.tintColor = textStorage.syntax.theme.cursor
-        textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+        if highlight {
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+        }
         if textStorage.syntax.theme.style == .dark {
             textView.keyboardAppearance = .dark
         } else {
@@ -241,16 +243,29 @@ public class FireflySyntaxView: UIView {
     
     public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool) {
         self.language = language
+        
         textStorage.syntax.setLanguage(to: language)
+        
         self.fontName = font
+        
         textStorage.syntax.setFont(to: font)
+        
         self.shouldOffsetKeyboard = offsetKeyboard
+        
         self.keyboardOffset = keyboardOffset
+        
         self.dynamicGutterWidth = dynamicGutter
+        
+        self.gutterWidth = gutterWidth
+        textView.gutterWidth = gutterWidth
+        layoutManager.gutterWidth = gutterWidth
+        
         self.placeholdersAllowed = placeholdersAllowed
         textStorage.placeholdersAllowed = placeholdersAllowed
+        
         self.linkPlaceholders = linkPlaceholders
         textStorage.linkPlaceholders = linkPlaceholders
+        
         self.theme = theme
         textStorage.syntax.setTheme(to: theme)
         layoutManager.theme = textStorage.syntax.theme
@@ -259,11 +274,11 @@ public class FireflySyntaxView: UIView {
     }
     
     /// Sets the theme of the view. Supply with a theme name
-    public func setTheme(name: String) {
+    public func setTheme(name: String, highlight: Bool = true) {
         theme = name
         textStorage.syntax.setTheme(to: name)
         layoutManager.theme = textStorage.syntax.theme
-        updateAppearence()
+        updateAppearence(highlight: highlight)
     }
     
     /// Sets the language that is highlighted

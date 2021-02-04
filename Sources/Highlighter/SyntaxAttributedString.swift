@@ -88,79 +88,91 @@ open class SyntaxAttributedString : NSTextStorage {
      - parameter range: NSRange
      */
     open override func setAttributes(_ attrs: [AttributedStringKey : Any]?, range: NSRange) {
-        stringStorage.setAttributes(attrs, range: range)
-        self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+//        Dispatch.main {
+            self.stringStorage.setAttributes(attrs, range: range)
+            self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+//        }
     }
     
     open override func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) {
-        stringStorage.addAttributes(attrs, range: range)
-        self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+//        Dispatch.main {
+            self.stringStorage.addAttributes(attrs, range: range)
+            self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+//        }
+    }
+    
+    open override func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) {
+//        Dispatch.main {
+            self.stringStorage.removeAttribute(name, range: range)
+            self.edited(TextStorageEditActions.editedAttributes, range: range, changeInLength: 0)
+//        }
     }
 }
 
 //MARK: Highlighting
 extension SyntaxAttributedString {
     
+    //TODO: Fix a flashing when typing fast
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
-        #if DEBUG
-        let start = DispatchTime.now()
-        #endif
-        var cursorRange = cursorRange
-        if cursorRange == nil {
-            cursorRange = range
-        }
-        let range = changeCurrentRange(currRange: range, cursorRange: cursorRange!)
-        
-        if !(range.location + range.length > string.count) {
-            self.beginEditing()
-            
-            self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
-            self.removeAttribute(.editorPlaceholder, range: range)
-            
-            for item in syntax.definitions {
-                var regex = try? NSRegularExpression(pattern: item.regex)
-                if let option = item.matches.first {
-                    regex = try? NSRegularExpression(pattern: item.regex, options: option)
-                }
-                
-                regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
-                    if let result = result {
-                        if item.type == "placeholder" && placeholdersAllowed {
-                            let textRange: NSRange = result.range(at: 2)
-                            let startRange: NSRange = result.range(at: 1)
-                            let endRange: NSRange = result.range(at: 3)
-
-                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
-                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
-
-                            self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: syntax.theme.selection], range: textRange)
-                            if linkPlaceholders {
-                                if let strRange = Range(textRange, in: string) {
-                                    let str = String(string[strRange]).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
-                                    self.addAttributes([.link: str], range: textRange)
-                                }
-                            }
-                            addToken(range: result.range, type: item.type, multiline: item.multiLine)
-                        } else {
-                            let textRange: NSRange = result.range(at: item.group)
-                            let color = syntax.getHighlightColor(for: item.type)
-                            addToken(range: textRange, type: item.type, multiline: item.multiLine)
-                            self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
-                        }
-                    }
-                })
+        self.beginEditing()
+//        Dispatch.background { [self] in
+            #if DEBUG
+            let start = DispatchTime.now()
+            #endif
+            var cursorRange = cursorRange
+            if cursorRange == nil {
+                cursorRange = range
             }
+            let range = changeCurrentRange(currRange: range, cursorRange: cursorRange!)
             
-            self.endEditing()
+            if !(range.location + range.length > string.count) {
+                
+                self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
+                self.removeAttribute(.editorPlaceholder, range: range)
+                
+                for item in syntax.definitions {
+                    var regex = try? NSRegularExpression(pattern: item.regex)
+                    if let option = item.matches.first {
+                        regex = try? NSRegularExpression(pattern: item.regex, options: option)
+                    }
+                    
+                    regex?.enumerateMatches(in: string, options: .reportProgress, range: range, using: { (result, flags, stop) in
+                        if let result = result {
+                            if item.type == "placeholder" && placeholdersAllowed {
+                                let textRange: NSRange = result.range(at: 2)
+                                let startRange: NSRange = result.range(at: 1)
+                                let endRange: NSRange = result.range(at: 3)
+
+                                self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
+                                self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
+
+                                self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: syntax.theme.selection], range: textRange)
+                                if linkPlaceholders {
+                                    if let strRange = Range(textRange, in: string) {
+                                        let str = String(string[strRange]).addingPercentEncoding(withAllowedCharacters: .urlHostAllowed) ?? ""
+                                        self.addAttributes([.link: str], range: textRange)
+                                    }
+                                }
+                                addToken(range: result.range, type: item.type, multiline: item.multiLine)
+                            } else {
+                                let textRange: NSRange = result.range(at: item.group)
+                                let color = syntax.getHighlightColor(for: item.type)
+                                addToken(range: textRange, type: item.type, multiline: item.multiLine)
+                                self.addAttributes([.foregroundColor: color, .font: syntax.currentFont], range: textRange)
+                            }
+                        }
+                    })
+                }
+//            }
+            #if DEBUG
+            let end = DispatchTime.now()
+            
+            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
+            let timeInterval = Double(nanoTime) / 1_000_000_000
+//            debugPrint("Highlighting range: \(range) took \(timeInterval)")
+            #endif
         }
-        
-        #if DEBUG
-        let end = DispatchTime.now()
-        
-        let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-        let timeInterval = Double(nanoTime) / 1_000_000_000
-        debugPrint("Highlighting range: \(range) took \(timeInterval)")
-        #endif
+        self.endEditing()
     }
 
 //    
@@ -194,7 +206,7 @@ extension SyntaxAttributedString {
 //     }
     
     func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
-        let tokens = cachedTokens.filter { (token) -> Bool in return cursorRange.touches(r2: token.range) && token.type == "placeholder" }
+        let tokens = cachedTokens.filter { (token) -> Bool in return token.range.encompasses(r2: cursorRange) && token.type == "placeholder" }
         return (!tokens.isEmpty, tokens.first)
     }
      
