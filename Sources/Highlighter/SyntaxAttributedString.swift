@@ -169,7 +169,7 @@ extension SyntaxAttributedString {
             
             let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
             let timeInterval = Double(nanoTime) / 1_000_000_000
-//            debugPrint("Highlighting range: \(range) took \(timeInterval)")
+            debugPrint("Highlighting range: \(range) took \(timeInterval)")
             #endif
         }
         self.endEditing()
