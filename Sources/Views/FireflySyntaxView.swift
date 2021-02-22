@@ -85,13 +85,11 @@ public class FireflySyntaxView: UIView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-        setupNotifs()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
-        setupNotifs()
     }
     
     /// Sets up the basic parts of the view
@@ -132,6 +130,7 @@ public class FireflySyntaxView: UIView {
             textView.keyboardAppearance = .light
         }
         textView.delegate = self
+        setupNotifs()
     }
     
     /// Sets up keyboard movement notifications
@@ -242,35 +241,26 @@ public class FireflySyntaxView: UIView {
     }
     
     public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool) {
-        self.language = language
-        
         textStorage.syntax.setLanguage(to: language)
         
         self.fontName = font
         
         textStorage.syntax.setFont(to: font)
         
-        self.shouldOffsetKeyboard = offsetKeyboard
-        
+        self.setShouldOffsetKeyboard(bool: offsetKeyboard)
+
         self.keyboardOffset = keyboardOffset
         
-        self.dynamicGutterWidth = dynamicGutter
+        self.setDynamicGutter(bool: dynamicGutter)
         
-        self.gutterWidth = gutterWidth
-        textView.gutterWidth = gutterWidth
-        layoutManager.gutterWidth = gutterWidth
-        
-        self.placeholdersAllowed = placeholdersAllowed
-        textStorage.placeholdersAllowed = placeholdersAllowed
-        
-        self.linkPlaceholders = linkPlaceholders
-        textStorage.linkPlaceholders = linkPlaceholders
-        
-        self.theme = theme
-        textStorage.syntax.setTheme(to: theme)
-        layoutManager.theme = textStorage.syntax.theme
+        self.setGutterWidth(width: gutterWidth)
 
-        updateAppearence()
+        self.setPlaceholdersAllowed(bool: placeholdersAllowed)
+        
+        self.setLinkPlaceholders(bool: linkPlaceholders)
+
+        self.setTheme(name: theme, highlight: false)
+        self.language = language
     }
     
     /// Sets the theme of the view. Supply with a theme name
@@ -350,7 +340,7 @@ public class FireflySyntaxView: UIView {
         let newWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
         
         if newWidth != gutterWidth {
-            gutterWidth = newWidth
+            self.setGutterWidth(width: newWidth)
             textView.setNeedsDisplay()
         }
     }
