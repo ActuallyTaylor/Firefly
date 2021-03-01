@@ -72,6 +72,15 @@ public class FireflySyntaxView: UIView {
     
     public var textView: FireflyTextView!
     
+    /// ONLY MANUALLY SET IF NEEDED.
+    public var lastChar: Character?
+    
+    public var style: Theme.UIStyle {
+        get {
+            return textStorage.syntax.theme.style
+        }
+    }
+    
     internal var textStorage = SyntaxAttributedString(syntax: Syntax(language: "default", theme: "Basic", font: "system"))
     
     internal var layoutManager = LineNumberLayoutManager()
@@ -79,8 +88,6 @@ public class FireflySyntaxView: UIView {
     internal var shouldHighlightOnChange: Bool = false
     
     internal var highlightAll: Bool = false
-    
-    internal var lastChar: Character?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -259,7 +266,7 @@ public class FireflySyntaxView: UIView {
         
         self.setLinkPlaceholders(bool: linkPlaceholders)
 
-        self.setTheme(name: theme, highlight: false)
+        self.setTheme(name: theme)
         self.language = language
     }
     

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol FireflyDelegate: class {
+public protocol FireflyDelegate: AnyObject {
 
     func didChangeText(_ syntaxTextView: FireflyTextView)
 
