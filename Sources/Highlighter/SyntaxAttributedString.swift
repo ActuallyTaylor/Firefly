@@ -173,6 +173,7 @@ extension SyntaxAttributedString {
         } else {
             debugPrint("Outside the String Length")
         }
+        print(self.mutableString.size(withAttributes: [NSAttributedString.Key.foregroundColor: self.syntax.theme.defaultFontColor, NSAttributedString.Key.font: self.syntax.currentFont]))
         self.endEditing()
     }
     

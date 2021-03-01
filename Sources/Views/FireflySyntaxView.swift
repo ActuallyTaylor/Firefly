@@ -131,6 +131,7 @@ public class FireflySyntaxView: UIView {
         textView.spellCheckingType = .no
         textView.smartQuotesType = .no
         textView.smartInsertDeleteType = .no
+
         if self.textStorage.syntax.theme.style == .dark {
             textView.keyboardAppearance = .dark
         } else {
@@ -138,6 +139,7 @@ public class FireflySyntaxView: UIView {
         }
         textView.delegate = self
         setupNotifs()
+        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: 631.640625, height: 16.70703125))
     }
     
     /// Sets up keyboard movement notifications

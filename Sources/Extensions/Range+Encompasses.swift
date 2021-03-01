@@ -34,31 +34,6 @@ extension NSRange {
     func touches(r2: NSRange) -> Bool {
         let r1 = self
         return r1.intersection(r2) != nil
-        /*
-         if r1 == r2 { return true }
-
-         let l1 = r1.lowerBound,
-             l2 = r2.lowerBound
-
-         let u1 = r1.upperBound,
-             u2 = r2.upperBound
-
-
-         if l1 <= l2 && l2 <= u1 && u1 <= u2 {
-             return true
-         }
-         if l2 <= l1 && l1 <= u2 && u2 <= u1 {
-             return true
-         }
-         if l2 <= l1 && u1 <= u2 {
-             return true
-         }
-         if l1 <= l2 && u2 <= u1 {
-             return true
-         }
-         return false
-
-         */
     }
     
     func touches(ranges: [NSRange]) -> Bool {
