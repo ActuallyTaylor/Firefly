@@ -12,6 +12,8 @@
 
 # Firefly
 Firefly is a pure swift iOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
+### Issues
+Issues are hosted on both this repo and the [Jellycuts Issue Repo](https://github.com/ActuallyZach/Jellycuts-Issues/issues/). This is done because a lot of issues that occur with Firefly are reported through Jellycuts and it does not make sense to mirror them across to this repo. 
 
 # How does Firefly Work?
 Firefly is written in pure swift, and uses NSRegularExpressions for detecting tokens to highlight. Once tokens are detected they are colored based on the current theme.
