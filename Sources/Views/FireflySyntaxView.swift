@@ -71,6 +71,7 @@ public class FireflySyntaxView: UIView {
     }
     
     public var textView: FireflyTextView!
+    public var scrollView: UIScrollView!
     
     /// ONLY MANUALLY SET IF NEEDED.
     public var lastChar: Character?
@@ -112,17 +113,28 @@ public class FireflySyntaxView: UIView {
         
         layoutManager.addTextContainer(textContainer)
         let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        scrollView = UIScrollView(frame: tFrame)
+
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
         textView.isScrollEnabled = true
         textView.text = ""
         
-        self.addSubview(textView)
+        scrollView.addSubview(textView)
+
+        self.addSubview(scrollView)
         
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+//        textView.translatesAutoresizingMaskIntoConstraints = false
+//        textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+//        textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+//        textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+//        textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+
         
         // Sets default values for the text view to make it more like an editor.
         textView.autocapitalizationType = .none
@@ -139,7 +151,7 @@ public class FireflySyntaxView: UIView {
         }
         textView.delegate = self
         setupNotifs()
-        self.frame = CGRect(origin: self.frame.origin, size: CGSize(width: 631.640625, height: 16.70703125))
+        textView.isScrollEnabled = false
     }
     
     /// Sets up keyboard movement notifications

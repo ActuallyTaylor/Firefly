@@ -11,6 +11,11 @@ extension FireflySyntaxView: UITextViewDelegate {
     
     //MARK: UITextViewDelegate
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let maxSize = CGSize(width: 10000, height: 30000)
+        let textRect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [.font : self.textStorage.syntax.currentFont], context: nil)
+        print(textRect)
+        textView.frame = CGRect(origin: textView.frame.origin, size: CGSize(width: textRect.width, height: textRect.height))
+
         let vRange = getVisibleRange()
         if vRange.encompasses(r2: range) { shouldHighlightOnChange = true } else { highlightAll = true }
         
