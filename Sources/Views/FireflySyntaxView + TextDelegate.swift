@@ -11,11 +11,6 @@ extension FireflySyntaxView: UITextViewDelegate {
     
     //MARK: UITextViewDelegate
     public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        let maxSize = CGSize(width: 10000, height: 30000)
-        let textRect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [.font : self.textStorage.syntax.currentFont], context: nil)
-        print(textRect)
-        textView.frame = CGRect(origin: textView.frame.origin, size: CGSize(width: textRect.width, height: textRect.height))
-
         let vRange = getVisibleRange()
         if vRange.encompasses(r2: range) { shouldHighlightOnChange = true } else { highlightAll = true }
         
@@ -42,6 +37,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                     updateSelectedRange(NSRange(location: token.range.location + text.count, length: 0))
                     textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
 
+                    updateSize()
                     return false
                 }
             }
@@ -70,6 +66,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                 guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
+                updateSize()
                 return false
             } else if lastChar == "\"" && text != "\"" {
                 insertingText += "\""
@@ -85,6 +82,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                 guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
+                updateSize()
                 return false
             } else if lastChar == "{" && text != "}" {
                 //Maybe change it so after you hit enter it adds the }
@@ -108,6 +106,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                 guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
+                updateSize()
                 return false
             } else if lastChar == "(" && text != ")" {
                 insertingText += ")"
@@ -123,6 +122,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                 guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
+                updateSize()
                 return false
             }
         }
@@ -143,10 +143,22 @@ extension FireflySyntaxView: UITextViewDelegate {
             guard let tView = textView as? FireflyTextView  else { return false }
             delegate?.didChangeText(tView)
 
+            updateSize()
             return false
         }
 
+        updateSize()
         return true
+    }
+    
+    func updateSize() {
+        let maxSize = CGSize(width: 100000, height: 30000)
+        let textRect = self.text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [.font : self.textStorage.syntax.currentFont], context: nil)
+        
+        let ratio = self.scrollView.contentOffsetRatio
+        scrollView.contentSize = textRect.size
+        scrollView.determineNewContentOffsetForRatio(ratio: ratio)
+        textView.frame = CGRect(origin: textView.frame.origin, size: CGSize(width: textRect.width, height: textRect.height))
     }
     
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {

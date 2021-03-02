@@ -34,6 +34,7 @@ public class FireflySyntaxView: UIView {
                 updateGutterWidth()
             }
             textView.selectedRange = NSRange(location: 0, length: 0)
+            updateSize()
         }
     }
     
@@ -71,7 +72,7 @@ public class FireflySyntaxView: UIView {
     }
     
     public var textView: FireflyTextView!
-    public var scrollView: UIScrollView!
+    public var scrollView: FireflyScrollView!
     
     /// ONLY MANUALLY SET IF NEEDED.
     public var lastChar: Character?
@@ -113,7 +114,7 @@ public class FireflySyntaxView: UIView {
         
         layoutManager.addTextContainer(textContainer)
         let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        scrollView = UIScrollView(frame: tFrame)
+        scrollView = FireflyScrollView(frame: tFrame)
 
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
         textView.isScrollEnabled = true
@@ -128,6 +129,7 @@ public class FireflySyntaxView: UIView {
 //        textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 //        textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
 //        textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
@@ -186,7 +188,7 @@ public class FireflySyntaxView: UIView {
     
     /// Force highlights the current range
     public func forceHighlight() {
-        print("Force Highlight")
+        debugPrint("Force Highlight")
         textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
     }
     
