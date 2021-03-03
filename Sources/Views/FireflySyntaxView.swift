@@ -88,6 +88,8 @@ public class FireflySyntaxView: UIView {
     internal var shouldHighlightOnChange: Bool = false
     
     internal var highlightAll: Bool = false
+    
+    internal var updateGutterNow: Bool = false
 
     public override init(frame: CGRect) {
         super.init(frame: frame)

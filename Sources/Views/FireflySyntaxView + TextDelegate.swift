@@ -19,9 +19,12 @@ extension FireflySyntaxView: UITextViewDelegate {
         
         if insertingText == "" && range.length > 0 {
             // Updater on backspace
-            updateGutterWidth()
+            updateGutterNow = true
+        } else if insertingText.contains("\n") {
+            //If they pasted something with \n
+            updateGutterNow = true
         }
-
+        
         if placeholdersAllowed {
             //There is a bug here that when a multi-line string that is larger than the visible area is present, it will be partially highlighted because the ranges get messed up.
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
@@ -41,7 +44,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                         
                         return false
                     } else {
-                        //Oops they ended up in the middle of a token
+                        //Oops they ended up in the middle of a token so just delete what they have and rehighlight the view
                         forceHighlight()
                     }
                 }
@@ -180,6 +183,9 @@ extension FireflySyntaxView: UITextViewDelegate {
     
     public func textViewDidChange(_ textView: UITextView) {
         guard let tView = textView as? FireflyTextView  else { return }
+        if updateGutterNow {
+            updateGutterWidth()
+        }
         if shouldHighlightOnChange {
             shouldHighlightOnChange = false
             textStorage.editingRange = tView.selectedRange
