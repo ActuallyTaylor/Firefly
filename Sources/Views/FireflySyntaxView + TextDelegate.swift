@@ -27,20 +27,17 @@ extension FireflySyntaxView: UITextViewDelegate {
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
             if inside.0 {
                 if let token = inside.1 {
-                    if let totalRange = NSRange(self.text){
-                        if totalRange.encompasses(r2: token.range) {
-                            textStorage.removeAttribute(.font, range: token.range)
-                            textStorage.removeAttribute(.foregroundColor, range: token.range)
-                            textStorage.removeAttribute(.editorPlaceholder, range: token.range)
-                            
-                            textStorage.addAttributes([.font: textStorage.syntax.currentFont, .foregroundColor: textStorage.syntax.theme.defaultFontColor], range: token.range)
-                            textStorage.replaceCharacters(in: token.range, with: text)
-                            textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
-                            updateSelectedRange(NSRange(location: token.range.location + text.count, length: 0))
-                            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-                            return false
-                        }
-                    }
+                    textStorage.removeAttribute(.font, range: token.range)
+                    textStorage.removeAttribute(.foregroundColor, range: token.range)
+                    textStorage.removeAttribute(.editorPlaceholder, range: token.range)
+                    
+                    textStorage.addAttributes([.font: textStorage.syntax.currentFont, .foregroundColor: textStorage.syntax.theme.defaultFontColor], range: token.range)
+                    textStorage.replaceCharacters(in: token.range, with: text)
+                    textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
+                    updateSelectedRange(NSRange(location: token.range.location + text.count, length: 0))
+                    textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+
+                    return false
                 }
             }
         }
