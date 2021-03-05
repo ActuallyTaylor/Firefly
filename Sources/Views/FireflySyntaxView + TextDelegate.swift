@@ -176,7 +176,7 @@ extension FireflySyntaxView: UITextViewDelegate {
 //    }
 
     func updateSelectedRange(_ range: NSRange) {
-        if range.location + range.length <= text.utf16.count {
+        if range.location + range.length <= text.utf8.count {
             textView.selectedRange = range
         }
     }
