@@ -17,6 +17,7 @@ class LineNumberLayoutManager: NSLayoutManager {
     var lastParaNumber = 0
     var theme: Theme?
     var gutterWidth: CGFloat = 0
+    var showLineNumbers: Bool = true
     
     func _paraNumber(for charRange: NSRange) -> Int {
         //  NSString does not provide a means of efficiently determining the paragraph number of a range of text.  This code
@@ -83,56 +84,58 @@ class LineNumberLayoutManager: NSLayoutManager {
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
-        var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
-        if let linNumberColor = theme?.lineNumber {
-            if linNumberColor != UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
-                foregroundColor = linNumberColor
+        if showLineNumbers  {
+            var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
+            if let linNumberColor = theme?.lineNumber {
+                if linNumberColor != UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
+                    foregroundColor = linNumberColor
+                }
             }
-        }
-        let atts: [NSAttributedString.Key: Any] = [
-            .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
-            .foregroundColor : foregroundColor
-        ]
-        
-        var gutterRect: CGRect = .zero
-        var paraNumber: Int = 0
-        
-        enumerateLineFragments(forGlyphRange: glyphsToShow, using: {(_ rect: CGRect, _ usedRect: CGRect, _ textContainer: NSTextContainer?, _ glyphRange: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>?) -> Void in
+            let atts: [NSAttributedString.Key: Any] = [
+                .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
+                .foregroundColor : foregroundColor
+            ]
             
-            let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
-            let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
+            var gutterRect: CGRect = .zero
+            var paraNumber: Int = 0
             
-            //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
-            if charRange.location == paraRange?.location {
-                gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
-                paraNumber = self._paraNumber(for: charRange)
-                let ln = "\(Int(UInt(paraNumber)) + 1)"
+            enumerateLineFragments(forGlyphRange: glyphsToShow, using: {(_ rect: CGRect, _ usedRect: CGRect, _ textContainer: NSTextContainer?, _ glyphRange: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>?) -> Void in
+                
+                let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+                let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
+                
+                //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
+                if charRange.location == paraRange?.location {
+                    gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
+                    paraNumber = self._paraNumber(for: charRange)
+                    let ln = "\(Int(UInt(paraNumber)) + 1)"
+                    let size: CGSize = ln.size(withAttributes: atts)
+                    let attr = NSAttributedString(string: ln, attributes: atts)
+                    attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
+                } else {
+                    gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
+                    let ln = "•"
+                    let size: CGSize = ln.size(withAttributes: atts)
+                    let attr = NSAttributedString(string: ln, attributes: atts)
+                    attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
+                }
+            })
+            
+            // Deal with the special case of an empty last line where enumerateLineFragmentsForGlyphRange has no line
+            // fragments to draw.
+            // if NSMaxRange(glyphsToShow) > numberOfGlyphs {
+            if self.textStorage!.string.isEmpty || self.textStorage!.string.hasSuffix("\n") {
+                let ln = "\(Int(UInt(paraNumber)) + 2)"
                 let size: CGSize = ln.size(withAttributes: atts)
-                let attr = NSAttributedString(string: ln, attributes: atts)
-                attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
-            } else {
-                gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
-                let ln = "•"
-                let size: CGSize = ln.size(withAttributes: atts)
-                let attr = NSAttributedString(string: ln, attributes: atts)
-                attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
+                gutterRect = gutterRect.offsetBy(dx: 0.0, dy: gutterRect.height)
+                ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: atts)
             }
-        })
-        
-        // Deal with the special case of an empty last line where enumerateLineFragmentsForGlyphRange has no line
-        // fragments to draw.
-        // if NSMaxRange(glyphsToShow) > numberOfGlyphs {
-        if self.textStorage!.string.isEmpty || self.textStorage!.string.hasSuffix("\n") {
-            let ln = "\(Int(UInt(paraNumber)) + 2)"
-            let size: CGSize = ln.size(withAttributes: atts)
-            gutterRect = gutterRect.offsetBy(dx: 0.0, dy: gutterRect.height)
-            ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: atts)
+            /*
+             let rect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
+             UIColor.red.withAlphaComponent(0.5).setFill()
+             rect.fill()
+             */
         }
-        /*
-         let rect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
-         UIColor.red.withAlphaComponent(0.5).setFill()
-         rect.fill()
-         */
     }
         
     override func drawUnderline(forGlyphRange glyphRange: NSRange, underlineType underlineVal: NSUnderlineStyle, baselineOffset: CGFloat, lineFragmentRect lineRect: CGRect, lineFragmentGlyphRange lineGlyphRange: NSRange, containerOrigin: CGPoint) {

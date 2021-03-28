@@ -10,8 +10,8 @@ import UIKit
 /// A simple markdown parsera
 public class Markdown {
 
-    public static func createAttributedString(input: String, themeName: String, fontName: String, themeTColor: Bool = false, shouldTint: Bool = false) -> (string: NSMutableAttributedString, background: UIColor) {
-        let fontSize: CGFloat = UIFont.systemFontSize
+    public static func createAttributedString(input: String, themeName: String, fontName: String, themeTColor: Bool = false, shouldTint: Bool = false, fontSize: CGFloat = UIFont.systemFontSize) -> (string: NSMutableAttributedString, background: UIColor) {
+        let fontSize: CGFloat = fontSize
 
         var currentFont = UIFont.systemFont(ofSize: fontSize)
         if fontName == "system" {

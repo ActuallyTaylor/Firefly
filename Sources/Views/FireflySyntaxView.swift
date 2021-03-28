@@ -13,7 +13,6 @@ public class FireflySyntaxView: UIView {
     @IBInspectable
     internal var language: String = "default"
     
-    ///The highlighting theme name
     @IBInspectable
     internal var theme: String = "Basic"
     
@@ -62,6 +61,17 @@ public class FireflySyntaxView: UIView {
     @IBInspectable
     internal var linkPlaceholders: Bool = false
     
+    @IBInspectable
+    public var showLineNumbers: Bool = true
+
+    @IBInspectable
+    public var textSize: CGFloat = 14.0
+    
+    // Determines if the view should switch to the alternative theme when darkmode is enabled
+    @IBInspectable
+    public var switchToAltOnDarkmode: Bool = false
+
+    
     /// The delegate that allows for you to get access the UITextViewDelegate from outside this class !
     /// !!DO NOT CHANGE textViews Delegate directly!!!
     public var delegate: FireflyDelegate? {
@@ -81,6 +91,23 @@ public class FireflySyntaxView: UIView {
         }
     }
     
+//    public var theme: String {
+//        get {
+//            if switchToAltOnDarkmode && inDarkmode {
+//                return darkTheme
+//            } else {
+//                return lightTheme
+//            }
+//        }
+//        set {
+//            if switchToAltOnDarkmode && inDarkmode {
+//                darkTheme = newValue
+//            } else {
+//                lightTheme = newValue
+//            }
+//        }
+//    }
+    
     internal var textStorage = SyntaxAttributedString(syntax: Syntax(language: "default", theme: "Basic", font: "system"))
     
     internal var layoutManager = LineNumberLayoutManager()
@@ -90,6 +117,8 @@ public class FireflySyntaxView: UIView {
     internal var highlightAll: Bool = false
     
     internal var updateGutterNow: Bool = false
+    
+    internal var inDarkmode: Bool = UITraitCollection.current.userInterfaceStyle == .dark
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -133,6 +162,7 @@ public class FireflySyntaxView: UIView {
         textView.spellCheckingType = .no
         textView.smartQuotesType = .no
         textView.smartInsertDeleteType = .no
+        
         if self.textStorage.syntax.theme.style == .dark {
             textView.keyboardAppearance = .dark
         } else {
@@ -174,7 +204,6 @@ public class FireflySyntaxView: UIView {
     
     /// Force highlights the current range
     public func forceHighlight() {
-        print("Force Highlight")
         textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
     }
     
@@ -202,7 +231,7 @@ public class FireflySyntaxView: UIView {
         return textStorage.syntax.theme
     }
     
-    /// Returns the given theme so you can get colors from that
+    /// Returns the given theme so you can retreive colors from it
     static public func getTheme(name: String) -> Theme? {
         if let theme = themes[name] {
             let defaultColor = UIColor(hex: (theme["default"] as? String) ?? "#000000")
@@ -249,10 +278,15 @@ public class FireflySyntaxView: UIView {
         return arr
     }
     
-    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool) {
+    /// Used to setup the entire firefly view
+    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat) {
         textStorage.syntax.setLanguage(to: language)
         
+//        self.setSwitchOnDarkmode(bool: switchToAlt)
+        
         self.fontName = font
+        
+        textStorage.syntax.fontSize = fontSize
         
         textStorage.syntax.setFont(to: font)
         
@@ -270,15 +304,24 @@ public class FireflySyntaxView: UIView {
 
         self.setTheme(name: theme)
         self.language = language
+        
+        self.setLineNumbers(bool: lineNumbers)
     }
     
     /// Sets the theme of the view. Supply with a theme name
-    public func setTheme(name: String, highlight: Bool = true) {
+    public func setTheme(name: String, alt: Bool = false, highlight: Bool = true) {
         theme = name
         textStorage.syntax.setTheme(to: name)
         layoutManager.theme = textStorage.syntax.theme
         updateAppearence(highlight: highlight)
     }
+    
+    /// Sets the language that is highlighted
+    public func setSwitchOnDarkmode(bool: Bool) {
+        switchToAltOnDarkmode = bool
+        updateAppearence()
+    }
+
     
     /// Sets the language that is highlighted
     public func setLanguage(nLanguage: String) {
@@ -335,22 +378,35 @@ public class FireflySyntaxView: UIView {
         self.linkPlaceholders = bool
         textStorage.linkPlaceholders = bool
     }
-
+    
+    /// Set line numbers
+    public func setLineNumbers(bool: Bool) {
+        showLineNumbers = bool
+        layoutManager.showLineNumbers = bool
+        if bool {
+            setGutterWidth(width: gutterWidth)
+        } else {
+            setGutterWidth(width: 0)
+        }
+        textView.setNeedsDisplay()
+    }
     
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
     func updateGutterWidth() {
-        let components = text.components(separatedBy: .newlines)
-        let count = components.count
-        let maxNumberOfDigits = "\(count)".count
-        
-        let leftInset: CGFloat = 4.0
-        let rightInset: CGFloat = 4.0
-        let charWidth: CGFloat = 10.0
-        let newWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
-        
-        if newWidth != gutterWidth {
-            self.setGutterWidth(width: newWidth)
-            textView.setNeedsDisplay()
+        if showLineNumbers {
+            let components = text.components(separatedBy: .newlines)
+            let count = components.count
+            let maxNumberOfDigits = "\(count)".count
+            
+            let leftInset: CGFloat = 4.0
+            let rightInset: CGFloat = 4.0
+            let charWidth: CGFloat = 10.0
+            let newWidth = CGFloat(maxNumberOfDigits) * charWidth + leftInset + rightInset
+            
+            if newWidth != gutterWidth {
+                self.setGutterWidth(width: newWidth)
+                textView.setNeedsDisplay()
+            }
         }
     }
 }

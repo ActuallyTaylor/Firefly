@@ -75,7 +75,7 @@ extension FireflySyntaxView: UITextViewDelegate {
                 delegate?.didChangeText(tView)
 
                 return false
-            } else if lastChar == "\"" && text != "\"" {
+            } else if lastChar == "\"" && (text != "\"") {
                 insertingText += "\""
                 
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)

@@ -15,7 +15,7 @@ let languages: [String: [String: Any]] = [
 
 let defaultLanguage: [String: Any] = [
     "string": [
-        "regex": "\"(.*?)\"",
+        "regex": #"(?<!\\)".*?(?<!\\)""#,
         "group": 0,
         "relevance": 3,
         "options": [],
@@ -67,7 +67,7 @@ let jellyLanguage: [String: Any] = [
         "multiline": false
     ],
     "string": [
-        "regex": "\"(.*?)\"",
+        "regex": #"(?<!\\)".*?(?<!\\)""#,
         "group": 0,
         "relevance": 6,
         "options": [],
@@ -119,7 +119,7 @@ let swiftLanguage: [String: Any] = [
         "multiline": false
     ],
     "string": [
-        "regex": "\"(.*?)\"",
+        "regex": #"(?<!\\)".*?(?<!\\)""#,
         "group": 0,
         "relevance": 3,
         "options": [],
