@@ -29,7 +29,7 @@ let defaultLanguage: [String: Any] = [
         "multiline": true
     ],
     "comment": [
-        "regex": "//.*?(\\n|$)", // The regex used for highlighting
+        "regex": "(?<!:)\\/\\/.*?(\n|$)", // The regex used for highlighting
         "group": 0, // The regex group that should be highlighted
         "relevance": 5, // The relevance over other tokens
         "options": [], // Regular expression options
@@ -81,7 +81,7 @@ let jellyLanguage: [String: Any] = [
         "multiline": true
     ],
     "comment": [
-        "regex": "//.*?(\n|$)",
+        "regex": "(?<!:)\\/\\/.*?(\n|$)",
         "group": 0,
         "relevance": 4,
         "options": [],
@@ -133,7 +133,7 @@ let swiftLanguage: [String: Any] = [
         "multiline": true
     ],
     "comment": [
-        "regex": "//.*?(\\n|$)",
+        "regex": "(?<!:)\\/\\/.*?(\n|$)",
         "group": 0,
         "relevance": 5,
         "options": [],

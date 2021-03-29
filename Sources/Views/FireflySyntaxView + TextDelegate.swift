@@ -17,14 +17,6 @@ extension FireflySyntaxView: UITextViewDelegate {
         let selectedRange = textView.selectedRange
         var insertingText = text
         
-        if insertingText == "" && range.length > 0 {
-            // Updater on backspace
-            updateGutterNow = true
-        } else if insertingText.contains("\n") {
-            //If they pasted something with \n
-            updateGutterNow = true
-        }
-        
         if placeholdersAllowed {
             //There is a bug here that when a multi-line string that is larger than the visible area is present, it will be partially highlighted because the ranges get messed up.
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
@@ -50,6 +42,16 @@ extension FireflySyntaxView: UITextViewDelegate {
                 }
             }
         }
+        
+        
+        if insertingText == "" && range.length > 0 {
+            // Updater on backspace
+            updateGutterNow = true
+            return true
+        } else if insertingText.contains("\n") {
+            //If they pasted something with \n
+            updateGutterNow = true
+        }
 
         let nsText = textView.text as NSString
         var currentLine = nsText.substring(with: nsText.lineRange(for: textView.selectedRange))
@@ -57,7 +59,8 @@ extension FireflySyntaxView: UITextViewDelegate {
             currentLine.removeLast()
         }
         let newlineInsert: String = getNewlineInsert(currentLine)
-        
+        guard let tView = textView as? FireflyTextView  else { return false }
+
         if let lastChar = lastChar {
             let lastString: String = String(lastChar) + insertingText
             if lastString == "/*" {
@@ -71,11 +74,10 @@ extension FireflySyntaxView: UITextViewDelegate {
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
-                guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
                 return false
-            } else if lastChar == "\"" && (text != "\"") {
+            } else if lastChar == "\"" && text != "\"" && (tView.currentWord() != "\"\"") {
                 insertingText += "\""
                 
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
@@ -86,7 +88,6 @@ extension FireflySyntaxView: UITextViewDelegate {
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
-                guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
                 return false
@@ -109,7 +110,6 @@ extension FireflySyntaxView: UITextViewDelegate {
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
-                guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
                 return false
@@ -124,7 +124,6 @@ extension FireflySyntaxView: UITextViewDelegate {
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
-                guard let tView = textView as? FireflyTextView  else { return false }
                 delegate?.didChangeText(tView)
 
                 return false
@@ -144,12 +143,11 @@ extension FireflySyntaxView: UITextViewDelegate {
             textStorage.editingRange = selectedRange
             textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
             
-            guard let tView = textView as? FireflyTextView  else { return false }
             delegate?.didChangeText(tView)
 
             return false
         }
-
+        
         return true
     }
     
