@@ -44,11 +44,16 @@ extension FireflySyntaxView: UITextViewDelegate {
         }
         
         
-        if insertingText == "" && range.length > 0 {
-            // Updater on backspace
-            updateGutterNow = true
-            return true
-        } else if insertingText.contains("\n") {
+        if let char = text.cString(using: String.Encoding.utf8) {
+            let isBackSpace = strcmp(char, "\\b")
+            if (isBackSpace == -92) {
+                // Update on backspace
+                updateGutterNow = true
+                return true
+            }
+        }
+        
+        if insertingText.contains("\n") {
             //If they pasted something with \n
             updateGutterNow = true
         }

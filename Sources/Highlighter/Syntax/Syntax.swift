@@ -9,13 +9,13 @@ import UIKit
 
 public class Syntax {
     var currentLanguage: String = "default" {
-        didSet(value) {
-            setLanguage(to: value)
+        didSet {
+            setLanguage(to: currentLanguage)
         }
     }
     var currentTheme: String = "Basic" {
-        didSet(value) {
-            setTheme(to: value)
+        didSet {
+            setTheme(to: currentTheme)
         }
     }
     var currentFont: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)

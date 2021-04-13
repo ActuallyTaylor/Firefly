@@ -116,9 +116,9 @@ extension SyntaxAttributedString {
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
         self.beginEditing()
         //        Dispatch.background { [self] in
-        #if DEBUG
+//        #if DEBUG
         let start = DispatchTime.now()
-        #endif
+//        #endif
         var cursorRange = cursorRange
         if cursorRange == nil {
             cursorRange = range
@@ -163,13 +163,13 @@ extension SyntaxAttributedString {
                 })
             }
             //            }
-            #if DEBUG
+//            #if DEBUG
             let end = DispatchTime.now()
             
             let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
             let timeInterval = Double(nanoTime) / 1_000_000_000
             debugPrint("Highlighting range: \(range) took \(timeInterval)")
-            #endif
+//            #endif
         } else {
             debugPrint("Outside the String Length")
         }
