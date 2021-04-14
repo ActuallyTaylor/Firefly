@@ -14,6 +14,19 @@ public class FireflyTextView: UITextView {
         }
     }
     
+    /// Returns a CGRect for the cursor position in the text view's coordinates. If no cursor is present, it returns nil.
+    /// source: https://stackoverflow.com/a/43167060/3902590
+    public func cursorPosition() -> CGRect? {
+        if let selectedRange = self.selectedTextRange
+        {
+            // `caretRect` is in the `textView` coordinate space.
+            return self.caretRect(for: selectedRange.end)
+        } else {
+            // No selection and no caret in UITextView.
+            return nil
+        }
+    }
+    
     public func currentWord() -> String {
         guard let cursorRange = self.selectedTextRange else { return "" }
         func getRange(from position: UITextPosition, offset: Int) -> UITextRange? {

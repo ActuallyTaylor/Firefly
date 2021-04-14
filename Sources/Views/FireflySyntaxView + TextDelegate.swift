@@ -151,6 +151,10 @@ extension FireflySyntaxView: UITextViewDelegate {
         return true
     }
     
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        updateCursorPosition()
+    }
+    
     public func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         delegate?.didClickLink(URL.absoluteString)
         return false
@@ -169,9 +173,20 @@ extension FireflySyntaxView: UITextViewDelegate {
         return newLinePrefix
     }
     
-//    public func textViewDidChangeSelection(_ textView: UITextView) {
+    private func updateCursorPosition() {
+        if let cursorPositionChange = self.delegate?.cursorPositionChange {
+            if let pos = self.textView.cursorPosition() {
+                cursorPositionChange(self.textView.convert(pos, to: self.textView.superview))
+            } else {
+                cursorPositionChange(nil)
+            }
+        }
+    }
+    
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        updateCursorPosition()
 //        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
-//    }
+    }
 
     func updateSelectedRange(_ range: NSRange) {
         if range.location + range.length <= text.utf8.count {

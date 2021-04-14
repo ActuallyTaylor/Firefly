@@ -15,6 +15,7 @@ import SwiftUI
 public struct FireflySyntaxEditor: UIViewRepresentable {
     
     @Binding var text: String
+    let cursorPosition: Binding<CGRect?>?
     
     var language: String
     var theme: String
@@ -24,8 +25,18 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     var didChangeSelectedRange: (FireflySyntaxEditor, NSRange) -> Void
     var textViewDidBeginEditing: (FireflySyntaxEditor) -> Void
 
-    public init(text: Binding<String>, language: String, theme: String, fontName: String, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+    public init(
+        text: Binding<String>,
+        cursorPosition: Binding<CGRect?>? = nil,
+        language: String,
+        theme: String,
+        fontName: String,
+        didChangeText: @escaping (FireflySyntaxEditor) -> Void,
+        didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void,
+        textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void
+    ) {
         self._text = text
+        self.cursorPosition = cursorPosition
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
         self.textViewDidBeginEditing = textViewDidBeginEditing
@@ -51,8 +62,11 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+     
     public class Coordinator: FireflyDelegate {
+        
+        public var cursorPositionChange: ((CGRect?) -> Void)?
+        
         public func didClickLink(_ link: URL) { }
         
         let parent: FireflySyntaxEditor
@@ -60,6 +74,11 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
         
         init(_ parent: FireflySyntaxEditor) {
             self.parent = parent
+            if let cursorPosition = parent.cursorPosition {
+                self.cursorPositionChange = {
+                    cursorPosition.wrappedValue = $0
+                }
+            }
         }
         
         public func didChangeText(_ syntaxTextView: FireflyTextView) {

@@ -7,8 +7,10 @@
 //
 
 import Foundation
+import CoreGraphics
 
 public protocol FireflyDelegate: AnyObject {
+    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { get }
 
     func didChangeText(_ syntaxTextView: FireflyTextView)
 
@@ -22,6 +24,8 @@ public protocol FireflyDelegate: AnyObject {
 
 // Provide default empty implementations of methods that are optional.
 public extension FireflyDelegate {
+    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { nil }
+    
     func didChangeText(_ syntaxTextView: FireflyTextView) { }
 
     func didChangeSelectedRange(_ syntaxTextView: FireflyTextView, selectedRange: NSRange) { }
