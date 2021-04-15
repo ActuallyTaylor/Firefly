@@ -223,4 +223,13 @@ extension FireflySyntaxView: UITextViewDelegate {
         let visibleRange = NSRange(location: charOffset, length: length)
         return visibleRange
     }
+    
+    
+    public override var keyCommands: [UIKeyCommand]? {
+        delegate?.implementUIKeyCommands?.keyCommands(#selector(handleUIKeyCommand))
+    }
+    
+    @objc func handleUIKeyCommand(sender: UIKeyCommand) {
+        delegate?.implementUIKeyCommands?.receiver(sender)
+    }
 }

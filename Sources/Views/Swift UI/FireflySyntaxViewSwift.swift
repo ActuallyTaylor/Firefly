@@ -15,7 +15,9 @@ import SwiftUI
 public struct FireflySyntaxEditor: UIViewRepresentable {
     
     @Binding var text: String
+    
     let cursorPosition: Binding<CGRect?>?
+    let implementUIKeyCommands: (keyCommands: (Selector) -> [UIKeyCommand]?, receiver: (UIKeyCommand) -> Void)?
     
     var language: String
     var theme: String
@@ -28,6 +30,7 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     public init(
         text: Binding<String>,
         cursorPosition: Binding<CGRect?>? = nil,
+        implementUIKeyCommands: (keyCommands: (Selector) -> [UIKeyCommand]?, receiver: (UIKeyCommand) -> Void)? = nil,
         language: String,
         theme: String,
         fontName: String,
@@ -37,6 +40,7 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     ) {
         self._text = text
         self.cursorPosition = cursorPosition
+        self.implementUIKeyCommands = implementUIKeyCommands
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
         self.textViewDidBeginEditing = textViewDidBeginEditing
@@ -66,6 +70,10 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     public class Coordinator: FireflyDelegate {
         
         public var cursorPositionChange: ((CGRect?) -> Void)?
+        public var implementUIKeyCommands: (
+            keyCommands: (Selector) -> [UIKeyCommand]?,
+            receiver: (_ sender: UIKeyCommand) -> Void
+        )?
         
         public func didClickLink(_ link: URL) { }
         
@@ -78,6 +86,9 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
                 self.cursorPositionChange = {
                     cursorPosition.wrappedValue = $0
                 }
+            }
+            if let implementUIKeyCommands = parent.implementUIKeyCommands {
+                self.implementUIKeyCommands = implementUIKeyCommands
             }
         }
         
