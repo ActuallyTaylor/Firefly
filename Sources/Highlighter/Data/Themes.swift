@@ -330,7 +330,7 @@ let themes: [String: [String: Any]] = [
             "multi_comment": "#848684", // Comments
             "numbers": "#1872A2", // Numbers
         ],
-        "style": "dark"
+        "style": "light"
     ],
     "Glitter Bomb": [
         "default": "#E9E2DE", // Plain Text
