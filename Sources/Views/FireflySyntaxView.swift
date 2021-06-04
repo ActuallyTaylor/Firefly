@@ -212,17 +212,19 @@ public class FireflySyntaxView: UIView {
         textStorage.resetView()
     }
     
-    /// Just updates the views appearence
-    private func updateAppearence(highlight: Bool = true) {
-        textView.backgroundColor = textStorage.syntax.theme.backgroundColor
-        textView.tintColor = textStorage.syntax.theme.cursor
-        if highlight {
-            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
-        }
-        if textStorage.syntax.theme.style == .dark {
-            textView.keyboardAppearance = .dark
-        } else {
-            textView.keyboardAppearance = .light
+    /// Just updates the views appearance
+    private func updateAppearance(highlight: Bool = true) {
+        UIView.animate(withDuration: 0.2) { [self] in
+            textView.backgroundColor = textStorage.syntax.theme.backgroundColor
+            textView.tintColor = textStorage.syntax.theme.cursor
+            if highlight {
+                textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+            }
+            if textStorage.syntax.theme.style == .dark {
+                textView.keyboardAppearance = .dark
+            } else {
+                textView.keyboardAppearance = .light
+            }
         }
     }
     
@@ -313,13 +315,13 @@ public class FireflySyntaxView: UIView {
         theme = name
         textStorage.syntax.setTheme(to: name)
         layoutManager.theme = textStorage.syntax.theme
-        updateAppearence(highlight: highlight)
+        updateAppearance(highlight: highlight)
     }
     
     /// Sets the language that is highlighted
     public func setSwitchOnDarkmode(bool: Bool) {
         switchToAltOnDarkmode = bool
-        updateAppearence()
+        updateAppearance()
     }
 
     
@@ -327,14 +329,14 @@ public class FireflySyntaxView: UIView {
     public func setLanguage(nLanguage: String) {
         language = nLanguage
         textStorage.syntax.setLanguage(to: nLanguage)
-        updateAppearence()
+        updateAppearance()
     }
     
     /// Sets the font of the highlighter. Should be set to a font name, or "system" for the system.
     public func setFont(font: String) {
         fontName = font
         textStorage.syntax.setFont(to: font)
-        updateAppearence()
+        updateAppearance()
     }
     
     /// Sets the gutter width.
@@ -408,5 +410,16 @@ public class FireflySyntaxView: UIView {
                 textView.setNeedsDisplay()
             }
         }
+    }
+    
+    /// Print's all available fonts
+    static func getAllFontsInPackage() {
+        UIFont.familyNames.forEach({ familyName in
+            print("**** " + familyName + " ****")
+            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                print(fontName)
+            }
+            print("===================================")
+        })
     }
 }

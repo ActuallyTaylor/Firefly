@@ -55,7 +55,7 @@ public class Markdown {
         let boldFont = UIFont.boldSystemFont(ofSize: fontSize)
         
         let boldRegex = try? NSRegularExpression(pattern: "(\\*\\*|__)(.*?)(\\*\\*|__)", options: [])
-        if let matches = boldRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = boldRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 2), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -66,7 +66,7 @@ public class Markdown {
         
         let italicFont = UIFont.italicSystemFont(ofSize: fontSize)
         let italicRegex = try? NSRegularExpression(pattern: "(_|\\*)(.*?)(_|\\*)", options: [])
-        if let matches = italicRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = italicRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 2), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -76,7 +76,7 @@ public class Markdown {
         }
         
         let strikethroughRegex = try? NSRegularExpression(pattern: "~~(.*?)~~", options: [])
-        if let matches = strikethroughRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = strikethroughRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -86,7 +86,7 @@ public class Markdown {
         }
         
         let imageBulletRegex = try? NSRegularExpression(pattern: "(\\t)*(\\*)\\[.*?\\]\\((.*?)\\)", options: [])
-        if let matches = imageBulletRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = imageBulletRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range, in: attributedString.string) else { break }
@@ -111,7 +111,7 @@ public class Markdown {
         }
         
         let imageRegex = try? NSRegularExpression(pattern: "\\!\\[.*?\\]\\((.*?)\\)", options: [])
-        if let matches = imageRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = imageRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 let attachment = NSTextAttachment()
                 guard let gRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
@@ -127,7 +127,7 @@ public class Markdown {
         }
         
         let linkRegex = try? NSRegularExpression(pattern: "\\[(.*?)\\]\\((.*?)\\)", options: [])
-        if let matches = linkRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = linkRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let textRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let linkName: String = String(attributedString.string[textRange])
@@ -141,7 +141,7 @@ public class Markdown {
         }
         
         let bulletRegex = try? NSRegularExpression(pattern: "(\\t)*(\\*) ", options: [])
-        if let matches = bulletRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = bulletRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             let tabArray: [String] = ["•"]
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range, in: attributedString.string) else { break }
@@ -158,7 +158,7 @@ public class Markdown {
         }
         
         let numberRegex = try? NSRegularExpression(pattern: "(\\d+\\.)(.*)", options: [])
-        if let matches = numberRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = numberRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range, in: attributedString.string) else { break }
                 var text: String = String(attributedString.string[tRange])
@@ -171,7 +171,7 @@ public class Markdown {
         
         let header3Font = UIFont.systemFont(ofSize: fontSize * 1.7)
         let header3Regex = try? NSRegularExpression(pattern: "### (.*?\n)", options: [])
-        if let matches = header3Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = header3Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -183,7 +183,7 @@ public class Markdown {
         
         let header2Font = UIFont.systemFont(ofSize: fontSize * 2.2)
         let header2Regex = try? NSRegularExpression(pattern: "## (.*?\n)", options: [])
-        if let matches = header2Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = header2Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -196,7 +196,7 @@ public class Markdown {
         
         let header1Font = UIFont.systemFont(ofSize: fontSize * 3.2)
         let header1Regex = try? NSRegularExpression(pattern: "# (.*?\n)", options: [])
-        if let matches = header1Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+        if let matches = header1Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             for aMatch in matches.reversed() {
                 guard let tRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let text: String = String(attributedString.string[tRange])
@@ -208,7 +208,7 @@ public class Markdown {
         
         if let theme = theme {
             let codeRegex = try? NSRegularExpression(pattern: "(\t)*?(\\`\\`\\`)(.*?)(\\`\\`\\`)", options: [.dotMatchesLineSeparators])
-            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
                 for aMatch in matches.reversed() {
                     guard let tRange = Range(aMatch.range(at: 3), in: attributedString.string) else { break }
                     let text: String = String(attributedString.string[tRange])
@@ -224,7 +224,7 @@ public class Markdown {
         
         if let theme = theme {
             let codeRegex = try? NSRegularExpression(pattern: "(\\`)(.*?)(\\`)", options: [.dotMatchesLineSeparators])
-            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.string.utf16.count)) {
+            if let matches = codeRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
                 for aMatch in matches.reversed() {
                     guard let tRange = Range(aMatch.range(at: 2), in: attributedString.string) else { break }
                     let text: String = String(attributedString.string[tRange])

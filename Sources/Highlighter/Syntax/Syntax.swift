@@ -22,9 +22,9 @@ public class Syntax {
     var fontSize: CGFloat = UIFont.systemFontSize
     
     var definitions: [Definition] = []
-    var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light, lineNumber: UIColor.white, lineNumber_Active: UIColor.white)
+    public var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light, lineNumber: UIColor.white, lineNumber_Active: UIColor.white)
     
-    init(language: String, theme: String, font: String) {
+    public init(language: String, theme: String, font: String) {
         currentLanguage = language
         currentTheme = theme
         setFont(to: font)

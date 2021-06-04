@@ -125,7 +125,7 @@ extension SyntaxAttributedString {
         }
         let range = changeCurrentRange(currRange: range, cursorRange: cursorRange!)
         
-        if !(range.location + range.length > string.utf8.count) {
+        if !(range.location + range.length > stringStorage.length) {
             self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
             self.removeAttribute(.editorPlaceholder, range: range)
             
@@ -358,6 +358,6 @@ extension SyntaxAttributedString {
     
     func resetView() {
         cachedTokens.removeAll()
-        self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: NSRange(location: 0, length: string.utf16.count))
+        self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: NSRange(location: 0, length: string.count))
     }
 }

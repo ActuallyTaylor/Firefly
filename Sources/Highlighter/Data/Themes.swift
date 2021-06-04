@@ -8,6 +8,7 @@
 import Foundation
 
 let themes: [String: [String: Any]] = [
+    //https://github.com/hdoria/xcode-themes
     "Basic": [
         "default": "#000000",
         "background": "#FFFFFF",
@@ -26,6 +27,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Civic": [
         "default": "#E1E2E7",
         "background": "#1F2029",
@@ -44,6 +46,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Xcode Dark": [
         "default": "#FFFFFFD9", // Plain Text
         "background": "#1F1F24",
@@ -62,6 +65,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Xcode Light": [
         "default": "#000000D9", // Plain Text
         "background": "#FFFFFF",
@@ -80,6 +84,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Dusk": [
         "default": "#FFFFFF", // Plain Text
         "background": "#1E2028",
@@ -98,6 +103,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Classic Dark": [
         "default": "#ffffffD9", // Plain Text
         "background": "#1F1F24",
@@ -116,6 +122,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Classic Light": [
         "default": "#000000D9", // Plain Text
         "background": "#FFFFFF",
@@ -134,6 +141,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Low Key": [
         "default": "#000000", // Plain Text
         "background": "#FFFFFF",
@@ -152,6 +160,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Midnight": [
         "default": "#FFFFFF", // Plain Text
         "background": "#000000",
@@ -170,6 +179,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Sunset": [
         "default": "#000000", // Plain Text
         "background": "#FFFCE5",
@@ -188,6 +198,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Blackboard": [
         "default": "#FFFFFF", // Plain Text
         "background": "#0C1021",
@@ -206,6 +217,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Coal Graal": [
         "default": "#ECECF6", // Plain Text
         "background": "#222222",
@@ -224,6 +236,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Cobalt": [
         "default": "#FFFFFF", // Plain Text
         "background": "#002240",
@@ -242,6 +255,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Dracula": [
         "default": "#E0DFE0", // Plain Text
         "background": "#1E1F29",
@@ -260,6 +274,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "EGO": [
         "default": "#EDEDED", // Plain Text
         "background": "#121212",
@@ -278,6 +293,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Flat Dark": [
         "default": "#ECF0F1", // Plain Text
         "background": "#2C3E50",
@@ -296,6 +312,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Flat Light": [
         "default": "#2C3E50", // Plain Text
         "background": "#ECF0F1",
@@ -314,6 +331,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Github Light": [
         "default": "#262626", // Plain Text
         "background": "#FFFFFF",
@@ -332,6 +350,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Glitter Bomb": [
         "default": "#E9E2DE", // Plain Text
         "background": "#0B0A0A",
@@ -350,6 +369,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Humane": [
         "default": "#000000", // Plain Text
         "background": "#E3D5C1",
@@ -368,6 +388,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Kellys": [
         "default": "#ECECF6", // Plain Text
         "background": "#1F2023",
@@ -386,6 +407,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Mangold": [
         "default": "#FFFFFF", // Plain Text
         "background": "#000000",
@@ -404,6 +426,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Monoguy": [
         "default": "#F6F6EF", // Plain Text
         "background": "#1D1E1A",
@@ -422,6 +445,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Monokai": [
         "default": "#E9E2DE", // Plain Text
         "background": "#1D1E1A",
@@ -440,6 +464,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Moodnight": [
         "default": "#C8C8C8", // Plain Text
         "background": "#03131C",
@@ -458,6 +483,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Night": [
         "default": "#ECECF6", // Plain Text
         "background": "#242331",
@@ -476,6 +502,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Objective Sheep": [
         "default": "#F1F1F1", // Plain Text
         "background": "#1F1F1F",
@@ -494,6 +521,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Obsidian Code": [
         "default": "#D9D9D9", // Plain Text
         "background": "#151B1D",
@@ -512,6 +540,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Pastel Menlo": [
         "default": "#F5F5F5", // Plain Text
         "background": "#161616",
@@ -530,6 +559,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Quiet Light": [
         "default": "#333333", // Plain Text
         "background": "#F5F5F5",
@@ -548,6 +578,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Raspberry Sorbet": [
         "default": "#C1C1C1", // Plain Text
         "background": "#0F0109",
@@ -566,6 +597,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Rearden Steel": [
         "default": "#F3F3F3", // Plain Text
         "background": "#26292C",
@@ -584,6 +616,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Resesif": [
         "default": "#E9E2DE", // Plain Text
         "background": "#232323",
@@ -602,6 +635,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Salander": [
         "default": "#F3F3ED", // Plain Text
         "background": "#000000",
@@ -620,6 +654,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Scratch Art": [
         "default": "#FFFFFF", // Plain Text
         "background": "#000000",
@@ -638,6 +673,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Second Gear": [
         "default": "#FFFFFF", // Plain Text
         "background": "#2B2B2B",
@@ -656,6 +692,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Sidewalk Chalk": [
         "default": "#F2F2F2", // Plain Text
         "background": "#191919",
@@ -674,6 +711,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Solarize Dark": [
         "default": "#708284", // Plain Text
         "background": "#042029",
@@ -692,6 +730,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Solarize Light": [
         "default": "#708284", // Plain Text
         "background": "#FCF4DC",
@@ -710,6 +749,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Solarized Dark": [
         "default": "#848F8F", // Plain Text
         "background": "#0D2028",
@@ -728,6 +768,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Solarized Light": [
         "default": "#4A5A61", // Plain Text
         "background": "#FBF3DD",
@@ -746,6 +787,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Space Gray": [
         "default": "#B3B8C4", // Plain Text
         "background": "#20242C",
@@ -764,6 +806,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Space Dust": [
         "default": "#ECF0C1", // Plain Text
         "background": "#07171B",
@@ -782,6 +825,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Tomorrow Night": [
         "default": "#C4C8C6", // Plain Text
         "background": "#1D1F21",
@@ -800,6 +844,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Twilight": [
         "default": "#F8F8F8", // Plain Text
         "background": "#0B0B0B",
@@ -818,6 +863,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "WWDC 2016": [
         "default": "#F9F8F5", // Plain Text
         "background": "#1F2128",
@@ -836,6 +882,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "Wentworth": [
         "default": "#FFFFFF", // Plain Text
         "background": "#000000",
@@ -854,6 +901,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/hdoria/xcode-themes
     "XCasts": [
         "default": "#D9D9D9", // Plain Text
         "background": "#2B2B2B",
@@ -872,6 +920,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://github.com/JohnSundell/XcodeTheme
     "Sundells Colors": [
         "default": "#94ABAB", // Plain Text
         "background": "#191919",
@@ -890,6 +939,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=akamud.vscode-theme-onedark
     "Atom One Dark": [
         "default": "#ABB2BF", // editor.foreground
         "background": "#282C34", // editor.background
@@ -910,6 +960,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=akamud.vscode-theme-onelight
     "Atom One Light": [
         "default": "#383A42", // editor.foreground
         "background": "#FAFAFA", // editor.background
@@ -930,6 +981,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=ahmadawais.shades-of-purple
     "Shades of Purple 🦄": [
         "default": "#FFFFFF", // editor.foreground
         "background": "#2D2B55", // editor.background
@@ -950,6 +1002,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=sdras.night-owl
     "Night Owl": [
         "default": "#d6deeb", // editor.foreground
         "background": "#011627", // editor.background
@@ -970,6 +1023,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=sdras.night-owl
     "Day Owl": [
         "default": "#403f53", // editor.foreground
         "background": "#FBFBFB", // editor.background
@@ -990,6 +1044,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night
     "Tokyo Night": [
         "default": "#a9b1d6", // editor.foreground
         "background": "#1a1b26", // editor.background
@@ -1010,6 +1065,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night
     "Tokyo Day": [
         "default": "#343b59", // editor.foreground
         "background": "#d5d6db", // editor.background
@@ -1030,6 +1086,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=enkia.tokyo-night
     "Tokyo Stormy": [
         "default": "#a9b1d6", // editor.foreground
         "background": "#24283b", // editor.background
@@ -1050,6 +1107,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=jdinhlife.gruvbox
     "Gruvbox Dark": [
         "default": "#ebdbb2", // editor.foreground
         "background": "#1d2021", // editor.background
@@ -1070,6 +1128,7 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "dark"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=jdinhlife.gruvbox
     "Gruvbox Light": [
         "default": "#3c3836", // editor.foreground
         "background": "#f9f5d7", // editor.background
@@ -1090,4 +1149,47 @@ let themes: [String: [String: Any]] = [
         ],
         "style": "light"
     ],
+    //https://marketplace.visualstudio.com/items?itemName=D3W10.starlight
+    "StarLight - D3W10": [
+        "default": "#E5E5EA", // editor.foreground
+        "background": "#170A1F", // editor.background
+        "currentLine": "#2E143D99", // editor.lineHighlightBackground
+        "selection": "#401E63", // editor.selectionBackground
+        "cursor": "#E5E5EADD", // editorCursor.foreground
+        "lineNumber": "#E5E5EA55", // editorLineNumber.foreground
+        "lineNumber-Active": "#E5E5EA", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#80A8FF", // support.function
+            "keyword": "#8ADEFF", // keyword.control
+            "identifier": "#8ADEFF", // keyword.operator
+            "string": "#C8FF75", // string
+            "mult_string": "#C8FF75", // string
+            "comment": "#5C7884", // punctuation.definition.comment
+            "multi_comment": "#5C7884", // punctuation.definition.comment
+            "numbers": "#FF8A66", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+    //https://marketplace.visualstudio.com/items?itemName=kleber-swf.ocean-dark-extended
+    "Ocean Dark": [
+        "default": "#c0c5ce", // editor.foreground
+        "background": "#2b303b", // editor.background
+        "currentLine": "#323843", // editor.lineHighlightBackground
+        "selection": "#5989b96f", // editor.selectionBackground
+        "cursor": "#c0c5ce", // editorCursor.foreground
+        "lineNumber": "#47525c", // editorLineNumber.foreground
+        "lineNumber-Active": "#c6c6c6", // editorLineNumber.activeForeground
+        "definitions": [
+            "function": "#96b5b4", // support.function
+            "keyword": "#b48ead", // keyword.control
+            "identifier": "#c0c5ce", // keyword.operator
+            "string": "#a3be8c", // string
+            "mult_string": "#a3be8c", // string
+            "comment": "#65737e", // punctuation.definition.comment
+            "multi_comment": "#65737e", // punctuation.definition.comment
+            "numbers": "#d08770", // constant.numeric
+        ],
+        "style": "dark"
+    ],
+
 ]
