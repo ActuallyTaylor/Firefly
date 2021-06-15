@@ -160,6 +160,25 @@ extension FireflySyntaxView: UITextViewDelegate {
                 characterBuffer.removeAll()
                 return false
             }
+        } else {
+            if lastCompleted != "" && insertingText != "*" {
+                if lastCompleted == "/*" {
+                    lastCompleted = ""
+                    insertingText += "*/"
+                    
+                    textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                    updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
+                    textView.setNeedsDisplay()
+                    shouldHighlightOnChange = false
+                    textStorage.editingRange = selectedRange
+                    textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                    
+                    delegate?.didChangeText(tView)
+                    
+                    characterBuffer.removeAll()
+                    return false
+                }
+            }
         }
         
         return true
