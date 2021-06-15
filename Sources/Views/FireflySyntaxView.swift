@@ -85,7 +85,7 @@ public class FireflySyntaxView: UIView {
     internal var lastCompleted: String = ""
     
     // A list of the most recent character's entered. First is the oldest, last is the newest
-    internal var characterBuffer: [String] = []
+    public var characterBuffer: [String] = []
     
     public var style: Theme.UIStyle {
         get {
