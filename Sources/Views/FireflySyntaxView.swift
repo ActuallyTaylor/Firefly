@@ -28,7 +28,7 @@ public class FireflySyntaxView: UIView {
         }
         set(nText) {
             textView.text = nText
-            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
             if dynamicGutterWidth {
                 updateGutterWidth()
             }
@@ -82,8 +82,10 @@ public class FireflySyntaxView: UIView {
     
     public var textView: FireflyTextView!
     
-    /// ONLY MANUALLY SET IF NEEDED.
-    public var lastChar: Character?
+    internal var lastCompleted: String = ""
+    
+    // A list of the most recent character's entered. First is the oldest, last is the newest
+    internal var characterBuffer: [String] = []
     
     public var style: Theme.UIStyle {
         get {
@@ -218,7 +220,7 @@ public class FireflySyntaxView: UIView {
             textView.backgroundColor = textStorage.syntax.theme.backgroundColor
             textView.tintColor = textStorage.syntax.theme.cursor
             if highlight {
-                textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+                textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
             }
             if textStorage.syntax.theme.style == .dark {
                 textView.keyboardAppearance = .dark

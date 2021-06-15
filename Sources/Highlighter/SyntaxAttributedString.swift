@@ -115,17 +115,17 @@ extension SyntaxAttributedString {
     //TODO: Fix a flashing when typing fast
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
         self.beginEditing()
-        //        Dispatch.background { [self] in
-//        #if DEBUG
+
+        #if DEBUG
         let start = DispatchTime.now()
-//        #endif
+        #endif
         var cursorRange = cursorRange
         if cursorRange == nil {
             cursorRange = range
         }
         let range = changeCurrentRange(currRange: range, cursorRange: cursorRange!)
         
-        if !(range.location + range.length > stringStorage.length) {
+        if !(range.location + range.length > string.utf16.count) {
             self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: range)
             self.removeAttribute(.editorPlaceholder, range: range)
             
@@ -162,49 +162,20 @@ extension SyntaxAttributedString {
                     }
                 })
             }
-            //            }
-//            #if DEBUG
+
+            #if DEBUG
             let end = DispatchTime.now()
             
             let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
             let timeInterval = Double(nanoTime) / 1_000_000_000
             debugPrint("Highlighting range: \(range) took \(timeInterval)")
-//            #endif
+            #endif
         } else {
             debugPrint("Outside the String Length")
+            print(range.location + range.length, string.utf16.count)
         }
         self.endEditing()
     }
-    
-    //
-    //     func updatePlaceholders(cursorRange: NSRange) {
-    //        if placeholdersAllowed {
-    //            #if DEBUG
-    //            let start = DispatchTime.now()
-    //            #endif
-    //            Dispatch.background { [self] in
-    //                let opt = cachedTokens.filter { (token) -> Bool in return token.type == "placeholder" }
-    //
-    //                for token in opt {
-    //                    let range = NSRange(location: token.range.location + 2, length: token.range.length - 4)
-    //                    let state: EditorPlaceholderState = cursorRange.touches(r2: range) ? .active : .inactive
-    //
-    //                    Dispatch.main {
-    //                        self.removeAttribute(.editorPlaceholder, range: range)
-    //                        self.addAttributes([.editorPlaceholder: state, .font: syntax.currentFont], range: range)
-    //                    }
-    //                    cachedTokens.removeAll { (token) -> Bool in return token == token }
-    //                }
-    //            }
-    //            #if DEBUG
-    //            let end = DispatchTime.now()
-    //
-    //            let nanoTime = end.uptimeNanoseconds - start.uptimeNanoseconds
-    //            let timeInterval = Double(nanoTime) / 1_000_000_000
-    //            debugPrint("Updating placeholders took \(timeInterval)")
-    //            #endif
-    //        }
-    //     }
     
     func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
         let tokens = cachedTokens.filter { (token) -> Bool in return token.range.encompasses(r2: cursorRange) && token.type == "placeholder" }
@@ -255,9 +226,9 @@ extension SyntaxAttributedString {
                         newLength = tokenUpper + lengthDifference
                     }
                     
-                    if newLength + newLocation > string.count {
+                    if newLength + newLocation > string.utf16.count {
                         debugPrint("Is Greater")
-                        newLength = string.count - newLocation
+                        newLength = string.utf16.count - newLocation
                     }
                     
                     let newRange = NSRange(location: newLocation, length: newLength)

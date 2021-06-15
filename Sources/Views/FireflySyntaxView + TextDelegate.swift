@@ -22,7 +22,7 @@ extension FireflySyntaxView: UITextViewDelegate {
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
             if inside.0 {
                 if let token = inside.1 {
-                    let fullRange = NSRange(location: 0, length: self.text.utf8.count)
+                    let fullRange = NSRange(location: 0, length: self.text.utf16.count)
                     if token.range.upperBound < fullRange.upperBound {
                         textStorage.removeAttribute(.font, range: token.range)
                         textStorage.removeAttribute(.foregroundColor, range: token.range)
@@ -43,8 +43,8 @@ extension FireflySyntaxView: UITextViewDelegate {
             }
         }
         
-        
-        if let char = text.cString(using: String.Encoding.utf8) {
+        // Check for a backspace
+        if let char = text.cString(using: String.Encoding.utf16) {
             let isBackSpace = strcmp(char, "\\b")
             if (isBackSpace == -92) {
                 // Update on backspace
@@ -53,8 +53,8 @@ extension FireflySyntaxView: UITextViewDelegate {
             }
         }
         
+        // Check to see if a newline was pasted in
         if insertingText.contains("\n") {
-            //If they pasted something with \n
             updateGutterNow = true
         }
 
@@ -66,38 +66,41 @@ extension FireflySyntaxView: UITextViewDelegate {
         let newlineInsert: String = getNewlineInsert(currentLine)
         guard let tView = textView as? FireflyTextView  else { return false }
 
-        if let lastChar = lastChar {
-            let lastString: String = String(lastChar) + insertingText
-            if lastString == "/*" {
-                insertingText += "\n\t\(newlineInsert)\n\(newlineInsert)*/"
+        
+        if let lastInTextChar = insertingText.last {
+            characterBuffer.insert("\(lastInTextChar)", at: 0)
 
-                textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
-                updateSelectedRange(NSRange(location: selectedRange.lowerBound + 3 + newlineInsert.count, length: 0))
-                textView.setNeedsDisplay()
-                self.lastChar = insertingText.last
-                shouldHighlightOnChange = false
-                textStorage.editingRange = selectedRange
-                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-                
-                delegate?.didChangeText(tView)
-
-                return false
-            } else if lastChar == "\"" && text != "\"" && (tView.currentWord() != "\"\"") {
+            if characterBuffer[1, default: ""] + characterBuffer[0, default: ""] == "/*" {
+                lastCompleted = "/*"
+            } else if characterBuffer[1, default: ""] == "\"" && characterBuffer[0, default: ""] != "\""  && characterBuffer[2, default: ""] != "\"" {
                 insertingText += "\""
                 
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                 updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
                 textView.setNeedsDisplay()
-                self.lastChar = text.last
+
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
                 delegate?.didChangeText(tView)
-
+                
                 return false
-            } else if lastChar == "{" && text != "}" {
-                //Maybe change it so after you hit enter it adds the }
+            } else if characterBuffer[1, default: ""] == "(" && characterBuffer[0, default: ""] != ")" {
+                insertingText += ")"
+                
+                textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
+                textView.setNeedsDisplay()
+
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                delegate?.didChangeText(tView)
+                
+                return false
+            } else if characterBuffer[1, default: ""] == "{" && characterBuffer[0, default: ""] != "}" {
                 // Update on new line
                 if text == "\n" {
                     insertingText += "\t\(newlineInsert)\n\(newlineInsert)}"
@@ -110,47 +113,53 @@ extension FireflySyntaxView: UITextViewDelegate {
                 }
                 
                 textView.setNeedsDisplay()
-                self.lastChar = text.last
+                
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
                 delegate?.didChangeText(tView)
-
-                return false
-            } else if lastChar == "(" && text != ")" {
-                insertingText += ")"
                 
-                textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
-                updateSelectedRange(NSRange(location: selectedRange.lowerBound + 1, length: 0))
-                textView.setNeedsDisplay()
-                self.lastChar = text.last
-                shouldHighlightOnChange = false
-                textStorage.editingRange = selectedRange
-                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-                
-                delegate?.didChangeText(tView)
-
                 return false
             }
         }
         
-        lastChar = insertingText.last
+        // Update on new line
         if insertingText == "\n" {
-            // Update on new line
-            insertingText += newlineInsert
-            textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
-            
-            updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
-            textView.setNeedsDisplay()
-            updateGutterWidth()
-            shouldHighlightOnChange = false
-            textStorage.editingRange = selectedRange
-            textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-            
-            delegate?.didChangeText(tView)
+            //Check to see if we need to finish any autocompletion
+            if lastCompleted != "" {
+                if lastCompleted == "/*" {
+                    lastCompleted = ""
+                    insertingText += "\t\(newlineInsert)\n\(newlineInsert)*/"
+                    
+                    textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                    updateSelectedRange(NSRange(location: selectedRange.lowerBound + 2 + newlineInsert.count, length: 0))
+                    textView.setNeedsDisplay()
+                    shouldHighlightOnChange = false
+                    textStorage.editingRange = selectedRange
+                    textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                    
+                    delegate?.didChangeText(tView)
+                    
+                    characterBuffer.removeAll()
+                    return false
+                }
+            } else {
+                insertingText += newlineInsert
+                textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
+                
+                updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
+                textView.setNeedsDisplay()
+                updateGutterWidth()
+                shouldHighlightOnChange = false
+                textStorage.editingRange = selectedRange
+                textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
+                
+                delegate?.didChangeText(tView)
 
-            return false
+                characterBuffer.removeAll()
+                return false
+            }
         }
         
         return true
@@ -179,7 +188,7 @@ extension FireflySyntaxView: UITextViewDelegate {
 //    }
 
     func updateSelectedRange(_ range: NSRange) {
-        if range.location + range.length <= text.utf8.count {
+        if range.location + range.length <= text.utf16.count {
             textView.selectedRange = range
         }
     }
@@ -195,7 +204,7 @@ extension FireflySyntaxView: UITextViewDelegate {
             textStorage.highlight(getVisibleRange(), cursorRange: tView.selectedRange)
         } else if highlightAll {
             highlightAll = false
-            textStorage.highlight(NSRange(location: 0, length: textStorage.string.count), cursorRange: nil)
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
         }
         delegate?.didChangeText(tView)
     }
