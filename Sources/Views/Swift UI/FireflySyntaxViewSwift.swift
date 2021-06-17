@@ -9,10 +9,10 @@ import SwiftUI
 
 // TODO
 /*
-- Languages, themes and fontnames do not update automatically
+- Languages, themes and font-names do not update automatically
 */
 
-public struct FireflySyntaxEditor: UIViewRepresentable {
+public struct FireflySyntaxEditor: ViewRepresentable {
     
     @Binding var text: String
     
@@ -20,6 +20,15 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
     var theme: String
     var fontName: String
 
+    var offsetKeyboard: Bool = true
+    var keyboardOffset: CGFloat = 20
+    var dynamicGutter: Bool = true
+    var gutterWidth: CGFloat = 20
+    var placeholdersAllowed: Bool = true
+    var linkPlaceholders: Bool = false
+    var lineNumbers: Bool = true
+    var fontSize: CGFloat = Font.systemFontSize
+    
     var didChangeText: (FireflySyntaxEditor) -> Void
     var didChangeSelectedRange: (FireflySyntaxEditor, NSRange) -> Void
     var textViewDidBeginEditing: (FireflySyntaxEditor) -> Void
@@ -34,20 +43,34 @@ public struct FireflySyntaxEditor: UIViewRepresentable {
         self.fontName = fontName
     }
 
+    #if canImport(UIKit)
     public func makeUIView(context: Context) -> FireflySyntaxView {
         let wrappedView = FireflySyntaxView()
         wrappedView.delegate = context.coordinator        
         context.coordinator.wrappedView = wrappedView
         context.coordinator.wrappedView.text = text
-        context.coordinator.wrappedView.setFont(font: fontName)
-        context.coordinator.wrappedView.setTheme(name: theme)
-        context.coordinator.wrappedView.setLanguage(nLanguage: language)
+        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, offsetKeyboard: offsetKeyboard, keyboardOffset: keyboardOffset, dynamicGutter: dynamicGutter, gutterWidth: gutterWidth, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize)
 
         return wrappedView
     }
 
     public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {}
     
+    #elseif canImport(AppKit)
+    
+    public func makeNSView(context: Context) -> FireflySyntaxView {
+        let wrappedView = FireflySyntaxView()
+        wrappedView.delegate = context.coordinator
+        context.coordinator.wrappedView = wrappedView
+        context.coordinator.wrappedView.text = text
+        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, offsetKeyboard: offsetKeyboard, keyboardOffset: keyboardOffset, dynamicGutter: dynamicGutter, gutterWidth: gutterWidth, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize)
+
+        return wrappedView
+    }
+    
+    public func updateNSView(_ view: FireflySyntaxView, context: Context) {}
+
+    #endif
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }

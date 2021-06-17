@@ -1,21 +1,31 @@
 //
 //  FireflyTextView.swift
-//  Refly
+//  Firefly
 //
 //  Created by Zachary lineman on 9/28/20.
 //
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
-public class FireflyTextView: UITextView {
+public class FireflyTextView: TextView {
     var gutterWidth: CGFloat = 20 {
         didSet {
-            textContainerInset = UIEdgeInsets(top: 0, left: gutterWidth, bottom: 0, right: 0)
+            #if canImport(UIKit)
+            textContainerInset = EdgeInsets(top: 0, left: gutterWidth, bottom: 0, right: 0)
+            #elseif canImport(AppKit)
+            textContainerInset = NSSize(width: gutterWidth, height: 0)
+            #endif
         }
     }
     
+    #if canImport(UIKit)
     public func currentWord() -> String {
         guard let cursorRange = self.selectedTextRange else { return "" }
+        
         func getRange(from position: UITextPosition, offset: Int) -> UITextRange? {
             guard let newPosition = self.position(from: position, offset: offset) else { return nil }
             return self.textRange(from: newPosition, to: position)
@@ -48,4 +58,5 @@ public class FireflyTextView: UITextView {
         
         return self.text(in: wordRange) ?? ""
     }
+    #endif
 }

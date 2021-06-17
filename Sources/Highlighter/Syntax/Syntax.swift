@@ -5,7 +5,11 @@
 //  Created by Zachary lineman on 12/24/20.
 //
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
 public class Syntax {
     var currentLanguage: String = "default" {
@@ -18,11 +22,11 @@ public class Syntax {
             setTheme(to: currentTheme)
         }
     }
-    var currentFont: UIFont = UIFont.systemFont(ofSize: UIFont.systemFontSize)
-    var fontSize: CGFloat = UIFont.systemFontSize
+    var currentFont: Font = Font.systemFont(ofSize: Font.systemFontSize)
+    var fontSize: CGFloat = Font.systemFontSize
     
     var definitions: [Definition] = []
-    public var theme: Theme = Theme(defaultFontColor: UIColor.black, backgroundColor: UIColor.white, currentLine: UIColor.clear, selection: UIColor.blue, cursor: UIColor.blue, colors: [:], font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: .light, lineNumber: UIColor.white, lineNumber_Active: UIColor.white)
+    public var theme: Theme = Theme(defaultFontColor: Color.black, backgroundColor: Color.white, currentLine: Color.clear, selection: Color.blue, cursor: Color.blue, colors: [:], font: Font.systemFont(ofSize: Font.systemFontSize), style: .light, lineNumber: Color.white, lineNumber_Active: Color.white)
     
     public init(language: String, theme: String, font: String) {
         currentLanguage = language
@@ -55,24 +59,24 @@ public class Syntax {
     
     func setTheme(to name: String) {
         if let theme = themes[name] {
-            let defaultColor = UIColor(hex: (theme["default"] as? String) ?? "#000000")
-            let backgroundColor = UIColor(hex: (theme["background"] as? String) ?? "#000000")
+            let defaultColor = Color(hex: (theme["default"] as? String) ?? "#000000")
+            let backgroundColor = Color(hex: (theme["background"] as? String) ?? "#000000")
             
-            let currentLineColor = UIColor(hex: (theme["currentLine"] as? String) ?? "#000000")
-            let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
-            let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
+            let currentLineColor = Color(hex: (theme["currentLine"] as? String) ?? "#000000")
+            let selectionColor = Color(hex: (theme["selection"] as? String) ?? "#000000")
+            let cursorColor = Color(hex: (theme["cursor"] as? String) ?? "#000000")
             
-            let lineNumber = UIColor(hex: (theme["lineNumber"] as? String) ?? "#000000")
-            let lineNumber_Active = UIColor(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
+            let lineNumber = Color(hex: (theme["lineNumber"] as? String) ?? "#000000")
+            let lineNumber_Active = Color(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
 
             let styleRaw = theme["style"] as? String
             let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
-            var colors: [String: UIColor] = [:]
+            var colors: [String: Color] = [:]
             
             if let cDefs = theme["definitions"] as? [String: String] {
                 for item in cDefs {
-                    colors.merge([item.key: UIColor(hex: (item.value))]) { (first, _) -> UIColor in return first }
+                    colors.merge([item.key: Color(hex: (item.value))]) { (first, _) -> Color in return first }
                 }
             }
             
@@ -92,14 +96,14 @@ public class Syntax {
     
     func setFont(to name: String) {
         if name == "system" {
-            currentFont = UIFont.systemFont(ofSize: fontSize)
+            currentFont = Font.systemFont(ofSize: fontSize)
         } else {
-            currentFont = UIFont(name: name, size: fontSize) ?? UIFont.systemFont(ofSize: fontSize)
+            currentFont = Font(name: name, size: fontSize) ?? Font.systemFont(ofSize: fontSize)
         }
         setTheme(to: currentTheme)
     }
     
-    func getHighlightColor(for type: String) -> UIColor {
+    func getHighlightColor(for type: String) -> Color {
         return theme.colors[type] ?? theme.defaultFontColor
     }
     

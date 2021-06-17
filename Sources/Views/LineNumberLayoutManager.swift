@@ -8,8 +8,11 @@
 // Currently unused in SavannaKit, but might be a better way of drawing the line numbers.
 // Converted from https://github.com/alldritt/TextKit_LineNumbers
 
-import Foundation
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
 class LineNumberLayoutManager: NSLayoutManager {
     
@@ -25,7 +28,7 @@ class LineNumberLayoutManager: NSLayoutManager {
         //  found and uses that as the starting point for next paragraph number search.  This works (mostly) because we
         //  are generally asked for continguous increasing sequences of paragraph numbers.  Also, this code is called in the
         //  course of drawing a pagefull of text, and so even when moving back, the number of paragraphs to search for is
-        //  relativly low, even in really long bodies of text.
+        //  relatively low, even in really long bodies of text.
         //
         //  This all falls down when the user edits the text, and can potentially invalidate the cached paragraph number which
         //  causes a (potentially lengthy) search from the beginning of the string.
@@ -33,7 +36,7 @@ class LineNumberLayoutManager: NSLayoutManager {
             return lastParaNumber
         } else if charRange.location < lastParaLocation {
             //  We need to look backwards from the last known paragraph for the new paragraph range.  This generally happens
-            //  when the text in the UITextView scrolls downward, revaling paragraphs before/above the ones previously drawn.
+            //  when the text in the UITextView scrolls downward, revealing paragraphs before/above the ones previously drawn.
             let s = textStorage?.string
             var paraNumber: Int = lastParaNumber
             (s as NSString?)?.enumerateSubstrings(in: NSRange(location: Int(charRange.location), length: Int(lastParaLocation - charRange.location)), options: [.byParagraphs, .substringNotRequired, .reverse], using: {(_ substring: String?, _ substringRange: NSRange, _ enclosingRange: NSRange, _ stop: UnsafeMutablePointer<ObjCBool>?) -> Void in
@@ -70,6 +73,7 @@ class LineNumberLayoutManager: NSLayoutManager {
         return range
     }
     
+    #if canImport(UIKit)
     override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorage.EditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
         super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
         if invalidatedCharRange.location < lastParaLocation {
@@ -80,20 +84,34 @@ class LineNumberLayoutManager: NSLayoutManager {
             lastParaNumber = 0
         }
     }
+
+    #elseif canImport(AppKit)
+    override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorageEditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
+        super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
+        if invalidatedCharRange.location < lastParaLocation {
+            //  When the backing store is edited ahead the cached paragraph location, invalidate the cache and force a complete
+            //  recalculation.  We cannot be much smarter than this because we don't know how many paragraphs have been deleted
+            //  since the text has already been removed from the backing store.
+            lastParaLocation = 0
+            lastParaNumber = 0
+        }
+    }
+    #endif
     
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
         if showLineNumbers  {
-            var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? UIColor.black.withAlphaComponent(0.8)
-            if let linNumberColor = theme?.lineNumber {
-                if linNumberColor != UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
-                    foregroundColor = linNumberColor
+            var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? Color.black.withAlphaComponent(0.8)
+            if let lineNumberColor = theme?.lineNumber {
+                if lineNumberColor != Color(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
+                    foregroundColor = lineNumberColor
                 }
             }
-            let atts: [NSAttributedString.Key: Any] = [
-                .font: theme?.font ?? UIFont.systemFont(ofSize: UIFont.systemFontSize),
-                .foregroundColor : foregroundColor
+            let attributes: [NSAttributedString.Key: Any] = [
+                .font: theme?.font ?? Font.systemFont(ofSize: Font.systemFontSize),
+                .foregroundColor : foregroundColor,
+                .backgroundColor : Color.green
             ]
             
             var gutterRect: CGRect = .zero
@@ -104,19 +122,19 @@ class LineNumberLayoutManager: NSLayoutManager {
                 let charRange: NSRange = self.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
                 let paraRange: NSRange? = (self.textStorage?.string as NSString?)?.paragraphRange(for: charRange)
                 
-                //Only draw line numbers for the paragraph's first line fragment.  Subsiquent fragments are wrapped portions of the paragraph and don't get the line number.
+                //Only draw line numbers for the paragraph's first line fragment. Subsequent fragments are wrapped portions of the paragraph and don't get the line number.
                 if charRange.location == paraRange?.location {
                     gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
                     paraNumber = self._paraNumber(for: charRange)
                     let ln = "\(Int(UInt(paraNumber)) + 1)"
-                    let size: CGSize = ln.size(withAttributes: atts)
-                    let attr = NSAttributedString(string: ln, attributes: atts)
+                    let size: CGSize = ln.size(withAttributes: attributes)
+                    let attr = NSAttributedString(string: ln, attributes: attributes)
                     attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
                 } else {
                     gutterRect = CGRect(x: 0 - self.gutterWidth, y: rect.origin.y, width: self.gutterWidth, height: rect.size.height).offsetBy(dx: origin.x, dy: origin.y)
                     let ln = "•"
-                    let size: CGSize = ln.size(withAttributes: atts)
-                    let attr = NSAttributedString(string: ln, attributes: atts)
+                    let size: CGSize = ln.size(withAttributes: attributes)
+                    let attr = NSAttributedString(string: ln, attributes: attributes)
                     attr.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0))
                 }
             })
@@ -126,18 +144,13 @@ class LineNumberLayoutManager: NSLayoutManager {
             // if NSMaxRange(glyphsToShow) > numberOfGlyphs {
             if self.textStorage!.string.isEmpty || self.textStorage!.string.hasSuffix("\n") {
                 let ln = "\(Int(UInt(paraNumber)) + 2)"
-                let size: CGSize = ln.size(withAttributes: atts)
+                let size: CGSize = ln.size(withAttributes: attributes)
                 gutterRect = gutterRect.offsetBy(dx: 0.0, dy: gutterRect.height)
-                ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: atts)
+                ln.draw(in: gutterRect.offsetBy(dx: gutterRect.width - 4 - size.width, dy: 0), withAttributes: attributes)
             }
-            /*
-             let rect = UIBezierPath(rect: CGRect(x: 0, y: 0, width: 200, height: 500))
-             UIColor.red.withAlphaComponent(0.5).setFill()
-             rect.fill()
-             */
         }
     }
-        
+    
     override func drawUnderline(forGlyphRange glyphRange: NSRange, underlineType underlineVal: NSUnderlineStyle, baselineOffset: CGFloat, lineFragmentRect lineRect: CGRect, lineFragmentGlyphRange lineGlyphRange: NSRange, containerOrigin: CGPoint) {
         
         super.drawUnderline(forGlyphRange: glyphRange, underlineType: NSUnderlineStyle(rawValue: 0x00), baselineOffset: baselineOffset, lineFragmentRect: lineRect, lineFragmentGlyphRange: lineGlyphRange, containerOrigin: containerOrigin)
@@ -162,7 +175,11 @@ class LineNumberLayoutManager: NSLayoutManager {
         lineRect = lineRect.integral.insetBy(dx: 0.5, dy: 0.5)
 
 //        let path = UIBezierPath(rect: lineRect)
-        let path = UIBezierPath(roundedRect: lineRect, cornerRadius: 3)
+        #if canImport(UIKit)
+        let path = BezierPath(roundedRect: lineRect, cornerRadius: 3)
+        #elseif canImport(AppKit)
+        let path = BezierPath(roundedRect: lineRect, xRadius: 3, yRadius: 3)
+        #endif
         path.fill()
         
     }
@@ -192,13 +209,13 @@ override func drawGlyphs(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint
     context.translateBy(x: origin.x, y: origin.y)
     
     for (rect, state) in placeholders {
-        var color: UIColor = UIColor.systemBlue
+        var color: Color = Color.systemBlue
         
         switch state {
         case .active:
             color = color.withAlphaComponent(0.8)
         case .inactive:
-            color = UIColor.darkGray.withAlphaComponent(0.8)
+            color = Color.darkGray.withAlphaComponent(0.8)
         }
         
         color.setFill()

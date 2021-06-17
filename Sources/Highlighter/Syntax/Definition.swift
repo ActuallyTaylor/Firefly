@@ -5,7 +5,11 @@
 //  Created by Zachary lineman on 12/24/20.
 //
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
 struct Definition {
     var type: String

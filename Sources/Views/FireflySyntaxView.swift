@@ -1,13 +1,17 @@
 //
 //  FireflySyntaxView.swift
-//  Refly
+//  Firefly
 //
 //  Created by Zachary lineman on 9/27/20.
 //
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
-public class FireflySyntaxView: UIView {
+public class FireflySyntaxView: FireflyView {
     
     ///The highlighting language
     @IBInspectable
@@ -48,7 +52,7 @@ public class FireflySyntaxView: UIView {
     @IBInspectable
     internal var keyboardOffset: CGFloat = 20
     
-    /// Set to true if the view should be offset when the keyboard opens and closes.
+    /// Set too true if the view should be offset when the keyboard opens and closes.
     @IBInspectable
     internal var shouldOffsetKeyboard: Bool = false
     
@@ -67,7 +71,7 @@ public class FireflySyntaxView: UIView {
     @IBInspectable
     public var textSize: CGFloat = 14.0
     
-    // Determines if the view should switch to the alternative theme when darkmode is enabled
+    // Determines if the view should switch to the alternative theme when dark mode is enabled
     @IBInspectable
     public var switchToAltOnDarkmode: Bool = false
 
@@ -120,8 +124,12 @@ public class FireflySyntaxView: UIView {
     
     internal var updateGutterNow: Bool = false
     
+    #if canImport(UIKit)
     internal var inDarkmode: Bool = UITraitCollection.current.userInterfaceStyle == .dark
-
+    #elseif canImport(AppKit)
+    internal var inDarkmode: Bool = false
+    #endif
+    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -132,6 +140,7 @@ public class FireflySyntaxView: UIView {
         setup()
     }
     
+    var textsto = NSTextStorage()
     /// Sets up the basic parts of the view
     private func setup() {
         //Setup the Text storage and layout managers and actually add the textView to the screen.
@@ -142,13 +151,19 @@ public class FireflySyntaxView: UIView {
         let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
         let textContainer = NSTextContainer(size: containerSize)
         textContainer.lineBreakMode = .byWordWrapping
+        textContainer.widthTracksTextView = true
         
+        #if os(iOS)
+        textContainer.heightTracksTextView = true
+        #endif
+
         layoutManager.addTextContainer(textContainer)
         let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
-        textView.isScrollEnabled = true
         textView.text = ""
-        
+        textView.isEditable = true
+        textView.isSelectable = true
+
         self.addSubview(textView)
         
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -158,6 +173,8 @@ public class FireflySyntaxView: UIView {
         textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         
         // Sets default values for the text view to make it more like an editor.
+        #if canImport(UIKit)
+        textView.isScrollEnabled = true
         textView.autocapitalizationType = .none
         textView.keyboardType = .default
         textView.autocorrectionType = .no
@@ -170,10 +187,16 @@ public class FireflySyntaxView: UIView {
         } else {
             textView.keyboardAppearance = .light
         }
-        textView.delegate = self
         setupNotifs()
+        #elseif canImport(AppKit)
+        inDarkmode = self.isDarkMode()
+        textView.isAutomaticQuoteSubstitutionEnabled = false
+        #endif
+        
+        textView.delegate = self
     }
     
+    #if canImport(UIKit)
     /// Sets up keyboard movement notifications
     func setupNotifs() {
         if shouldOffsetKeyboard {
@@ -203,7 +226,7 @@ public class FireflySyntaxView: UIView {
             textView.scrollRangeToVisible(selectedRange)
         }
     }
-    
+    #endif
     /// Force highlights the current range
     public func forceHighlight() {
         textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
@@ -216,6 +239,7 @@ public class FireflySyntaxView: UIView {
     
     /// Just updates the views appearance
     private func updateAppearance(highlight: Bool = true) {
+        #if canImport(UIKit)
         UIView.animate(withDuration: 0.2) { [self] in
             textView.backgroundColor = textStorage.syntax.theme.backgroundColor
             textView.tintColor = textStorage.syntax.theme.cursor
@@ -228,6 +252,13 @@ public class FireflySyntaxView: UIView {
                 textView.keyboardAppearance = .light
             }
         }
+        #elseif canImport(AppKit)
+        textView.backgroundColor = textStorage.syntax.theme.backgroundColor
+        textView.insertionPointColor = textStorage.syntax.theme.cursor
+        if highlight {
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
+        }
+        #endif
     }
     
    /// Returns the current theme so you can get colors from that
@@ -238,28 +269,28 @@ public class FireflySyntaxView: UIView {
     /// Returns the given theme so you can retreive colors from it
     static public func getTheme(name: String) -> Theme? {
         if let theme = themes[name] {
-            let defaultColor = UIColor(hex: (theme["default"] as? String) ?? "#000000")
-            let backgroundColor = UIColor(hex: (theme["background"] as? String) ?? "#000000")
+            let defaultColor = Color(hex: (theme["default"] as? String) ?? "#000000")
+            let backgroundColor = Color(hex: (theme["background"] as? String) ?? "#000000")
             
-            let currentLineColor = UIColor(hex: (theme["currentLine"] as? String) ?? "#000000")
-            let selectionColor = UIColor(hex: (theme["selection"] as? String) ?? "#000000")
-            let cursorColor = UIColor(hex: (theme["cursor"] as? String) ?? "#000000")
+            let currentLineColor = Color(hex: (theme["currentLine"] as? String) ?? "#000000")
+            let selectionColor = Color(hex: (theme["selection"] as? String) ?? "#000000")
+            let cursorColor = Color(hex: (theme["cursor"] as? String) ?? "#000000")
             
             let styleRaw = theme["style"] as? String
             let style: Theme.UIStyle = styleRaw == "light" ? .light : .dark
 
-            let lineNumber = UIColor(hex: (theme["lineNumber"] as? String) ?? "#000000")
-            let lineNumber_Active = UIColor(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
+            let lineNumber = Color(hex: (theme["lineNumber"] as? String) ?? "#000000")
+            let lineNumber_Active = Color(hex: (theme["lineNumber-Active"] as? String) ?? "#000000")
 
-            var colors: [String: UIColor] = [:]
+            var colors: [String: Color] = [:]
             
             if let cDefs = theme["definitions"] as? [String: String] {
                 for item in cDefs {
-                    colors.merge([item.key: UIColor(hex: (item.value))]) { (first, _) -> UIColor in return first }
+                    colors.merge([item.key: Color(hex: (item.value))]) { (first, _) -> Color in return first }
                 }
             }
             
-            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: UIFont.systemFont(ofSize: UIFont.systemFontSize), style: style, lineNumber: lineNumber, lineNumber_Active: lineNumber_Active)
+            return Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: Font.systemFont(ofSize: Font.systemFontSize), style: style, lineNumber: lineNumber, lineNumber_Active: lineNumber_Active)
         }
         return nil
      }
@@ -344,7 +375,9 @@ public class FireflySyntaxView: UIView {
     /// Sets the gutter width.
     public func setShouldOffsetKeyboard(bool: Bool) {
         self.shouldOffsetKeyboard = bool
+        #if canImport(UIkit)
         setupNotifs()
+        #endif
     }
     
     /// Sets the gutter width.
@@ -392,7 +425,11 @@ public class FireflySyntaxView: UIView {
         } else {
             setGutterWidth(width: 0)
         }
+        #if canImport(UIKit)
         textView.setNeedsDisplay()
+        #elseif canImport(AppKit)
+        textView.setNeedsDisplay(textView.bounds)
+        #endif
     }
     
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
@@ -409,19 +446,25 @@ public class FireflySyntaxView: UIView {
             
             if newWidth != gutterWidth {
                 self.setGutterWidth(width: newWidth)
+                #if canImport(UIKit)
                 textView.setNeedsDisplay()
+                #elseif canImport(AppKit)
+                textView.setNeedsDisplay(textView.bounds)
+                #endif
             }
         }
     }
     
     /// Print's all available fonts
     static func getAllFontsInPackage() {
-        UIFont.familyNames.forEach({ familyName in
+        #if canImport(UIKit)
+        Font.familyNames.forEach({ familyName in
             print("**** " + familyName + " ****")
-            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+            Font.fontNames(forFamilyName: familyName).forEach { fontName in
                 print(fontName)
             }
             print("===================================")
         })
+        #endif
     }
 }

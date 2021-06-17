@@ -6,7 +6,11 @@
 //  Copyright © 2020 Zachary Lineman. All rights reserved.
 //
 
-import Foundation
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#endif
 
 public protocol FireflyDelegate: AnyObject {
 

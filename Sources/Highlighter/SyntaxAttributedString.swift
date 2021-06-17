@@ -5,7 +5,11 @@
 //  Created by Zachary lineman on 12/24/20.
 //
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
 public enum EditorPlaceholderState {
     case active
@@ -18,7 +22,7 @@ public extension NSAttributedString.Key {
 
 open class SyntaxAttributedString : NSTextStorage {
     /// Internal Storage
-    let stringStorage = NSTextStorage()
+    var stringStorage = NSTextStorage()
     var cachedTokens: [Token] = []
     
     /// Returns a standard String based on the current one.
@@ -46,16 +50,29 @@ open class SyntaxAttributedString : NSTextStorage {
         super.init(coder: coder)
     }
     
+    #if canImport(AppKit)
+    required public init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
+        fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
+    }
+    #endif
     
-    /// Called internally everytime the string is modified.
+    /// Called internally every time the string is modified.
     open override func processEditing() {
         super.processEditing()
         if self.editedMask.contains(.editedCharacters) {
-            //            let string = (self.string as NSString)
-            //            let range: NSRange = string.paragraphRange(for: editedRange)
-            
-            //            highlight(range)
+//                        let string = (self.string as NSString)
+//                        let range: NSRange = string.paragraphRange(for: editedRange)
+//
+//                        highlight(range)
         }
+    }
+    
+    open override func beginEditing() {
+        super.beginEditing()
+    }
+    
+    open override func endEditing() {
+        super.endEditing()
     }
     
     /**
@@ -112,7 +129,6 @@ open class SyntaxAttributedString : NSTextStorage {
 //MARK: Highlighting
 extension SyntaxAttributedString {
     
-    //TODO: Fix a flashing when typing fast
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
         self.beginEditing()
 
@@ -142,9 +158,9 @@ extension SyntaxAttributedString {
                             let startRange: NSRange = result.range(at: 1)
                             let endRange: NSRange = result.range(at: 3)
                             
-                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: startRange)
-                            self.addAttributes([.foregroundColor: UIColor.clear, .font: UIFont.systemFont(ofSize: 0.01)], range: endRange)
-                            
+                            self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
+                            self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
+                        
                             self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: syntax.theme.selection], range: textRange)
                             if linkPlaceholders {
                                 if let strRange = Range(textRange, in: string) {
