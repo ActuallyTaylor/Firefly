@@ -140,7 +140,6 @@ public class FireflySyntaxView: FireflyView {
         setup()
     }
     
-    var textsto = NSTextStorage()
     /// Sets up the basic parts of the view
     private func setup() {
         //Setup the Text storage and layout managers and actually add the textView to the screen.
@@ -153,10 +152,6 @@ public class FireflySyntaxView: FireflyView {
         textContainer.lineBreakMode = .byWordWrapping
         textContainer.widthTracksTextView = true
         
-        #if os(iOS)
-        textContainer.heightTracksTextView = true
-        #endif
-
         layoutManager.addTextContainer(textContainer)
         let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
@@ -187,6 +182,7 @@ public class FireflySyntaxView: FireflyView {
         } else {
             textView.keyboardAppearance = .light
         }
+        
         setupNotifs()
         #elseif canImport(AppKit)
         inDarkmode = self.isDarkMode()

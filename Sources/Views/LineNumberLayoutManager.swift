@@ -111,7 +111,6 @@ class LineNumberLayoutManager: NSLayoutManager {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: theme?.font ?? Font.systemFont(ofSize: Font.systemFontSize),
                 .foregroundColor : foregroundColor,
-                .backgroundColor : Color.green
             ]
             
             var gutterRect: CGRect = .zero
