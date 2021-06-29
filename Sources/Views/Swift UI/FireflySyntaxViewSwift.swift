@@ -29,10 +29,15 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     var lineNumbers: Bool = true
     var fontSize: CGFloat = Font.systemFontSize
     
+    #if canImport(AppKit)
+    var allowHorizontalScroll: Bool = true
+    #endif
+    
     var didChangeText: (FireflySyntaxEditor) -> Void
     var didChangeSelectedRange: (FireflySyntaxEditor, NSRange) -> Void
     var textViewDidBeginEditing: (FireflySyntaxEditor) -> Void
 
+    #if canImport(UIKit)
     public init(text: Binding<String>, language: String, theme: String, fontName: String, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
         self._text = text
         self.didChangeText = didChangeText
@@ -43,7 +48,6 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.fontName = fontName
     }
 
-    #if canImport(UIKit)
     public func makeUIView(context: Context) -> FireflySyntaxView {
         let wrappedView = FireflySyntaxView()
         wrappedView.delegate = context.coordinator        
@@ -57,14 +61,28 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {}
     
     #elseif canImport(AppKit)
-    
+    public init(text: Binding<String>, language: String, theme: String, fontName: String, allowHorizontalScroll: Bool, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+        self._text = text
+        self.didChangeText = didChangeText
+        self.didChangeSelectedRange = didChangeSelectedRange
+        self.textViewDidBeginEditing = textViewDidBeginEditing
+        self.language = language
+        self.theme = theme
+        self.fontName = fontName
+        self.allowHorizontalScroll = allowHorizontalScroll
+    }
+
     public func makeNSView(context: Context) -> FireflySyntaxView {
         let wrappedView = FireflySyntaxView()
         wrappedView.delegate = context.coordinator
         context.coordinator.wrappedView = wrappedView
         context.coordinator.wrappedView.text = text
+        
+        #if canImport(UIKit)
         context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, offsetKeyboard: offsetKeyboard, keyboardOffset: keyboardOffset, dynamicGutter: dynamicGutter, gutterWidth: gutterWidth, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize)
-
+        #elseif canImport(AppKit)
+        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize, allowHorizontalScroll: allowHorizontalScroll)
+        #endif
         return wrappedView
     }
     

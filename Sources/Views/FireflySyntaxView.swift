@@ -74,7 +74,11 @@ public class FireflySyntaxView: FireflyView {
     // Determines if the view should switch to the alternative theme when dark mode is enabled
     @IBInspectable
     public var switchToAltOnDarkmode: Bool = false
-
+    
+    #if canImport(AppKit)
+    @IBInspectable
+    public var isHorizontalScrollingEnabled: Bool = false
+    #endif
     
     /// The delegate that allows for you to get access the UITextViewDelegate from outside this class !
     /// !!DO NOT CHANGE textViews Delegate directly!!!
@@ -85,6 +89,10 @@ public class FireflySyntaxView: FireflyView {
     }
     
     public var textView: FireflyTextView!
+    
+    #if canImport(AppKit)
+    public var scrollView: ScrollView!
+    #endif
     
     internal var lastCompleted: String = ""
     
@@ -118,6 +126,8 @@ public class FireflySyntaxView: FireflyView {
     
     internal var layoutManager = LineNumberLayoutManager()
     
+    internal var textContainer: NSTextContainer!
+    
     internal var shouldHighlightOnChange: Bool = false
     
     internal var highlightAll: Bool = false
@@ -133,6 +143,7 @@ public class FireflySyntaxView: FireflyView {
     public override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        #warning("FIXME: The undo manager needs to be subclassed, this is because for some reason it is taking multiple cmd+z to undo anything")
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -146,15 +157,18 @@ public class FireflySyntaxView: FireflyView {
         layoutManager.textStorage = textStorage
         textStorage.addLayoutManager(layoutManager)
 
-        //This caused a ton of issues. Has to be the greatest finite magnitude so that the text container is big enough. Not setting to greatest finite magnitude would cause issues with text selection.
+        //This caused a ton of issues. Has to be the greatest finite magnitude so that the text container is big enough. Not setting too greatest finite magnitude would cause issues with text selection.
         let containerSize = CGSize(width: 0, height: CGFloat.greatestFiniteMagnitude)
-        let textContainer = NSTextContainer(size: containerSize)
+        textContainer = NSTextContainer(size: containerSize)
         textContainer.lineBreakMode = .byWordWrapping
         textContainer.widthTracksTextView = true
         
         layoutManager.addTextContainer(textContainer)
+        
         let tFrame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         textView = FireflyTextView(frame: tFrame, textContainer: textContainer)
+
+        #if canImport(UIKit)
         textView.text = ""
         textView.isEditable = true
         textView.isSelectable = true
@@ -166,9 +180,7 @@ public class FireflySyntaxView: FireflyView {
         textView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
-        // Sets default values for the text view to make it more like an editor.
-        #if canImport(UIKit)
+
         textView.isScrollEnabled = true
         textView.autocapitalizationType = .none
         textView.keyboardType = .default
@@ -185,10 +197,59 @@ public class FireflySyntaxView: FireflyView {
         
         setupNotifs()
         #elseif canImport(AppKit)
+        scrollView = FireflyTextView.scrollableTextView()
+        scrollView.documentView = textView
+        
+        textView.text = ""
+        textView.isEditable = true
+        textView.isSelectable = true
+        textView.allowsUndo = true
+        
+        self.addSubview(scrollView)
+        
+        let contentSize = scrollView.contentSize
+        
+        if isHorizontalScrollingEnabled {
+            textContainer.containerSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = false
+        } else {
+            textContainer.containerSize = CGSize(width: contentSize.width, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = true
+        }
+        
+        textView.minSize = CGSize(width: 0, height: 0)
+        textView.maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+        textView.isVerticallyResizable = true
+        textView.isHorizontallyResizable = isHorizontalScrollingEnabled
+
+        textView.frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+        if isHorizontalScrollingEnabled {
+            textView.autoresizingMask = [.width, .height]
+        } else {
+            textView.autoresizingMask = [.width]
+        }
+        
+        scrollView.borderType = .noBorder
+        scrollView.hasVerticalScroller = true
+        scrollView.hasHorizontalScroller = isHorizontalScrollingEnabled
+        scrollView.documentView = textView
+        scrollView.contentView.postsBoundsChangedNotifications = true
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+
+        textView.lnv_setUpLineNumberView()
+        
+        //We have to disable gutter width because we are using a different gutter system for macOS
         inDarkmode = self.isDarkMode()
         textView.isAutomaticQuoteSubstitutionEnabled = false
+
         #endif
-        
+            
         textView.delegate = self
     }
     
@@ -309,12 +370,11 @@ public class FireflySyntaxView: FireflyView {
         return arr
     }
     
-    /// Used to setup the entire firefly view
+    #if canImport(UIKit)
+    /// Used to setup the entire firefly view on iOS, iPadOS, etc
     public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat) {
         textStorage.syntax.setLanguage(to: language)
-        
-//        self.setSwitchOnDarkmode(bool: switchToAlt)
-        
+                
         self.fontName = font
         
         textStorage.syntax.fontSize = fontSize
@@ -328,16 +388,49 @@ public class FireflySyntaxView: FireflyView {
         self.setDynamicGutter(bool: dynamicGutter)
         
         self.setGutterWidth(width: gutterWidth)
-
+        
+        self.setLineNumbers(bool: lineNumbers)
+        
         self.setPlaceholdersAllowed(bool: placeholdersAllowed)
         
         self.setLinkPlaceholders(bool: linkPlaceholders)
 
         self.setTheme(name: theme)
+    
         self.language = language
-        
-        self.setLineNumbers(bool: lineNumbers)
     }
+    #elseif canImport(AppKit)
+    /// Used to setup the entire firefly view on macOS
+    public func setup(theme: String, language: String, font: String, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, allowHorizontalScroll: Bool) {
+        textStorage.syntax.setLanguage(to: language)
+                
+        self.fontName = font
+        
+        textStorage.syntax.fontSize = fontSize
+        
+        textStorage.syntax.setFont(to: font)
+        
+        self.setIsHorizontalScrollAllowed(bool: allowHorizontalScroll)
+        
+        self.setShouldOffsetKeyboard(bool: false)
+
+        self.keyboardOffset = 0
+        
+        self.setDynamicGutter(bool: false)
+        
+        self.setGutterWidth(width: 0)
+        
+        self.setLineNumbers(bool: false)
+        
+        self.setPlaceholdersAllowed(bool: placeholdersAllowed)
+        
+        self.setLinkPlaceholders(bool: linkPlaceholders)
+
+        self.setTheme(name: theme)
+    
+        self.language = language
+    }
+    #endif
     
     /// Sets the theme of the view. Supply with a theme name
     public func setTheme(name: String, alt: Bool = false, highlight: Bool = true) {
@@ -428,8 +521,37 @@ public class FireflySyntaxView: FireflyView {
         #endif
     }
     
+    #if canImport(AppKit)
+    func setIsHorizontalScrollAllowed(bool: Bool) {
+        let contentSize = scrollView.contentSize
+
+        isHorizontalScrollingEnabled = bool
+        if isHorizontalScrollingEnabled {
+            textContainer.containerSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = false
+        } else {
+            textContainer.containerSize = CGSize(width: contentSize.width, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = true
+        }
+        
+        textView.isHorizontallyResizable = isHorizontalScrollingEnabled
+        textView.frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
+        
+        if isHorizontalScrollingEnabled {
+            textView.autoresizingMask = [.width, .height]
+        } else {
+            textView.autoresizingMask = [.width]
+        }
+        
+        scrollView.hasHorizontalScroller = isHorizontalScrollingEnabled
+
+        textView.lnv_setUpLineNumberView()
+}
+    #endif
+    
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false
     func updateGutterWidth() {
+        #if canImport(UIKit)
         if showLineNumbers {
             let components = text.components(separatedBy: .newlines)
             let count = components.count
@@ -449,6 +571,9 @@ public class FireflySyntaxView: FireflyView {
                 #endif
             }
         }
+        #elseif canImport(AppKit)
+        scrollView.verticalRulerView?.drawHashMarksAndLabels(in: scrollView.verticalRulerView!.frame)
+        #endif
     }
     
     /// Print's all available fonts
