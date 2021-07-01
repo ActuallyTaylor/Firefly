@@ -75,7 +75,7 @@ class LineNumberRulerView: NSRulerView {
     
     
     override func drawHashMarksAndLabels(in rect: NSRect) {
-        if let textView = self.clientView as? NSTextView {
+        if let textView = self.clientView as? TextView {
             if let layoutManager = textView.layoutManager {
                 
                 let relativePoint = self.convert(NSZeroPoint, from: textView)
@@ -88,6 +88,10 @@ class LineNumberRulerView: NSRulerView {
                 }
                 
                 let visibleGlyphRange = layoutManager.glyphRange(forBoundingRect: textView.visibleRect, in: textView.textContainer!)
+                if visibleGlyphRange.location == -1 {
+                    drawLineNumber("1", 0)
+                    return
+                }
                 let firstVisibleGlyphCharacterIndex = layoutManager.characterIndexForGlyph(at: visibleGlyphRange.location)
                 
                 let newLineRegex = try! NSRegularExpression(pattern: "\n", options: [])
