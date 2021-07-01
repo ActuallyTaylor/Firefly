@@ -293,7 +293,7 @@ extension FireflySyntaxView: TextViewDelegate {
         return false
     }
     #elseif canImport(AppKit)
-    public func textView(_ textView: NSTextView, clickedOnLink link: Any, at charIndex: Int) -> Bool {
+    public func textView(_ textView: TextView, clickedOnLink link: Any, at charIndex: Int) -> Bool {
         if let link = link as? URL {
             delegate?.didClickLink(link.absoluteString)
             return false
@@ -315,13 +315,18 @@ extension FireflySyntaxView: TextViewDelegate {
         }
         return newLinePrefix
     }
+        
+    private func updateCursorPosition() {
+        if let cursorPositionChange = self.delegate?.cursorPositionChange {
+            if let pos = self.textView.cursorPosition() {
+                cursorPositionChange(self.textView.convert(pos, to: self.textView.superview))
+            } else {
+                cursorPositionChange(nil)
+            }
+        }
+    }
     
-//    public func textViewDidChangeSelection(_ textView: UITextView) {
-//        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
-//    }
-
     func updateSelectedRange(_ range: NSRange) {
-        print("Updated to \(range)")
         if range.location + range.length <= text.utf16.count {
             #if canImport(UIKit)
             textView.selectedRange = range
@@ -329,6 +334,12 @@ extension FireflySyntaxView: TextViewDelegate {
             textView.setSelectedRange(range)
             #endif
         }
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: ScrollView) {
+        updateCursorPosition()
+        
+        
     }
     
     #if canImport(UIKit)
@@ -362,16 +373,33 @@ extension FireflySyntaxView: TextViewDelegate {
         let visibleRange = NSRange(location: charOffset, length: length)
         return visibleRange
     }
+    
+    public func textViewDidChangeSelection(_ textView: UITextView) {
+        updateCursorPosition()
+//        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
+    }
+    
+    public override var keyCommands: [KeyCommand]? {
+         delegate?.implementKeyCommands?.keyCommands(#selector(handleUIKeyCommand))
+     }
+
+     @objc func handleUIKeyCommand(sender: KeyCommand) {
+         delegate?.implementKeyCommands?.receiver(sender)
+     }
+
     #elseif canImport(AppKit)
+    public func textViewDidChangeSelection(_ notification: Notification) {
+        updateCursorPosition()
+    }
     
     public func textDidChange(_ notification: Notification) {
         if shouldHighlightOnChange {
             shouldHighlightOnChange = false
             textStorage.editingRange = textView.selectedRange
-//            textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
+            textStorage.highlight(getVisibleRange(), cursorRange: textView.selectedRange)
         } else if highlightAll {
             highlightAll = false
-//            textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
+            textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
         }
         delegate?.didChangeText(textView)
     }
@@ -379,10 +407,6 @@ extension FireflySyntaxView: TextViewDelegate {
     func getVisibleRange() -> NSRange {
         let visibleRange = NSRange(location: 0, length: textView.text.utf16.count)
         return visibleRange
-    }
-    
-    public func textViewDidChangeSelection(_ notification: Notification) {
-        print("Selected \(textView.selectedRange())")
     }
     #endif
 }

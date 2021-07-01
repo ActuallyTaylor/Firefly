@@ -28,6 +28,10 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     var linkPlaceholders: Bool = false
     var lineNumbers: Bool = true
     var fontSize: CGFloat = Font.systemFontSize
+    let cursorPosition: Binding<CGRect?>?
+    #if canImport(UIKit)
+    let implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)?
+    #endif
     
     #if canImport(AppKit)
     var allowHorizontalScroll: Bool = true
@@ -38,7 +42,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     var textViewDidBeginEditing: (FireflySyntaxEditor) -> Void
 
     #if canImport(UIKit)
-    public init(text: Binding<String>, language: String, theme: String, fontName: String, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+    public init(text: Binding<String>, language: String, theme: String, fontName: String, cursorPosition: Binding<CGRect?>? = nil, implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)? = nil, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
         self._text = text
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
@@ -46,6 +50,8 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.language = language
         self.theme = theme
         self.fontName = fontName
+        self.cursorPosition = cursorPosition
+        self.implementKeyCommands = implementKeyCommands
     }
 
     public func makeUIView(context: Context) -> FireflySyntaxView {
@@ -61,7 +67,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {}
     
     #elseif canImport(AppKit)
-    public init(text: Binding<String>, language: String, theme: String, fontName: String, allowHorizontalScroll: Bool, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+    public init(text: Binding<String>, language: String, theme: String, fontName: String, allowHorizontalScroll: Bool, cursorPosition: Binding<CGRect?>? = nil, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
         self._text = text
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
@@ -70,6 +76,8 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.theme = theme
         self.fontName = fontName
         self.allowHorizontalScroll = allowHorizontalScroll
+        
+        self.cursorPosition = cursorPosition
     }
 
     public func makeNSView(context: Context) -> FireflySyntaxView {
@@ -95,12 +103,34 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     
     public class Coordinator: FireflyDelegate {
         public func didClickLink(_ link: URL) { }
+        public var cursorPositionChange: ((CGRect?) -> Void)?
+
+        #if canImport(UIKit)
+        public var implementKeyCommands: (
+             keyCommands: (Selector) -> [KeyCommand]?,
+             receiver: (_ sender: KeyCommand) -> Void
+         )?
+        #endif
         
         let parent: FireflySyntaxEditor
         var wrappedView: FireflySyntaxView!
         
         init(_ parent: FireflySyntaxEditor) {
             self.parent = parent
+            
+            Dispatch.main {
+                if let cursorPosition = parent.cursorPosition {
+                    self.cursorPositionChange = {
+                        cursorPosition.wrappedValue = $0
+                    }
+                }
+            }
+            
+            #if canImport(UIKit)
+            if let implementUIKeyCommands = parent.implementKeyCommands {
+                 self.implementKeyCommands = implementKeyCommands
+             }
+            #endif
         }
         
         public func didChangeText(_ syntaxTextView: FireflyTextView) {

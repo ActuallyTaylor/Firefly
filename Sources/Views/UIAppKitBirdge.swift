@@ -25,6 +25,8 @@ public typealias TextViewDelegate = NSTextViewDelegate
 
 public typealias ViewRepresentable = NSViewRepresentable
 
+//public typealias KeyCommand =
+
 #elseif canImport(UIKit)
 import UIKit
 
@@ -42,7 +44,7 @@ public typealias EdgeInsets = UIEdgeInsets
 public typealias TextViewDelegate = UITextViewDelegate
 
 public typealias ViewRepresentable = UIViewRepresentable
-
+public typealias KeyCommand = UIKeyCommand
 #endif
 
 #if canImport(AppKit)
