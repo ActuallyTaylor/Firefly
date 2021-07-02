@@ -13,8 +13,6 @@ import UIKit
 #endif
 
 public protocol FireflyDelegate: AnyObject {
-    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { get }
-
     func didChangeText(_ syntaxTextView: FireflyTextView)
 
     func didChangeSelectedRange(_ syntaxTextView: FireflyTextView, selectedRange: NSRange)
@@ -23,8 +21,10 @@ public protocol FireflyDelegate: AnyObject {
     
     func didClickLink(_ link: String)
 
+    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { get }
+
     #if canImport(UIKit)
-     var implementKeyCommands: (
+    var implementKeyCommands: (
          keyCommands: (_ selector: Selector) -> [KeyCommand]?,
          receiver: (_ sender: KeyCommand) -> Void
      )? { get }
@@ -33,7 +33,6 @@ public protocol FireflyDelegate: AnyObject {
 
 // Provide default empty implementations of methods that are optional.
 public extension FireflyDelegate {
-//    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { nil }
 
     func didChangeText(_ syntaxTextView: FireflyTextView) { }
 
@@ -43,7 +42,9 @@ public extension FireflyDelegate {
     
     func didClickLink(_ link: String) { }
     
+    var cursorPositionChange: ((_ cursorPosition: CGRect?) -> Void)? { nil }
+    
     #if canImport(UIKit)
-    var implementUIKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)? { nil }
+    var implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)? { nil }
     #endif
 }

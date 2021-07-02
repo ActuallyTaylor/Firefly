@@ -22,6 +22,7 @@ class LineNumberLayoutManager: NSLayoutManager {
     var gutterWidth: CGFloat = 0
     var showLineNumbers: Bool = true
     
+    #if canImport(UIKit)
     func _paraNumber(for charRange: NSRange) -> Int {
         //  NSString does not provide a means of efficiently determining the paragraph number of a range of text.  This code
         //  attempts to optimize what would normally be a series linear searches by keeping track of the last paragraph number
@@ -73,7 +74,6 @@ class LineNumberLayoutManager: NSLayoutManager {
         return range
     }
     
-    #if canImport(UIKit)
     override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorage.EditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
         super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
         if invalidatedCharRange.location < lastParaLocation {
@@ -84,32 +84,19 @@ class LineNumberLayoutManager: NSLayoutManager {
             lastParaNumber = 0
         }
     }
-
-    #elseif canImport(AppKit)
-    override func processEditing(for textStorage: NSTextStorage, edited editMask: NSTextStorageEditActions, range newCharRange: NSRange, changeInLength delta: Int, invalidatedRange invalidatedCharRange: NSRange) {
-        super.processEditing(for: textStorage, edited: editMask, range: newCharRange, changeInLength: delta, invalidatedRange: invalidatedCharRange)
-        if invalidatedCharRange.location < lastParaLocation {
-            //  When the backing store is edited ahead the cached paragraph location, invalidate the cache and force a complete
-            //  recalculation.  We cannot be much smarter than this because we don't know how many paragraphs have been deleted
-            //  since the text has already been removed from the backing store.
-            lastParaLocation = 0
-            lastParaNumber = 0
-        }
-    }
-    #endif
     
     override func drawBackground(forGlyphRange glyphsToShow: NSRange, at origin: CGPoint) {
         super.drawBackground(forGlyphRange: glyphsToShow, at: origin)
         //  Draw line numbers.  Note that the background for line number gutter is drawn by the LineNumberTextView class.
         if showLineNumbers  {
-            var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? Color.black.withAlphaComponent(0.8)
+            var foregroundColor = theme?.defaultFontColor.withAlphaComponent(0.8) ?? FireflyColor.black.withAlphaComponent(0.8)
             if let lineNumberColor = theme?.lineNumber {
-                if lineNumberColor != Color(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
+                if lineNumberColor != FireflyColor(displayP3Red: 0, green: 0, blue: 0, alpha: 1) {
                     foregroundColor = lineNumberColor
                 }
             }
             let attributes: [NSAttributedString.Key: Any] = [
-                .font: theme?.font ?? Font.systemFont(ofSize: Font.systemFontSize),
+                .font: theme?.font ?? FireflyFont.systemFont(ofSize: FireflyFont.systemFontSize),
                 .foregroundColor : foregroundColor,
             ]
             
@@ -149,6 +136,7 @@ class LineNumberLayoutManager: NSLayoutManager {
             }
         }
     }
+    #endif
     
     override func drawUnderline(forGlyphRange glyphRange: NSRange, underlineType underlineVal: NSUnderlineStyle, baselineOffset: CGFloat, lineFragmentRect lineRect: CGRect, lineFragmentGlyphRange lineGlyphRange: NSRange, containerOrigin: CGPoint) {
         
@@ -163,7 +151,7 @@ class LineNumberLayoutManager: NSLayoutManager {
         }
 
         var lineRect = lineRect
-        let height = lineRect.size.height * 3.5 / 4.0 // replace your under line height
+        let height = lineRect.size.height * 3.5 / 4.0
         lineRect.origin.x += firstPosition
         lineRect.size.width = lastPosition - firstPosition
         lineRect.size.height = height
@@ -173,7 +161,6 @@ class LineNumberLayoutManager: NSLayoutManager {
 
         lineRect = lineRect.integral.insetBy(dx: 0.5, dy: 0.5)
 
-//        let path = UIBezierPath(rect: lineRect)
         #if canImport(UIKit)
         let path = BezierPath(roundedRect: lineRect, cornerRadius: 3)
         #elseif canImport(AppKit)

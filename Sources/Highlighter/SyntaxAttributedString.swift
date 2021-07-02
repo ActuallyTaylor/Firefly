@@ -12,40 +12,59 @@ import AppKit
 import UIKit
 #endif
 
+/// The state of a placeholder
 public enum EditorPlaceholderState {
     case active
     case inactive
 }
 
 public extension NSAttributedString.Key {
+    /// An NSAttributedString Key that is used for placeholders
     static let editorPlaceholder = NSAttributedString.Key("editorPlaceholder")
 }
 
 open class SyntaxAttributedString : NSTextStorage {
     /// Internal Storage
     var stringStorage = NSTextStorage()
+    
+    /// Cached tokens
     var cachedTokens: [Token] = []
     
     /// Returns a standard String based on the current one.
     open override var string: String { get { return stringStorage.string } }
+    
+    /// The Syntax that is used for highlighting
     var syntax: Syntax
+    
+    /// The current range we are editing
     var editingRange: NSRange = NSRange(location: 0, length: 0)
+    
+    /// The last length of a token
     var lastLength: Int = 0
+    
+    /// The max length of a token
     var maxTokenLength: Int = 300000
+    
+    /// Whether or not placeholders are allowed to be generated
     var placeholdersAllowed: Bool = false
+    
+    /// Whether or not placeholders should have a link embedded
     var linkPlaceholders: Bool = false
     
+    /// Init the Text Storage with a given syntax
+    /// - Parameter syntax: The syntax to highlight text with
     public init(syntax: Syntax) {
         self.syntax = syntax
         super.init()
     }
     
-    /// Initialize the CodeAttributedString
+    /// Initialize the SyntaxAttributedString
     public override init() {
         self.syntax = Syntax(language: "default", theme: "basic", font: "system")
         super.init()
     }
     
+    /// Initialize the SyntaxAttributedString
     required public init?(coder: NSCoder) {
         self.syntax = Syntax(language: "default", theme: "basic", font: "system")
         super.init(coder: coder)
@@ -60,18 +79,20 @@ open class SyntaxAttributedString : NSTextStorage {
     /// Called internally every time the string is modified.
     open override func processEditing() {
         super.processEditing()
-        if self.editedMask.contains(.editedCharacters) {
+//        if self.editedMask.contains(.editedCharacters) {
 //                        let string = (self.string as NSString)
 //                        let range: NSRange = string.paragraphRange(for: editedRange)
 //
 //                        highlight(range)
-        }
+//        }
     }
     
+    /// Required function
     open override func beginEditing() {
         super.beginEditing()
     }
     
+    /// Required function
     open override func endEditing() {
         super.endEditing()
     }
@@ -112,6 +133,10 @@ open class SyntaxAttributedString : NSTextStorage {
         //        }
     }
     
+    /// Adds attributes to a certain range of text
+    /// - Parameters:
+    ///   - attrs: Attributes to add
+    ///   - range: Range of text to alter
     open override func addAttributes(_ attrs: [NSAttributedString.Key : Any] = [:], range: NSRange) {
         //        Dispatch.main {
         self.stringStorage.addAttributes(attrs, range: range)
@@ -119,6 +144,10 @@ open class SyntaxAttributedString : NSTextStorage {
         //        }
     }
     
+    /// Adds attributes to a certain range of text
+    /// - Parameters:
+    ///   - name: Attribute to remove
+    ///   - range: Range of text to remove attribute from
     open override func removeAttribute(_ name: NSAttributedString.Key, range: NSRange) {
         //        Dispatch.main {
         self.stringStorage.removeAttribute(name, range: range)
@@ -130,6 +159,11 @@ open class SyntaxAttributedString : NSTextStorage {
 //MARK: Highlighting
 extension SyntaxAttributedString {
     
+    /// Highlights a given range of text
+    /// - Parameters:
+    ///   - range: The range of text to highlight
+    ///   - cursorRange: The current range of the cursor
+    ///   - secondPass: If this is the second pass of highlighting
     func highlight(_ range: NSRange, cursorRange: NSRange?, secondPass: Bool = false) {
         self.beginEditing()
 
@@ -159,8 +193,8 @@ extension SyntaxAttributedString {
                             let startRange: NSRange = result.range(at: 1)
                             let endRange: NSRange = result.range(at: 3)
                             
-                            self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: startRange)
-                            self.addAttributes([.foregroundColor: Color.clear, .font: Font.systemFont(ofSize: 0.01)], range: endRange)
+                            self.addAttributes([.foregroundColor: FireflyColor.clear, .font: FireflyFont.systemFont(ofSize: 0.01)], range: startRange)
+                            self.addAttributes([.foregroundColor: FireflyColor.clear, .font: FireflyFont.systemFont(ofSize: 0.01)], range: endRange)
                         
                             self.addAttributes([.editorPlaceholder: EditorPlaceholderState.inactive, .font: syntax.currentFont, .foregroundColor: syntax.theme.defaultFontColor,.underlineStyle: NSUnderlineStyle.single.rawValue, .underlineColor: syntax.theme.selection], range: textRange)
                             if linkPlaceholders {
@@ -194,16 +228,30 @@ extension SyntaxAttributedString {
         self.endEditing()
     }
     
+    /// Check to see if we are inside a placeholder
+    /// - Parameter cursorRange: The range of the cursor
+    /// - Returns: Returns if we are inside a placeholder or not & the token of the current placeholder
     func insidePlaceholder(cursorRange: NSRange) -> (Bool, Token?) {
         let tokens = cachedTokens.filter { (token) -> Bool in return token.range.encompasses(r2: cursorRange) && token.type == "placeholder" }
         return (!tokens.isEmpty, tokens.first)
     }
     
     
+    /// Creates and then adds a token to the cached tokens
+    /// - Parameters:
+    ///   - range: The range of the token
+    ///   - type: The type of the token
+    ///   - multiline: If the token is multiline or not
     func addToken(range: NSRange, type: String, multiline: Bool) {
         cachedTokens.append(Token(range: range, type: type, isMultiline: multiline))
     }
     
+    
+    /// Alters the current range depending on if we need to highlight a multiline string, or a token that goes slightly out of view
+    /// - Parameters:
+    ///   - currRange: The current range we want to highlight
+    ///   - cursorRange: The range of the cursor
+    /// - Returns: The altered range
     func changeCurrentRange(currRange: NSRange, cursorRange: NSRange) -> NSRange {
         var range: NSRange = currRange
         let tokens = cachedTokens.filter { (token) -> Bool in return token.isMultiline }.filter { (token) -> Bool in return token.range.touches(r2: currRange) }
@@ -254,48 +302,6 @@ extension SyntaxAttributedString {
                     debugPrint("Token over max length")
                 }
             }
-            /*
-             else {
-             //print("Highlighting \(token.type) == \(token.range) == \(token.isMultiline)")
-             var tokenLower = token.range.lowerBound
-             var tokenUpper = token.range.upperBound
-             var cursorLower = cursorRange.lowerBound
-             var cursorUpper = cursorRange.upperBound
-             
-             //TODO: Finish this lol
-             let origLocation: Int = range.location
-             //                let origLength: Int = range.length
-             
-             var newLocation: Int = range.location
-             var newLength: Int = range.length
-             
-             if cursorLower > tokenUpper {
-             // Token off top of screen
-             debugPrint("Token Physically Above Cursor")
-             newLocation = tokenUpper
-             newLength = range.upperBound - tokenUpper
-             } else if tokenLower > cursorLower {
-             // Token off bottom of screen
-             debugPrint("Token Physically Below Cursor")
-             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-             } else {
-             if cursorUpper == tokenLower {
-             debugPrint("Token Physically Below Cursor")
-             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-             } else if tokenUpper == cursorLower {
-             debugPrint("Token Physically Above Cursor")
-             newLocation = tokenUpper
-             newLength = range.upperBound - tokenUpper
-             } else {
-             adjustBelowRange(&token, &tokenLower, &tokenUpper, &cursorLower, cursorRange, &cursorUpper, origLocation, &newLength)
-             }
-             }
-             
-             let newRange = NSRange(location: newLocation, length: newLength)
-             range = newRange
-             }
-             }
-             */
         }
         
         lastLength = string.count
@@ -304,33 +310,39 @@ extension SyntaxAttributedString {
         return range
     }
     
-    func adjustBelowRange(_ token: inout Token, _ tokenLower: inout Int, _ tokenUpper: inout Int, _ cursorLower: inout Int, _ cursorRange: NSRange, _ cursorUpper: inout Int, _ origLocation: Int, _ newLength: inout Int) {
-        if let index = cachedTokens.firstIndex(of: token) {
-            if lastLength < string.count {
-                let difference = string.count - lastLength
-                cachedTokens[index].range = NSRange(location: token.range.location + difference, length: token.range.length)
-                token.range = NSRange(location: token.range.location + difference, length: token.range.length)
-            } else if lastLength > string.count {
-                let difference = lastLength - string.count
-                cachedTokens[index].range = NSRange(location: token.range.location - difference, length: token.range.length)
-                token.range = NSRange(location: token.range.location - difference, length: token.range.length)
-            }
-            tokenLower = token.range.lowerBound
-            tokenUpper = token.range.upperBound
-            cursorLower = cursorRange.lowerBound
-            cursorUpper = cursorRange.upperBound
-        }
-        let spaceBetweenCursorAndToken: Int = tokenLower - cursorUpper
-        let startToCursorEnd: Int = cursorUpper - origLocation
-        newLength = startToCursorEnd + spaceBetweenCursorAndToken
-    }
+/// This is not needed anymore & and i don't remember what it was used for exactly.
+//    func adjustBelowRange(_ token: inout Token, _ tokenLower: inout Int, _ tokenUpper: inout Int, _ cursorLower: inout Int, _ cursorRange: NSRange, _ cursorUpper: inout Int, _ origLocation: Int, _ newLength: inout Int) {
+//        if let index = cachedTokens.firstIndex(of: token) {
+//            if lastLength < string.count {
+//                let difference = string.count - lastLength
+//                cachedTokens[index].range = NSRange(location: token.range.location + difference, length: token.range.length)
+//                token.range = NSRange(location: token.range.location + difference, length: token.range.length)
+//            } else if lastLength > string.count {
+//                let difference = lastLength - string.count
+//                cachedTokens[index].range = NSRange(location: token.range.location - difference, length: token.range.length)
+//                token.range = NSRange(location: token.range.location - difference, length: token.range.length)
+//            }
+//            tokenLower = token.range.lowerBound
+//            tokenUpper = token.range.upperBound
+//            cursorLower = cursorRange.lowerBound
+//            cursorUpper = cursorRange.upperBound
+//        }
+//        let spaceBetweenCursorAndToken: Int = tokenLower - cursorUpper
+//        let startToCursorEnd: Int = cursorUpper - origLocation
+//        newLength = startToCursorEnd + spaceBetweenCursorAndToken
+//    }
     
+    /// Check to see if we are editing in a multiline token
+    /// - Returns: Bool indicating if we are editing in a multiline token & that multiline token
     func isEditingInMultiline() -> (Bool, Token?) {
         let tokens = getMultilineTokens(in: editingRange)
         let firstToken: Token? = tokens.first
         return (!tokens.isEmpty, firstToken)
     }
     
+    /// Retrieves all the multiline tokens in the given range
+    /// - Parameter range: The range to search in
+    /// - Returns: An array of tokens that are multiline and in the given seach range
     func getMultilineTokens(in range: NSRange) -> [Token] {
         let multilineTokens = cachedTokens.filter { (token) -> Bool in
             return range.overlaps(range: token.range) && token.isMultiline
@@ -338,12 +350,15 @@ extension SyntaxAttributedString {
         return multilineTokens
     }
     
+    /// Removes all the tokens in the given range
+    /// - Parameter range: The range that we should remove tokens from
     func invalidateTokens(in range: NSRange) {
         cachedTokens.removeAll { (token) -> Bool in
             return range.touches(r2: token.range)
         }
     }
     
+    /// Reset's the view
     func resetView() {
         cachedTokens.removeAll()
         self.setAttributes([NSAttributedString.Key.foregroundColor: syntax.theme.defaultFontColor, NSAttributedString.Key.font: syntax.currentFont], range: NSRange(location: 0, length: string.count))

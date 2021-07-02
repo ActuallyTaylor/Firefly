@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+extension Comparable {
+    func clamped(to limits: Range<Self>) -> Self {
+        return min(max(self, limits.lowerBound), limits.upperBound)
+    }
+}

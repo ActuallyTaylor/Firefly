@@ -23,6 +23,7 @@ extension FireflySyntaxView: TextViewDelegate {
         return shouldChangeText(textView: textView, shouldChangeTextIn: range, replacementText: text)
     }
     
+    /// Used in both iOS and macOS to determine if the text should change
     func shouldChangeText(textView: TextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let vRange = getVisibleRange()
         if vRange.encompasses(r2: range) { shouldHighlightOnChange = true } else { highlightAll = true }
@@ -41,18 +42,19 @@ extension FireflySyntaxView: TextViewDelegate {
                         textStorage.removeAttribute(.font, range: token.range)
                         textStorage.removeAttribute(.foregroundColor, range: token.range)
                         textStorage.removeAttribute(.editorPlaceholder, range: token.range)
-                        
+
                         textStorage.addAttributes([.font: textStorage.syntax.currentFont, .foregroundColor: textStorage.syntax.theme.defaultFontColor], range: token.range)
                         textStorage.replaceCharacters(in: token.range, with: text)
                         textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
-                        updateSelectedRange(NSRange(location: token.range.location + text.count, length: 0))
+
+                        self.textStorage.endEditing()
+                        updateSelectedRange(NSRange(location: token.range.location + text.utf16.count, length: 0))
                         textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-                        
+
                         #if canImport(AppKit)
                         textView.didChangeText()
                         #endif
-                        
-                        self.textStorage.endEditing()
+
                         return false
                     } else {
                         //Oops they ended up in the middle of a token so just delete what they have and rehighlight the view
@@ -77,7 +79,7 @@ extension FireflySyntaxView: TextViewDelegate {
         if insertingText.contains("\n") {
             updateGutterNow = true
         }
-
+        
         let nsText = textView.text as NSString
         var currentLine = nsText.substring(with: nsText.lineRange(for: selectedRange))
         if currentLine.hasSuffix("\n") {
@@ -86,10 +88,10 @@ extension FireflySyntaxView: TextViewDelegate {
         
         let newlineInsert: String = getNewlineInsert(currentLine)
         guard let tView = textView as? FireflyTextView  else { self.textStorage.endEditing(); return false }
-
+        
         if let lastInTextChar = insertingText.last {
             characterBuffer.insert("\(lastInTextChar)", at: 0)
-
+            
             if characterBuffer[1, default: ""] + characterBuffer[0, default: ""] == "/*" {
                 lastCompleted = "/*"
             } else if characterBuffer[1, default: ""] == "\"" && characterBuffer[0, default: ""] != "\""  && characterBuffer[2, default: ""] != "\"" {
@@ -113,7 +115,7 @@ extension FireflySyntaxView: TextViewDelegate {
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
+                
                 delegate?.didChangeText(tView)
                 
                 return false
@@ -128,13 +130,13 @@ extension FireflySyntaxView: TextViewDelegate {
                 textView.setNeedsDisplay()
                 #elseif canImport(AppKit)
                 textView.textStorage?.replaceCharacters(in: selectedRange, with: insertingText)
-
+                
                 self.textStorage.endEditing()
                 updateSelectedRange(NSRange(location: range.lowerBound + 1, length: 0))
                 textView.setNeedsDisplay(textView.bounds)
                 textView.didChangeText()
                 #endif
-
+                
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
@@ -182,7 +184,7 @@ extension FireflySyntaxView: TextViewDelegate {
                 textStorage.editingRange = selectedRange
                 self.textStorage.endEditing()
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
+                
                 delegate?.didChangeText(tView)
                 
                 return false
@@ -211,11 +213,11 @@ extension FireflySyntaxView: TextViewDelegate {
                     textView.setNeedsDisplay(textView.bounds)
                     textView.didChangeText()
                     #endif
-
+                    
                     shouldHighlightOnChange = false
                     textStorage.editingRange = selectedRange
                     textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
+                    
                     delegate?.didChangeText(tView)
                     
                     characterBuffer.removeAll()
@@ -237,16 +239,16 @@ extension FireflySyntaxView: TextViewDelegate {
                 updateSelectedRange(NSRange(location: selectedRange.lowerBound + insertingText.count, length: 0))
                 textView.setNeedsDisplay(textView.bounds)
                 textView.didChangeText()
-
+                
                 #endif
                 
                 updateGutterWidth()
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
+                
                 delegate?.didChangeText(tView)
-
+                
                 characterBuffer.removeAll()
                 return true
             }
@@ -270,11 +272,11 @@ extension FireflySyntaxView: TextViewDelegate {
                     textView.setNeedsDisplay(textView.bounds)
                     textView.didChangeText()
                     #endif
-
+                    
                     shouldHighlightOnChange = false
                     textStorage.editingRange = selectedRange
                     textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
+                    
                     delegate?.didChangeText(tView)
                     
                     characterBuffer.removeAll()
@@ -287,12 +289,19 @@ extension FireflySyntaxView: TextViewDelegate {
         return true
     }
     
+    /// Updates the cursor position when the view scrolls
+    public func scrollViewDidScroll(_ scrollView: FireflyScrollView) {
+        updateCursorPosition()
+    }
+    
     #if canImport(UIKit)
+    /// Intercepts clicking on a link
     public func textView(_ textView: TextView, shouldInteractWith URL: URL, in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
         delegate?.didClickLink(URL.absoluteString)
         return false
     }
     #elseif canImport(AppKit)
+    /// Intercepts clicking on a link
     public func textView(_ textView: TextView, clickedOnLink link: Any, at charIndex: Int) -> Bool {
         if let link = link as? URL {
             delegate?.didClickLink(link.absoluteString)
@@ -303,46 +312,13 @@ extension FireflySyntaxView: TextViewDelegate {
     }
     #endif
     
-    func getNewlineInsert(_ currentLine: String) -> String {
-        var newLinePrefix = ""
-        for char in currentLine {
-            let tempSet = CharacterSet(charactersIn: "\(char)")
-            if tempSet.isSubset(of: .whitespacesAndNewlines) {
-                newLinePrefix += "\(char)"
-            } else {
-                break
-            }
-        }
-        return newLinePrefix
-    }
-        
-    private func updateCursorPosition() {
-        if let cursorPositionChange = self.delegate?.cursorPositionChange {
-            if let pos = self.textView.cursorPosition() {
-                cursorPositionChange(self.textView.convert(pos, to: self.textView.superview))
-            } else {
-                cursorPositionChange(nil)
-            }
-        }
-    }
-    
-    func updateSelectedRange(_ range: NSRange) {
-        if range.location + range.length <= text.utf16.count {
-            #if canImport(UIKit)
-            textView.selectedRange = range
-            #elseif canImport(AppKit)
-            textView.setSelectedRange(range)
-            #endif
-        }
-    }
-    
-    public func scrollViewDidScroll(_ scrollView: ScrollView) {
-        updateCursorPosition()
-        
-        
-    }
-    
     #if canImport(UIKit)
+    /// Calls back to the delegate when the editor begins editing
+    public func textViewDidBeginEditing(_ textView: UITextView) {
+        delegate?.textViewDidBeginEditing(self.textView)
+    }
+    
+    /// Handles highlighting the correct amount of the view when text changes
     public func textViewDidChange(_ textView: UITextView) {
         guard let tView = textView as? FireflyTextView  else { return }
         if updateGutterNow {
@@ -359,40 +335,41 @@ extension FireflySyntaxView: TextViewDelegate {
         delegate?.didChangeText(tView)
     }
     
-    func getVisibleRange() -> NSRange {
-        let topLeft = CGPoint(x: textView.bounds.minX, y: textView.bounds.minY)
-        let bottomRight = CGPoint(x: textView.bounds.maxX, y: textView.bounds.maxY)
-        
-        guard let topLeftTextPosition = textView.closestPosition(to: topLeft),
-            let bottomRightTextPosition = textView.closestPosition(to: bottomRight)
-            else {
-                return NSRange(location: 0, length: 0)
-        }
-        let charOffset = textView.offset(from: textView.beginningOfDocument, to: topLeftTextPosition)
-        let length = textView.offset(from: topLeftTextPosition, to: bottomRightTextPosition)
-        let visibleRange = NSRange(location: charOffset, length: length)
-        return visibleRange
-    }
-    
+    /// Calls back to delegate & updates cursor position
     public func textViewDidChangeSelection(_ textView: UITextView) {
         updateCursorPosition()
-//        textStorage.updatePlaceholders(cursorRange: textView.selectedRange)
+        delegate?.didChangeSelectedRange(self.textView, selectedRange: self.textView.selectedRange)
     }
     
+    /// Override the key commands recognized by the view
     public override var keyCommands: [KeyCommand]? {
-         delegate?.implementKeyCommands?.keyCommands(#selector(handleUIKeyCommand))
-     }
-
-     @objc func handleUIKeyCommand(sender: KeyCommand) {
-         delegate?.implementKeyCommands?.receiver(sender)
-     }
-
-    #elseif canImport(AppKit)
+        delegate?.implementKeyCommands?.keyCommands(#selector(handleKeyCommand))
+    }
+    
+    /// Calls back to the delegate when any key command is triggered
+    @objc func handleKeyCommand(sender: KeyCommand) {
+        delegate?.implementKeyCommands?.receiver(sender)
+    }
+    
+    #endif
+    
+    #if canImport(AppKit)
+    /// Calls back to the delegate when the editor begins editing
+    public func textDidBeginEditing(_ notification: Notification) {
+        delegate?.textViewDidBeginEditing(self.textView)
+    }
+    
+    /// Calls back to delegate & updates cursor position
     public func textViewDidChangeSelection(_ notification: Notification) {
         updateCursorPosition()
+        delegate?.didChangeSelectedRange(textView, selectedRange: textView.selectedRange())
     }
     
+    /// Handles highlighting the correct amount of the view when text changes
     public func textDidChange(_ notification: Notification) {
+        if updateGutterNow {
+            updateGutterWidth()
+        }
         if shouldHighlightOnChange {
             shouldHighlightOnChange = false
             textStorage.editingRange = textView.selectedRange
@@ -403,9 +380,77 @@ extension FireflySyntaxView: TextViewDelegate {
         }
         delegate?.didChangeText(textView)
     }
+    #endif
+}
+
+//MARK: Supporting Functions
+extension FireflySyntaxView {
+    /// Get's the amount of whitespace that needs to be added to the begging of a line.
+    /// Used when hitting enter
+    /// - Parameter currentLine: The current line of text
+    /// - Returns: Returns the constructed insert of whitespace
+    func getNewlineInsert(_ currentLine: String) -> String {
+        var newLinePrefix = ""
+        for char in currentLine {
+            let tempSet = CharacterSet(charactersIn: "\(char)")
+            if tempSet.isSubset(of: .whitespacesAndNewlines) {
+                newLinePrefix += "\(char)"
+            } else {
+                break
+            }
+        }
+        return newLinePrefix
+    }
     
+    /// Updates the position of the cursor  in the delegate
+    private func updateCursorPosition() {
+        if let cursorPositionChange = self.delegate?.cursorPositionChange {
+            if let pos = self.textView.cursorPosition() {
+                cursorPositionChange(self.textView.convert(pos, to: self.textView.superview))
+            } else {
+                cursorPositionChange(nil)
+            }
+        }
+    }
+    
+    
+    /// Updates the selected range of text
+    /// - Parameter range: The new range of selected text
+    func updateSelectedRange(_ range: NSRange) {
+        if range.location + range.length <= text.utf16.count {
+            #if canImport(UIKit)
+            textView.selectedRange = range
+            #elseif canImport(AppKit)
+            textView.setSelectedRange(range)
+            #endif
+        }
+    }
+    
+    #if canImport(AppKit)
+    /// Get's the visible NSRange of text
+    /// - Returns: The visible text represented as it's NSRange
     func getVisibleRange() -> NSRange {
+        #warning("Needs to be fixed for macOS")
         let visibleRange = NSRange(location: 0, length: textView.text.utf16.count)
+        return visibleRange
+    }
+    #endif
+    
+    #if canImport(UIKit)
+    /// Get's the visible NSRange of text
+    /// - Returns: The visible text represented as it's NSRange
+    func getVisibleRange() -> NSRange {
+        let topLeft = CGPoint(x: textView.bounds.minX, y: textView.bounds.minY)
+        let bottomRight = CGPoint(x: textView.bounds.maxX, y: textView.bounds.maxY)
+        
+        guard let topLeftTextPosition = textView.closestPosition(to: topLeft),
+              let bottomRightTextPosition = textView.closestPosition(to: bottomRight)
+        else {
+            return NSRange(location: 0, length: 0)
+        }
+        let charOffset = textView.offset(from: textView.beginningOfDocument, to: topLeftTextPosition)
+        let length = textView.offset(from: topLeftTextPosition, to: bottomRightTextPosition)
+        let visibleRange = NSRange(location: charOffset, length: length)
         return visibleRange
     }
     #endif
