@@ -5,8 +5,6 @@
 //  Created by Zachary lineman on 6/27/21.
 //
 
-import Foundation
-
 #if canImport(AppKit)
 import AppKit
 import Foundation
@@ -14,8 +12,9 @@ import ObjectiveC
 
 var LineNumberViewAssocObjKey: UInt8 = 0
 
-extension NSTextView {
+extension FireflyTextView {
     
+    /// Returns the current line number view for a text view
     var lineNumberView: LineNumberRulerView {
         get {
             return objc_getAssociatedObject(self, &LineNumberViewAssocObjKey) as! LineNumberRulerView
@@ -25,9 +24,10 @@ extension NSTextView {
         }
     }
     
+    /// Set's up a line number view for the current text view
     func lnv_setUpLineNumberView() {
         if font == nil {
-            font = NSFont.systemFont(ofSize: 16)
+            font = NSFont.systemFont(ofSize: 14)
         }
         
         if let scrollView = enclosingScrollView {
@@ -40,8 +40,12 @@ extension NSTextView {
         
         postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(self, selector: #selector(lnv_framDidChange), name: NSView.frameDidChangeNotification, object: self)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(lnv_textDidChange), name: NSText.didChangeNotification, object: self)
+    }
+    
+    /// Remove's the line number view from the screen.
+    func lnv_removeLineNumberView() {
+        self.enclosingScrollView?.rulersVisible = false
     }
     
     @objc func lnv_framDidChange(notification: NSNotification) {
@@ -55,18 +59,19 @@ extension NSTextView {
 
 class LineNumberRulerView: NSRulerView {
     
-    var font: NSFont! {
+    /// Stores the data needed to correctly color the theme
+    var theme: Theme! {
         didSet {
             self.needsDisplay = true
         }
     }
     
-    init(textView: NSTextView) {
+    init(textView: FireflyTextView) {
         super.init(scrollView: textView.enclosingScrollView!, orientation: NSRulerView.Orientation.verticalRuler)
-        self.font = textView.font ?? NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+        self.theme = (textView.textStorage as? SyntaxAttributedString)?.syntax.theme
         self.clientView = textView
-        
-        self.ruleThickness = 40
+
+        self.ruleThickness = textView.gutterWidth
     }
     
     required init(coder: NSCoder) {
@@ -75,15 +80,20 @@ class LineNumberRulerView: NSRulerView {
     
     
     override func drawHashMarksAndLabels(in rect: NSRect) {
-        if let textView = self.clientView as? TextView {
+        // We need to do these checks because sometimes the rect becomes a weird size and Core Graphics crashes.
+        if rect.size != CGSize.zero && rect.size.width == self.ruleThickness {
+            self.theme.backgroundColor.setFill()
+            rect.fill()
+        }
+        
+        if let textView = self.clientView as? FireflyTextView {
             if let layoutManager = textView.layoutManager {
-                
                 let relativePoint = self.convert(NSZeroPoint, from: textView)
-                let lineNumberAttributes = [NSAttributedString.Key.font: textView.font!, NSAttributedString.Key.foregroundColor: NSColor.gray] as [NSAttributedString.Key : Any]
+                let lineNumberAttributes = [NSAttributedString.Key.font: theme.font, NSAttributedString.Key.foregroundColor: theme.defaultFontColor] as [NSAttributedString.Key : Any]
                 
                 let drawLineNumber = { (lineNumberString:String, y:CGFloat) -> Void in
                     let attString = NSAttributedString(string: lineNumberString, attributes: lineNumberAttributes)
-                    let x = 35 - attString.size().width
+                    let x = (self.ruleThickness - 5) - attString.size().width
                     attString.draw(at: NSPoint(x: x, y: relativePoint.y + y))
                 }
                 

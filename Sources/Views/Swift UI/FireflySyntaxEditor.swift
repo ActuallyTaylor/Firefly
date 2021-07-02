@@ -1,5 +1,5 @@
 //
-//  FireflySyntaxViewSwift.swift
+//  FireflySyntaxEditor.swift
 //  Firefly
 //
 //  Created by Zachary lineman on 12/30/20.
@@ -20,29 +20,52 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     var theme: String
     var fontName: String
 
-    var offsetKeyboard: Bool = true
-    var keyboardOffset: CGFloat = 20
     var dynamicGutter: Bool = true
     var gutterWidth: CGFloat = 20
     var placeholdersAllowed: Bool = true
     var linkPlaceholders: Bool = false
     var lineNumbers: Bool = true
-    var fontSize: CGFloat = Font.systemFontSize
+    var fontSize: CGFloat = FireflyFont.systemFontSize
+    
     let cursorPosition: Binding<CGRect?>?
+    
+    // The below commands are ui framework specific
     #if canImport(UIKit)
     let implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)?
-    #endif
-    
-    #if canImport(AppKit)
+    var keyboardOffset: CGFloat = 20
+    var offsetKeyboard: Bool = true
+    #elseif canImport(AppKit)
+    var keyCommands: () -> [KeyCommand]?
     var allowHorizontalScroll: Bool = true
     #endif
-    
-    var didChangeText: (FireflySyntaxEditor) -> Void
-    var didChangeSelectedRange: (FireflySyntaxEditor, NSRange) -> Void
-    var textViewDidBeginEditing: (FireflySyntaxEditor) -> Void
+        
+    // Delegate functions
+    var didChangeText: (FireflyTextView) -> Void
+    var didChangeSelectedRange: (FireflyTextView, NSRange) -> Void
+    var textViewDidBeginEditing: (FireflyTextView) -> Void
 
+    
     #if canImport(UIKit)
-    public init(text: Binding<String>, language: String, theme: String, fontName: String, cursorPosition: Binding<CGRect?>? = nil, implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)? = nil, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+    /// Initializer for UIKit based implementations
+    public init(
+        text: Binding<String>,
+        language: String = "default",
+        theme: String = "Basic",
+        fontName: String = "system",
+        fontSize: CGFloat = FireflyFont.systemFontSize,
+        dynamicGutter: Bool = true,
+        gutterWidth: CGFloat = 20,
+        placeholdersAllowed: Bool = true,
+        linkPlaceholders: Bool = false,
+        lineNumbers: Bool = true,
+        keyboardOffset: CGFloat = 20,
+        offsetKeyboard: Bool = true,
+
+        cursorPosition: Binding<CGRect?>? = nil,
+        implementKeyCommands: (keyCommands: (Selector) -> [KeyCommand]?, receiver: (KeyCommand) -> Void)? = nil,
+        didChangeText: @escaping (FireflyTextView) -> Void,
+        didChangeSelectedRange: @escaping (FireflyTextView, NSRange) -> Void,
+        textViewDidBeginEditing: @escaping (FireflyTextView) -> Void) {
         self._text = text
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
@@ -50,6 +73,15 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.language = language
         self.theme = theme
         self.fontName = fontName
+
+        self.fontSize = fontSize
+        self.dynamicGutter = dynamicGutter
+        self.gutterWidth = gutterWidth
+        self.placeholdersAllowed = placeholdersAllowed
+        self.linkPlaceholders = linkPlaceholders
+        self.lineNumbers = lineNumbers
+        self.keyboardOffset = keyboardOffset
+        self.offsetKeyboard = offsetKeyboard
         self.cursorPosition = cursorPosition
         self.implementKeyCommands = implementKeyCommands
     }
@@ -67,7 +99,24 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     public func updateUIView(_ uiView: FireflySyntaxView, context: Context) {}
     
     #elseif canImport(AppKit)
-    public init(text: Binding<String>, language: String, theme: String, fontName: String, allowHorizontalScroll: Bool, cursorPosition: Binding<CGRect?>? = nil, didChangeText: @escaping (FireflySyntaxEditor) -> Void, didChangeSelectedRange: @escaping (FireflySyntaxEditor, NSRange) -> Void, textViewDidBeginEditing: @escaping (FireflySyntaxEditor) -> Void) {
+    /// Initializer for AppKit based implementations
+    public init(
+        text: Binding<String>,
+        language: String = "default",
+        theme: String = "Basic",
+        fontName: String = "system",
+        fontSize: CGFloat = FireflyFont.systemFontSize,
+        dynamicGutter: Bool = false,
+        gutterWidth: CGFloat = 20,
+        placeholdersAllowed: Bool = true,
+        linkPlaceholders: Bool = false,
+        lineNumbers: Bool = true,
+        allowHorizontalScroll: Bool = false,
+        cursorPosition: Binding<CGRect?>? = nil,
+        keyCommands: @escaping () -> [KeyCommand]?,
+        didChangeText: @escaping (FireflyTextView) -> Void,
+        didChangeSelectedRange: @escaping (FireflyTextView, NSRange) -> Void,
+        textViewDidBeginEditing: @escaping (FireflyTextView) -> Void) {
         self._text = text
         self.didChangeText = didChangeText
         self.didChangeSelectedRange = didChangeSelectedRange
@@ -75,9 +124,17 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.language = language
         self.theme = theme
         self.fontName = fontName
-        self.allowHorizontalScroll = allowHorizontalScroll
         
+        self.fontSize = fontSize
+        self.dynamicGutter = dynamicGutter
+        self.gutterWidth = gutterWidth
+        self.placeholdersAllowed = placeholdersAllowed
+        self.linkPlaceholders = linkPlaceholders
+        self.lineNumbers = lineNumbers
+        self.allowHorizontalScroll = allowHorizontalScroll
         self.cursorPosition = cursorPosition
+        self.keyCommands = keyCommands
+
     }
 
     public func makeNSView(context: Context) -> FireflySyntaxView {
@@ -85,18 +142,14 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         wrappedView.delegate = context.coordinator
         context.coordinator.wrappedView = wrappedView
         context.coordinator.wrappedView.text = text
-        
-        #if canImport(UIKit)
-        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, offsetKeyboard: offsetKeyboard, keyboardOffset: keyboardOffset, dynamicGutter: dynamicGutter, gutterWidth: gutterWidth, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize)
-        #elseif canImport(AppKit)
-        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize, allowHorizontalScroll: allowHorizontalScroll)
-        #endif
+        context.coordinator.wrappedView.keyCommands = keyCommands()
+        context.coordinator.wrappedView.setup(theme: theme, language: language, font: fontName, offsetKeyboard: false, keyboardOffset: 0, dynamicGutter: dynamicGutter, gutterWidth: gutterWidth, placeholdersAllowed: placeholdersAllowed, linkPlaceholders: linkPlaceholders, lineNumbers: lineNumbers, fontSize: fontSize, allowHorizontalScroll: allowHorizontalScroll)
         return wrappedView
     }
     
     public func updateNSView(_ view: FireflySyntaxView, context: Context) {}
-
     #endif
+    
     public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
@@ -104,7 +157,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     public class Coordinator: FireflyDelegate {
         public func didClickLink(_ link: URL) { }
         public var cursorPositionChange: ((CGRect?) -> Void)?
-
+        
         #if canImport(UIKit)
         public var implementKeyCommands: (
              keyCommands: (Selector) -> [KeyCommand]?,
@@ -127,25 +180,26 @@ public struct FireflySyntaxEditor: ViewRepresentable {
             }
             
             #if canImport(UIKit)
-            if let implementUIKeyCommands = parent.implementKeyCommands {
+            if let implementKeyCommands = parent.implementKeyCommands {
                  self.implementKeyCommands = implementKeyCommands
              }
             #endif
+            
         }
         
         public func didChangeText(_ syntaxTextView: FireflyTextView) {
             Dispatch.main {
                 self.parent.text = syntaxTextView.text
             }
-            parent.didChangeText(parent)
+            parent.didChangeText(syntaxTextView)
         }
         
         public func didChangeSelectedRange(_ syntaxTextView: FireflyTextView, selectedRange: NSRange) {
-            parent.didChangeSelectedRange(parent, selectedRange)
+            parent.didChangeSelectedRange(syntaxTextView, selectedRange)
         }
         
         public func textViewDidBeginEditing(_ syntaxTextView: FireflyTextView) {
-            parent.textViewDidBeginEditing(parent)
+            parent.textViewDidBeginEditing(syntaxTextView)
         }
     }
 }

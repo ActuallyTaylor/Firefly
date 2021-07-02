@@ -11,7 +11,7 @@ import AppKit
 import UIKit
 #endif
 
-extension Color {
+extension FireflyColor {
     
     convenience init(hex: String) {
         var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
