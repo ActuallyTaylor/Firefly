@@ -14,18 +14,10 @@ import UIKit
 /// A syntax type that defines how a SyntaxAttributedString should highlight different types of tokens
 public class Syntax {
     /// The current language of the syntax
-    var currentLanguage: String = "default" {
-        didSet {
-            setLanguage(to: currentLanguage)
-        }
-    }
+    var currentLanguage: String = "default"
     
     /// The current theme name of the syntax
-    var currentTheme: String = "Basic" {
-        didSet {
-            setTheme(to: currentTheme)
-        }
-    }
+    var currentTheme: String = "Basic"
     
     /// The current font of the syntax
     var currentFont: FireflyFont = FireflyFont.systemFont(ofSize: FireflyFont.systemFontSize)
@@ -46,9 +38,9 @@ public class Syntax {
     ///   - theme: Theme name
     ///   - font: Font name
     public init(language: String, theme: String, font: String) {
-        currentLanguage = language
-        currentTheme = theme
-        setFont(to: font)
+        self.setLanguage(to: language)
+        self.setTheme(to: theme)
+        self.setFont(to: font)
     }
     
     /// Changes the current language & updates the definitions
@@ -73,7 +65,7 @@ public class Syntax {
         definitions.sort { (def1, def2) -> Bool in return def1.relevance > def2.relevance }
         definitions.insert(Definition(type: "placeholder", regex: editorPlaceholderPattern, group: 0, relevance: 10, matches: [], multiLine: false), at: 0)
         definitions.reverse()
-        
+        self.currentLanguage = name
     }
     
     /// Changes the current theme
@@ -102,6 +94,7 @@ public class Syntax {
             }
             
             self.theme = Theme(defaultFontColor: defaultColor, backgroundColor: backgroundColor, currentLine: currentLineColor, selection: selectionColor, cursor: cursorColor, colors: colors, font: currentFont, style: style, lineNumber: lineNumber, lineNumber_Active: lineNumber_Active)
+            self.currentTheme = name
         }
     }
     

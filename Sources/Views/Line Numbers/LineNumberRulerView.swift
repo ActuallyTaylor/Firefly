@@ -89,6 +89,7 @@ class LineNumberRulerView: NSRulerView {
         if let textView = self.clientView as? FireflyTextView {
             if let layoutManager = textView.layoutManager {
                 let relativePoint = self.convert(NSZeroPoint, from: textView)
+
                 let lineNumberAttributes = [NSAttributedString.Key.font: theme.font, NSAttributedString.Key.foregroundColor: theme.defaultFontColor] as [NSAttributedString.Key : Any]
                 
                 let drawLineNumber = { (lineNumberString:String, y:CGFloat) -> Void in

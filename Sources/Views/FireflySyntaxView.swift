@@ -355,14 +355,11 @@ public class FireflySyntaxView: FireflyView {
     ///   - lineNumbers: If line numbers should be shown or not
     ///   - fontSize: The font size of the editor
     public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat) {
-        textStorage.syntax.setLanguage(to: language)
-                
+        self.setLanguage(language: language)
+
         self.fontName = font
-        
-        textStorage.syntax.fontSize = fontSize
-        
-        textStorage.syntax.setFont(to: font)
-        
+        self.setFontSize(size: fontSize)
+
         self.setShouldOffsetKeyboard(enabled: offsetKeyboard)
 
         self.keyboardOffset = keyboardOffset
@@ -397,13 +394,10 @@ public class FireflySyntaxView: FireflyView {
     ///   - fontSize: The font size of the editor
     ///   - allowHorizontalScroll: If the editor should allow horizontal scrolling
     public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, allowHorizontalScroll: Bool) {
-        textStorage.syntax.setLanguage(to: language)
-                
+        self.setLanguage(language: language)
+
         self.fontName = font
-        
-        textStorage.syntax.fontSize = fontSize
-        
-        textStorage.syntax.setFont(to: font)
+        self.setFontSize(size: fontSize)
         
         self.setIsHorizontalScrollAllowed(isAllowed: allowHorizontalScroll)
 
@@ -443,10 +437,13 @@ public class FireflySyntaxView: FireflyView {
     }
     
     /// Sets the language that is highlighted
-    /// - Parameter language: The naem of the new language
+    /// - Parameter language: The name of the new language
     public func setLanguage(language: String) {
         self.language = language
         textStorage.syntax.setLanguage(to: language)
+        #if canImport(AppKit)
+        textView.lineNumberView.theme = textStorage.syntax.theme
+        #endif
         updateAppearance()
     }
     
@@ -455,9 +452,24 @@ public class FireflySyntaxView: FireflyView {
     public func setFont(name: String) {
         fontName = name
         textStorage.syntax.setFont(to: name)
+        #if canImport(AppKit)
+        textView.lineNumberView.theme = textStorage.syntax.theme
+        #endif
         updateAppearance()
     }
     
+    /// Sets the size of the textviews font.
+    /// - Parameter size: The size of the font
+    public func setFontSize(size: CGFloat) {
+        self.textSize = size
+        textStorage.syntax.fontSize = size
+        textStorage.syntax.setFont(to: fontName)
+        #if canImport(AppKit)
+        textView.lineNumberView.theme = textStorage.syntax.theme
+        #endif
+        updateAppearance()
+    }
+
     /// Sets whether or not the editor should offset itself when the keyboard appears
     /// - Parameter bool: If the editor should offset itself or not
     public func setShouldOffsetKeyboard(enabled: Bool) {
