@@ -577,7 +577,7 @@ public class FireflySyntaxView: FireflyView {
         scrollView.hasHorizontalScroller = isHorizontalScrollingEnabled
 
         textView.lnv_setUpLineNumberView()
-}
+    }
     #endif
     
     /// Detects the proper width needed for the gutter.  Can be turned off by setting dynamicGutterWidth to false

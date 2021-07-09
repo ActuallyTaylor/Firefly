@@ -176,6 +176,11 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         if view.showLineNumbers != lineNumbers.wrappedValue {
             view.setLineNumbers(visible: lineNumbers.wrappedValue)
         }
+        
+        if view.isHorizontalScrollingEnabled != allowHorizontalScroll.wrappedValue {
+            view.setIsHorizontalScrollAllowed(isAllowed: allowHorizontalScroll.wrappedValue)
+        }
+
 
 //        context.coordinator.wrappedView.setup(theme: theme.wrappedValue, language: language.wrappedValue, font: fontName.wrappedValue, offsetKeyboard: false, keyboardOffset: 0, dynamicGutter: dynamicGutter.wrappedValue, gutterWidth: gutterWidth.wrappedValue, placeholdersAllowed: placeholdersAllowed.wrappedValue, linkPlaceholders: linkPlaceholders.wrappedValue, lineNumbers: lineNumbers.wrappedValue, fontSize: fontSize.wrappedValue, allowHorizontalScroll: allowHorizontalScroll.wrappedValue)
     }
