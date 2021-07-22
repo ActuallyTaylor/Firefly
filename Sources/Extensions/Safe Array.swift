@@ -1,6 +1,6 @@
 //
 //  Safe Array.swift
-//  Jellycore
+//  Firefly
 //
 //  Created by Zachary lineman on 12/17/20.
 //

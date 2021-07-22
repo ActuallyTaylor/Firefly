@@ -7,7 +7,11 @@
 //
 
 import Foundation
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
 import UIKit
+#endif
 
 #if swift(>=4.2)
     public typealias AttributedStringKey = NSAttributedString.Key

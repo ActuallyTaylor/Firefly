@@ -7,52 +7,62 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4B07306D25CB8443001CD61C /* Range+Encompasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305325CB8443001CD61C /* Range+Encompasses.swift */; };
-		4B07306E25CB8443001CD61C /* Safe Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305425CB8443001CD61C /* Safe Array.swift */; };
-		4B07306F25CB8443001CD61C /* String+NSRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305525CB8443001CD61C /* String+NSRange.swift */; };
-		4B07307025CB8443001CD61C /* UIColor+HexInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305625CB8443001CD61C /* UIColor+HexInit.swift */; };
-		4B07307125CB8443001CD61C /* TypeAlias.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305725CB8443001CD61C /* TypeAlias.swift */; };
-		4B07307225CB8443001CD61C /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305825CB8443001CD61C /* Dispatch.swift */; };
-		4B07307325CB8443001CD61C /* SyntaxAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305A25CB8443001CD61C /* SyntaxAttributedString.swift */; };
-		4B07307425CB8443001CD61C /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305B25CB8443001CD61C /* Markdown.swift */; };
-		4B07307525CB8443001CD61C /* Syntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305D25CB8443001CD61C /* Syntax.swift */; };
-		4B07307625CB8443001CD61C /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305E25CB8443001CD61C /* Definition.swift */; };
-		4B07307725CB8443001CD61C /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07305F25CB8443001CD61C /* Theme.swift */; };
-		4B07307825CB8443001CD61C /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306125CB8443001CD61C /* Themes.swift */; };
-		4B07307925CB8443001CD61C /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306225CB8443001CD61C /* Languages.swift */; };
-		4B07307A25CB8443001CD61C /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306425CB8443001CD61C /* Token.swift */; };
-		4B07307B25CB8443001CD61C /* FireflyTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306625CB8443001CD61C /* FireflyTextViewDelegate.swift */; };
-		4B07307C25CB8443001CD61C /* FireflySyntaxView + TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306725CB8443001CD61C /* FireflySyntaxView + TextDelegate.swift */; };
-		4B07307D25CB8443001CD61C /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306825CB8443001CD61C /* LineNumberLayoutManager.swift */; };
-		4B07307E25CB8443001CD61C /* FireflySyntaxViewSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306A25CB8443001CD61C /* FireflySyntaxViewSwift.swift */; };
-		4B07307F25CB8443001CD61C /* FireflyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306B25CB8443001CD61C /* FireflyTextView.swift */; };
-		4B07308025CB8443001CD61C /* FireflySyntaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B07306C25CB8443001CD61C /* FireflySyntaxView.swift */; };
 		4BDCE950251A5382003393A4 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 4BDCE8DD251A5382003393A4 /* LICENSE.txt */; };
+		4BE75CA6268FB16200B3070B /* NSTextView + Bounding Rect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C85268FB16100B3070B /* NSTextView + Bounding Rect.swift */; };
+		4BE75CA7268FB16200B3070B /* Range+Encompasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C86268FB16100B3070B /* Range+Encompasses.swift */; };
+		4BE75CA8268FB16200B3070B /* Safe Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C87268FB16100B3070B /* Safe Array.swift */; };
+		4BE75CA9268FB16200B3070B /* String+NSRange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C88268FB16100B3070B /* String+NSRange.swift */; };
+		4BE75CAA268FB16200B3070B /* UIColor+HexInit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C89268FB16100B3070B /* UIColor+HexInit.swift */; };
+		4BE75CAB268FB16200B3070B /* AttributedType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C8A268FB16100B3070B /* AttributedType.swift */; };
+		4BE75CAC268FB16200B3070B /* Comparable + Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C8B268FB16100B3070B /* Comparable + Clamped.swift */; };
+		4BE75CAD268FB16200B3070B /* Dispatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C8C268FB16100B3070B /* Dispatch.swift */; };
+		4BE75CAF268FB16200B3070B /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C91268FB16200B3070B /* LineNumberRulerView.swift */; };
+		4BE75CB0268FB16200B3070B /* LineNumberLayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C92268FB16200B3070B /* LineNumberLayoutManager.swift */; };
+		4BE75CB1268FB16200B3070B /* FireflyTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C93268FB16200B3070B /* FireflyTextViewDelegate.swift */; };
+		4BE75CB2268FB16200B3070B /* FireflySyntaxView + TextDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C94268FB16200B3070B /* FireflySyntaxView + TextDelegate.swift */; };
+		4BE75CB3268FB16200B3070B /* FireflySyntaxEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C96268FB16200B3070B /* FireflySyntaxEditor.swift */; };
+		4BE75CB4268FB16200B3070B /* UIAppKitBirdge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C97268FB16200B3070B /* UIAppKitBirdge.swift */; };
+		4BE75CB5268FB16200B3070B /* FireflyTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C98268FB16200B3070B /* FireflyTextView.swift */; };
+		4BE75CB6268FB16200B3070B /* FireflySyntaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C99268FB16200B3070B /* FireflySyntaxView.swift */; };
+		4BE75CB7268FB16200B3070B /* SyntaxAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C9B268FB16200B3070B /* SyntaxAttributedString.swift */; };
+		4BE75CB8268FB16200B3070B /* Markdown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C9C268FB16200B3070B /* Markdown.swift */; };
+		4BE75CB9268FB16200B3070B /* Syntax.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C9E268FB16200B3070B /* Syntax.swift */; };
+		4BE75CBA268FB16200B3070B /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75C9F268FB16200B3070B /* Definition.swift */; };
+		4BE75CBB268FB16200B3070B /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75CA0268FB16200B3070B /* Theme.swift */; };
+		4BE75CBC268FB16200B3070B /* Themes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75CA2268FB16200B3070B /* Themes.swift */; };
+		4BE75CBD268FB16200B3070B /* Languages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75CA3268FB16200B3070B /* Languages.swift */; };
+		4BE75CBE268FB16200B3070B /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75CA5268FB16200B3070B /* Token.swift */; };
+		4BE75CC0268FB1AD00B3070B /* KeyCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BE75CBF268FB1AD00B3070B /* KeyCommand.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4B07305325CB8443001CD61C /* Range+Encompasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Range+Encompasses.swift"; sourceTree = "<group>"; };
-		4B07305425CB8443001CD61C /* Safe Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Safe Array.swift"; sourceTree = "<group>"; };
-		4B07305525CB8443001CD61C /* String+NSRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NSRange.swift"; sourceTree = "<group>"; };
-		4B07305625CB8443001CD61C /* UIColor+HexInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+HexInit.swift"; sourceTree = "<group>"; };
-		4B07305725CB8443001CD61C /* TypeAlias.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TypeAlias.swift; sourceTree = "<group>"; };
-		4B07305825CB8443001CD61C /* Dispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
-		4B07305A25CB8443001CD61C /* SyntaxAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxAttributedString.swift; sourceTree = "<group>"; };
-		4B07305B25CB8443001CD61C /* Markdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
-		4B07305D25CB8443001CD61C /* Syntax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Syntax.swift; sourceTree = "<group>"; };
-		4B07305E25CB8443001CD61C /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
-		4B07305F25CB8443001CD61C /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		4B07306125CB8443001CD61C /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
-		4B07306225CB8443001CD61C /* Languages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
-		4B07306425CB8443001CD61C /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		4B07306625CB8443001CD61C /* FireflyTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextViewDelegate.swift; sourceTree = "<group>"; };
-		4B07306725CB8443001CD61C /* FireflySyntaxView + TextDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FireflySyntaxView + TextDelegate.swift"; sourceTree = "<group>"; };
-		4B07306825CB8443001CD61C /* LineNumberLayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberLayoutManager.swift; sourceTree = "<group>"; };
-		4B07306A25CB8443001CD61C /* FireflySyntaxViewSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflySyntaxViewSwift.swift; sourceTree = "<group>"; };
-		4B07306B25CB8443001CD61C /* FireflyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextView.swift; sourceTree = "<group>"; };
-		4B07306C25CB8443001CD61C /* FireflySyntaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflySyntaxView.swift; sourceTree = "<group>"; };
 		4BDCE8CE251A5377003393A4 /* Firefly.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Firefly.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDCE8DD251A5382003393A4 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		4BE75C85268FB16100B3070B /* NSTextView + Bounding Rect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTextView + Bounding Rect.swift"; sourceTree = "<group>"; };
+		4BE75C86268FB16100B3070B /* Range+Encompasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Range+Encompasses.swift"; sourceTree = "<group>"; };
+		4BE75C87268FB16100B3070B /* Safe Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Safe Array.swift"; sourceTree = "<group>"; };
+		4BE75C88268FB16100B3070B /* String+NSRange.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+NSRange.swift"; sourceTree = "<group>"; };
+		4BE75C89268FB16100B3070B /* UIColor+HexInit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+HexInit.swift"; sourceTree = "<group>"; };
+		4BE75C8A268FB16100B3070B /* AttributedType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttributedType.swift; sourceTree = "<group>"; };
+		4BE75C8B268FB16100B3070B /* Comparable + Clamped.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Comparable + Clamped.swift"; sourceTree = "<group>"; };
+		4BE75C8C268FB16100B3070B /* Dispatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dispatch.swift; sourceTree = "<group>"; };
+		4BE75C91268FB16200B3070B /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
+		4BE75C92268FB16200B3070B /* LineNumberLayoutManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberLayoutManager.swift; sourceTree = "<group>"; };
+		4BE75C93268FB16200B3070B /* FireflyTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextViewDelegate.swift; sourceTree = "<group>"; };
+		4BE75C94268FB16200B3070B /* FireflySyntaxView + TextDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FireflySyntaxView + TextDelegate.swift"; sourceTree = "<group>"; };
+		4BE75C96268FB16200B3070B /* FireflySyntaxEditor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflySyntaxEditor.swift; sourceTree = "<group>"; };
+		4BE75C97268FB16200B3070B /* UIAppKitBirdge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAppKitBirdge.swift; sourceTree = "<group>"; };
+		4BE75C98268FB16200B3070B /* FireflyTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflyTextView.swift; sourceTree = "<group>"; };
+		4BE75C99268FB16200B3070B /* FireflySyntaxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireflySyntaxView.swift; sourceTree = "<group>"; };
+		4BE75C9B268FB16200B3070B /* SyntaxAttributedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyntaxAttributedString.swift; sourceTree = "<group>"; };
+		4BE75C9C268FB16200B3070B /* Markdown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Markdown.swift; sourceTree = "<group>"; };
+		4BE75C9E268FB16200B3070B /* Syntax.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Syntax.swift; sourceTree = "<group>"; };
+		4BE75C9F268FB16200B3070B /* Definition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
+		4BE75CA0268FB16200B3070B /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		4BE75CA2268FB16200B3070B /* Themes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Themes.swift; sourceTree = "<group>"; };
+		4BE75CA3268FB16200B3070B /* Languages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Languages.swift; sourceTree = "<group>"; };
+		4BE75CA5268FB16200B3070B /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		4BE75CBF268FB1AD00B3070B /* KeyCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCommand.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,84 +79,12 @@
 		4B07305125CB8443001CD61C /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4B07305225CB8443001CD61C /* Extensions */,
-				4B07305925CB8443001CD61C /* Highlighter */,
-				4B07306525CB8443001CD61C /* Views */,
+				4BE75CC1268FB1B800B3070B /* Utility */,
+				4BE75C84268FB16100B3070B /* Extensions */,
+				4BE75C9A268FB16200B3070B /* Highlighter */,
+				4BE75C8F268FB16200B3070B /* Views */,
 			);
 			path = Sources;
-			sourceTree = "<group>";
-		};
-		4B07305225CB8443001CD61C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				4B07305325CB8443001CD61C /* Range+Encompasses.swift */,
-				4B07305425CB8443001CD61C /* Safe Array.swift */,
-				4B07305525CB8443001CD61C /* String+NSRange.swift */,
-				4B07305625CB8443001CD61C /* UIColor+HexInit.swift */,
-				4B07305725CB8443001CD61C /* TypeAlias.swift */,
-				4B07305825CB8443001CD61C /* Dispatch.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		4B07305925CB8443001CD61C /* Highlighter */ = {
-			isa = PBXGroup;
-			children = (
-				4B07305A25CB8443001CD61C /* SyntaxAttributedString.swift */,
-				4B07305B25CB8443001CD61C /* Markdown.swift */,
-				4B07305C25CB8443001CD61C /* Syntax */,
-				4B07306025CB8443001CD61C /* Data */,
-				4B07306325CB8443001CD61C /* Tokens */,
-			);
-			path = Highlighter;
-			sourceTree = "<group>";
-		};
-		4B07305C25CB8443001CD61C /* Syntax */ = {
-			isa = PBXGroup;
-			children = (
-				4B07305D25CB8443001CD61C /* Syntax.swift */,
-				4B07305E25CB8443001CD61C /* Definition.swift */,
-				4B07305F25CB8443001CD61C /* Theme.swift */,
-			);
-			path = Syntax;
-			sourceTree = "<group>";
-		};
-		4B07306025CB8443001CD61C /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				4B07306125CB8443001CD61C /* Themes.swift */,
-				4B07306225CB8443001CD61C /* Languages.swift */,
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		4B07306325CB8443001CD61C /* Tokens */ = {
-			isa = PBXGroup;
-			children = (
-				4B07306425CB8443001CD61C /* Token.swift */,
-			);
-			path = Tokens;
-			sourceTree = "<group>";
-		};
-		4B07306525CB8443001CD61C /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				4B07306625CB8443001CD61C /* FireflyTextViewDelegate.swift */,
-				4B07306725CB8443001CD61C /* FireflySyntaxView + TextDelegate.swift */,
-				4B07306825CB8443001CD61C /* LineNumberLayoutManager.swift */,
-				4B07306925CB8443001CD61C /* Swift UI */,
-				4B07306B25CB8443001CD61C /* FireflyTextView.swift */,
-				4B07306C25CB8443001CD61C /* FireflySyntaxView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		4B07306925CB8443001CD61C /* Swift UI */ = {
-			isa = PBXGroup;
-			children = (
-				4B07306A25CB8443001CD61C /* FireflySyntaxViewSwift.swift */,
-			);
-			path = "Swift UI";
 			sourceTree = "<group>";
 		};
 		4BDCE8C4251A5377003393A4 = {
@@ -164,6 +102,102 @@
 				4BDCE8CE251A5377003393A4 /* Firefly.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		4BE75C84268FB16100B3070B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C85268FB16100B3070B /* NSTextView + Bounding Rect.swift */,
+				4BE75C86268FB16100B3070B /* Range+Encompasses.swift */,
+				4BE75C87268FB16100B3070B /* Safe Array.swift */,
+				4BE75C88268FB16100B3070B /* String+NSRange.swift */,
+				4BE75C89268FB16100B3070B /* UIColor+HexInit.swift */,
+				4BE75C8A268FB16100B3070B /* AttributedType.swift */,
+				4BE75C8B268FB16100B3070B /* Comparable + Clamped.swift */,
+				4BE75C8C268FB16100B3070B /* Dispatch.swift */,
+			);
+			name = Extensions;
+			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Extensions";
+			sourceTree = "<group>";
+		};
+		4BE75C8F268FB16200B3070B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C90268FB16200B3070B /* Line Numbers */,
+				4BE75C93268FB16200B3070B /* FireflyTextViewDelegate.swift */,
+				4BE75C94268FB16200B3070B /* FireflySyntaxView + TextDelegate.swift */,
+				4BE75C95268FB16200B3070B /* Swift UI */,
+				4BE75C97268FB16200B3070B /* UIAppKitBirdge.swift */,
+				4BE75C98268FB16200B3070B /* FireflyTextView.swift */,
+				4BE75C99268FB16200B3070B /* FireflySyntaxView.swift */,
+			);
+			name = Views;
+			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Views";
+			sourceTree = "<group>";
+		};
+		4BE75C90268FB16200B3070B /* Line Numbers */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C91268FB16200B3070B /* LineNumberRulerView.swift */,
+				4BE75C92268FB16200B3070B /* LineNumberLayoutManager.swift */,
+			);
+			path = "Line Numbers";
+			sourceTree = "<group>";
+		};
+		4BE75C95268FB16200B3070B /* Swift UI */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C96268FB16200B3070B /* FireflySyntaxEditor.swift */,
+			);
+			path = "Swift UI";
+			sourceTree = "<group>";
+		};
+		4BE75C9A268FB16200B3070B /* Highlighter */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C9B268FB16200B3070B /* SyntaxAttributedString.swift */,
+				4BE75C9C268FB16200B3070B /* Markdown.swift */,
+				4BE75C9D268FB16200B3070B /* Syntax */,
+				4BE75CA1268FB16200B3070B /* Data */,
+				4BE75CA4268FB16200B3070B /* Tokens */,
+			);
+			name = Highlighter;
+			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Highlighter";
+			sourceTree = "<group>";
+		};
+		4BE75C9D268FB16200B3070B /* Syntax */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75C9E268FB16200B3070B /* Syntax.swift */,
+				4BE75C9F268FB16200B3070B /* Definition.swift */,
+				4BE75CA0268FB16200B3070B /* Theme.swift */,
+			);
+			path = Syntax;
+			sourceTree = "<group>";
+		};
+		4BE75CA1268FB16200B3070B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75CA2268FB16200B3070B /* Themes.swift */,
+				4BE75CA3268FB16200B3070B /* Languages.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		4BE75CA4268FB16200B3070B /* Tokens */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75CA5268FB16200B3070B /* Token.swift */,
+			);
+			path = Tokens;
+			sourceTree = "<group>";
+		};
+		4BE75CC1268FB1B800B3070B /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4BE75CBF268FB1AD00B3070B /* KeyCommand.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,26 +278,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B07306D25CB8443001CD61C /* Range+Encompasses.swift in Sources */,
-				4B07307F25CB8443001CD61C /* FireflyTextView.swift in Sources */,
-				4B07307A25CB8443001CD61C /* Token.swift in Sources */,
-				4B07307D25CB8443001CD61C /* LineNumberLayoutManager.swift in Sources */,
-				4B07307825CB8443001CD61C /* Themes.swift in Sources */,
-				4B07307B25CB8443001CD61C /* FireflyTextViewDelegate.swift in Sources */,
-				4B07307025CB8443001CD61C /* UIColor+HexInit.swift in Sources */,
-				4B07307625CB8443001CD61C /* Definition.swift in Sources */,
-				4B07306E25CB8443001CD61C /* Safe Array.swift in Sources */,
-				4B07307725CB8443001CD61C /* Theme.swift in Sources */,
-				4B07307225CB8443001CD61C /* Dispatch.swift in Sources */,
-				4B07307425CB8443001CD61C /* Markdown.swift in Sources */,
-				4B07307E25CB8443001CD61C /* FireflySyntaxViewSwift.swift in Sources */,
-				4B07308025CB8443001CD61C /* FireflySyntaxView.swift in Sources */,
-				4B07306F25CB8443001CD61C /* String+NSRange.swift in Sources */,
-				4B07307525CB8443001CD61C /* Syntax.swift in Sources */,
-				4B07307925CB8443001CD61C /* Languages.swift in Sources */,
-				4B07307325CB8443001CD61C /* SyntaxAttributedString.swift in Sources */,
-				4B07307125CB8443001CD61C /* TypeAlias.swift in Sources */,
-				4B07307C25CB8443001CD61C /* FireflySyntaxView + TextDelegate.swift in Sources */,
+				4BE75CB2268FB16200B3070B /* FireflySyntaxView + TextDelegate.swift in Sources */,
+				4BE75CBE268FB16200B3070B /* Token.swift in Sources */,
+				4BE75CB7268FB16200B3070B /* SyntaxAttributedString.swift in Sources */,
+				4BE75CB5268FB16200B3070B /* FireflyTextView.swift in Sources */,
+				4BE75CB1268FB16200B3070B /* FireflyTextViewDelegate.swift in Sources */,
+				4BE75CBA268FB16200B3070B /* Definition.swift in Sources */,
+				4BE75CAA268FB16200B3070B /* UIColor+HexInit.swift in Sources */,
+				4BE75CB3268FB16200B3070B /* FireflySyntaxEditor.swift in Sources */,
+				4BE75CB9268FB16200B3070B /* Syntax.swift in Sources */,
+				4BE75CAD268FB16200B3070B /* Dispatch.swift in Sources */,
+				4BE75CBC268FB16200B3070B /* Themes.swift in Sources */,
+				4BE75CAF268FB16200B3070B /* LineNumberRulerView.swift in Sources */,
+				4BE75CAB268FB16200B3070B /* AttributedType.swift in Sources */,
+				4BE75CB8268FB16200B3070B /* Markdown.swift in Sources */,
+				4BE75CC0268FB1AD00B3070B /* KeyCommand.swift in Sources */,
+				4BE75CB0268FB16200B3070B /* LineNumberLayoutManager.swift in Sources */,
+				4BE75CA8268FB16200B3070B /* Safe Array.swift in Sources */,
+				4BE75CBB268FB16200B3070B /* Theme.swift in Sources */,
+				4BE75CBD268FB16200B3070B /* Languages.swift in Sources */,
+				4BE75CA6268FB16200B3070B /* NSTextView + Bounding Rect.swift in Sources */,
+				4BE75CB6268FB16200B3070B /* FireflySyntaxView.swift in Sources */,
+				4BE75CA7268FB16200B3070B /* Range+Encompasses.swift in Sources */,
+				4BE75CAC268FB16200B3070B /* Comparable + Clamped.swift in Sources */,
+				4BE75CA9268FB16200B3070B /* String+NSRange.swift in Sources */,
+				4BE75CB4268FB16200B3070B /* UIAppKitBirdge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
