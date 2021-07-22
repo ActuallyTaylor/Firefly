@@ -11,7 +11,7 @@
 </p>
 
 # Firefly
-Firefly is a pure swift iOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
+Firefly is a pure swift iOS & macOS syntax highlighter based of off [Sourceful](https://github.com/twostraws/Sourceful), [SavannaKit](https://github.com/louisdh/savannakit), [SyntaxKit](https://github.com/palle-k/SyntaxKit), and previously [Highlightr](https://github.com/raspu/Highlightr). Highlighter has since been remove from the project in favor of a pure swift solution.
 ### Issues
 Issues are hosted on both this repo and the [Jellycuts Issue Repo](https://github.com/ActuallyZach/Jellycuts-Issues/issues/). This is done because a lot of issues that occur with Firefly are reported through Jellycuts and it does not make sense to mirror them across to this repo. 
 
@@ -22,7 +22,7 @@ Firefly is written in pure swift, and uses NSRegularExpressions for detecting to
 If you are going to use Firefly in your project, I request that you include a link back to this github page somewhere. If you would like to you can also [email me](mailto:zachary.lineman@gmail.com) and I will add you into the list of apps that use Firefly on this page.
 
 # About this project
-This project is was inspired by Paul Hudson’s (@twostraws) Sourceful syntax highlighter and Highlightr by J.P Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
+This project was inspired by Paul Hudson’s (@twostraws) Sourceful syntax highlighter and Highlightr by J.P Illanes (@raspu). Sourceful is a project combining Louis D’hauwe's SavannaKit and Source Editor. Highlightr merges Highlight.js with swift.
 
 ## Features
 * Line Numbers
@@ -32,10 +32,10 @@ This project is was inspired by Paul Hudson’s (@twostraws) Sourceful syntax hi
 
 ### Supports
 * 2 Languages
-* 59 Themes
+* 61 Themes
 
 # How To Use
-To start using you can either crate a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller. Firefly also lightly supports Swift UI.
+To start using you can either create a UIView in storyboards and assign it the class SyntaxTextView, or by creating a SyntaxTextView programmatically. You can then assign the editors language inside your View Controller. Firefly also supports setting up with Swift UI.
 
 ## Sample Code
 ### UI Kit
@@ -55,6 +55,8 @@ class ViewController: UIViewController {
     }
 }
 ```
+Using the .setup function is the same on macOS as it is on iOS.
+
 ### Set everything at once
 This allows you to set almost all ascpets of the view at once so you do not accidently cause extra highlight calls.
 ```swift
@@ -148,18 +150,30 @@ struct ContentView: View {
     More Text
     \"""
     """
+
+    @State var theme: String = "Xcode Dark"
+    @State var fontName: String = "system"
+    
+    @State var update: Bool = false
+    
+    @State var dynamicGutter: Bool = false
+    @State var gutterWidth: CGFloat = 40
+    @State var placeholdersAllowed: Bool = true
+    @State var linkPlaceholders: Bool = false
+    @State var lineNumbers: Bool = true
+    @State var fontSize: CGFloat = 14
+
     var body: some View {
-        FireflySyntaxEditor(text: $text, language: "jelly", theme: "Xcode Dark", fontName: "system" , didChangeText: { (editor) in
+        FireflySyntaxEditor(text: $text, language: .constant("Jelly"), theme: $theme, fontName: $fontName, fontSize: $fontSize, dynamicGutter: $dynamicGutter, gutterWidth: $gutterWidth, placeholdersAllowed: $placeholdersAllowed, linkPlaceholders: $linkPlaceholders, lineNumbers: $lineNumbers, cursorPosition: $cursorPosition) { editor in
             print("Did change text")
-        }, didChangeSelectedRange: { (editor, range) in
+        } didChangeSelectedRange: { editor, range in
             print("Did change selected range")
-        }, textViewDidBeginEditing: { (editor) in
+        } textViewDidBeginEditing: { editor in
             print("Did begin editing")
-        })
+        }
     }
 }
 ```
-
 
 # Adding your own content
 ## Adding your own language
@@ -243,8 +257,6 @@ Example of a theme definition:
 
 - [x] Placeholders
 
-- [ ] Autocompletion
-
 - [ ] Collapsable lines
 
 - [ ] More languages
@@ -254,8 +266,6 @@ Example of a theme definition:
 -[ ] Support VSCode Themes or a converter for VSCode -> Firefly theme
 
 -[ ] Highlight current line with tinting of line number and line fragmenet
-
-~~- [ ] Upgrade Highlighter version~~
 
 # Credits
 Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy. Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
