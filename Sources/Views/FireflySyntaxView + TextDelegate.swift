@@ -224,8 +224,9 @@ extension FireflySyntaxView: TextViewDelegate {
                     return false
                 }
             } else {
-                insertingText.removeFirst()
+//                insertingText.removeFirst()
                 insertingText += newlineInsert
+
                 #if canImport(UIKit)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                 
@@ -250,7 +251,7 @@ extension FireflySyntaxView: TextViewDelegate {
                 delegate?.didChangeText(tView)
                 
                 characterBuffer.removeAll()
-                return true
+                return false
             }
         } else {
             if lastCompleted != "" && insertingText != "*" {
@@ -393,11 +394,14 @@ extension FireflySyntaxView {
         var newLinePrefix = ""
         for char in currentLine {
             let tempSet = CharacterSet(charactersIn: "\(char)")
-            if tempSet.isSubset(of: .whitespacesAndNewlines) {
+            if tempSet.isSubset(of: .whitespaces) {
                 newLinePrefix += "\(char)"
             } else {
                 break
             }
+        }
+        newLinePrefix.removeAll { char in
+            return char == "\n"
         }
         return newLinePrefix
     }
