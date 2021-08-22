@@ -99,7 +99,7 @@ public class Markdown {
             }
         }
         
-        let imageBulletRegex = try? NSRegularExpression(pattern: "(\\t)*(\\*)\\[.*?\\]\\((.*?)\\)", options: [])
+        let imageBulletRegex = try? NSRegularExpression(pattern: "\\t*\\*\\[.*?\\]\\((.*?)\\)", options: [])
         if let matches = imageBulletRegex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
             
             for aMatch in matches.reversed() {
@@ -108,7 +108,7 @@ public class Markdown {
                 text.insert("\t", at: text.startIndex)
                 
                 let attachment = NSTextAttachment()
-                guard let gRange = Range(aMatch.range(at: 3), in: attributedString.string) else { break }
+                guard let gRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
                 let glyphNumb = attributedString.string[gRange]
                 
                 attachment.image = FireflyImage(named: "\(glyphNumb).png")
@@ -120,9 +120,7 @@ public class Markdown {
                 #endif
 
                 let image = NSAttributedString(attachment: attachment)
-                let replacement = NSMutableAttributedString(string: text)
-                replacement.replaceCharacters(in: replacement.string.nsRange(fromRange: replacement.string.range(of: "*")!), with: image)
-                attributedString.replaceCharacters(in: aMatch.range, with: replacement)
+                attributedString.replaceCharacters(in: aMatch.range(at: 0), with: image)
             }
         }
         
