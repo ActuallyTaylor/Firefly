@@ -116,8 +116,7 @@
 				4BE75C8B268FB16100B3070B /* Comparable + Clamped.swift */,
 				4BE75C8C268FB16100B3070B /* Dispatch.swift */,
 			);
-			name = Extensions;
-			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Extensions";
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		4BE75C8F268FB16200B3070B /* Views */ = {
@@ -131,8 +130,7 @@
 				4BE75C98268FB16200B3070B /* FireflyTextView.swift */,
 				4BE75C99268FB16200B3070B /* FireflySyntaxView.swift */,
 			);
-			name = Views;
-			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Views";
+			path = Views;
 			sourceTree = "<group>";
 		};
 		4BE75C90268FB16200B3070B /* Line Numbers */ = {
@@ -161,8 +159,7 @@
 				4BE75CA1268FB16200B3070B /* Data */,
 				4BE75CA4268FB16200B3070B /* Tokens */,
 			);
-			name = Highlighter;
-			path = "../../../../../../../../Macintosh HD/Users/zacharylineman/Desktop/Apps/Frameworks/Firefly/Sources/Highlighter";
+			path = Highlighter;
 			sourceTree = "<group>";
 		};
 		4BE75C9D268FB16200B3070B /* Syntax */ = {
