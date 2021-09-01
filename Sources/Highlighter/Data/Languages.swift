@@ -112,7 +112,7 @@ let swiftLanguage: [String: Any] = [
         "multiline": false
     ],
     "numbers": [
-        "regex": "(?<=(\\s|\\[|,|:))([-]*\\d|\\.|_)+",
+        "regex": "(?<=(\\s|\\[|\\(|,|:))([-]*\\d|\\.|_)+",
         "group": 0,
         "relevance": 0,
         "options": [],
