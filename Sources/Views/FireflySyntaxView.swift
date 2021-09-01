@@ -354,7 +354,8 @@ public class FireflySyntaxView: FireflyView {
     ///   - linkPlaceholders: If link placeholders are allowed
     ///   - lineNumbers: If line numbers should be shown or not
     ///   - fontSize: The font size of the editor
-    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat) {
+    ///   - isReadOnly: If the view is read only
+    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, isEditable: Bool) {
         self.setLanguage(language: language)
 
         self.fontName = font
@@ -375,6 +376,8 @@ public class FireflySyntaxView: FireflyView {
         self.setLinkPlaceholders(enabled: linkPlaceholders)
 
         self.setTheme(name: theme)
+        
+        self.setIsEditable(isEditable: isEditable)
     
         self.language = language
     }
@@ -393,7 +396,7 @@ public class FireflySyntaxView: FireflyView {
     ///   - lineNumbers: If line numbers should be shown or not
     ///   - fontSize: The font size of the editor
     ///   - allowHorizontalScroll: If the editor should allow horizontal scrolling
-    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, allowHorizontalScroll: Bool) {
+    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, allowHorizontalScroll: Bool, isEditable: Bool) {
         self.setLanguage(language: language)
 
         self.fontName = font
@@ -414,6 +417,8 @@ public class FireflySyntaxView: FireflyView {
         self.setPlaceholdersAllowed(allowed: placeholdersAllowed)
         
         self.setLinkPlaceholders(enabled: linkPlaceholders)
+        
+        self.setIsEditable(isEditable: isEditable)
 
         self.setTheme(name: theme)
     
@@ -524,6 +529,12 @@ public class FireflySyntaxView: FireflyView {
     public func setLinkPlaceholders(enabled: Bool) {
         self.linkPlaceholders = enabled
         textStorage.linkPlaceholders = enabled
+    }
+    
+    /// Set if the text can be edited
+    /// - Parameter isEditable: Can the text be edited by the user
+    public func setIsEditable(isEditable: Bool) {
+        self.textView.isEditable = isEditable
     }
     
     /// Set line numbers
