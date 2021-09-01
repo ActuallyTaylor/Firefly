@@ -105,7 +105,7 @@ let swiftLanguage: [String: Any] = [
         "multiline": false
     ],
     "keyword": [
-        "regex": "\\b(as|associatedtype|break|case|catch|class|continue|convenience|default|defer|deinit|else|enum|extension|fallthrough|false|fileprivate|final|for|func|get|guard|if|import|in|init|inout|internal|is|lazy|let|mutating|nil|nonmutating|open|operator|override|private|protocol|public|repeat|required|rethrows|return|required|self|set|static|struct|subscript|super|switch|throw|throws|true|try|typealias|unowned|var|weak|where|while)\\b",
+        "regex": "\\b(as|associatedtype|break|case|catch|class|continue|convenience|default|defer|deinit|else|enum|extension|fallthrough|false|fileprivate|final|for|func|get|guard|if|import|in|init|inout|internal|is|lazy|let|mutating|nil|nonmutating|open|operator|override|private|protocol|public|repeat|required|rethrows|return|required|self|set|some|static|struct|subscript|super|switch|throw|throws|true|try|typealias|unowned|var|weak|where|while)\\b",
         "group": 0,
         "relevance": 1,
         "options": [],
