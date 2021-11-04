@@ -80,7 +80,7 @@ public class FireflySyntaxView: FireflyView {
     #if canImport(AppKit)
     /// Determines if the editor is allowed to scroll horizontally.
     @IBInspectable
-    public var isHorizontalScrollingEnabled: Bool = false
+    public var wrapLines: Bool = true
     
     /// The key commands that are recognized by the editor
     var keyCommands: [KeyCommand]? = nil {
@@ -216,29 +216,29 @@ public class FireflySyntaxView: FireflyView {
         
         let contentSize = scrollView.contentSize
         
-        if isHorizontalScrollingEnabled {
-            textContainer.containerSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
-            textContainer.widthTracksTextView = false
-        } else {
+        if wrapLines {
             textContainer.containerSize = CGSize(width: contentSize.width, height: CGFloat.greatestFiniteMagnitude)
             textContainer.widthTracksTextView = true
+        } else {
+            textContainer.containerSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
+            textContainer.widthTracksTextView = false
         }
         
         textView.minSize = CGSize(width: 0, height: 0)
         textView.maxSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
         textView.isVerticallyResizable = true
-        textView.isHorizontallyResizable = isHorizontalScrollingEnabled
+        textView.isHorizontallyResizable = wrapLines
 
         textView.frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
-        if isHorizontalScrollingEnabled {
-            textView.autoresizingMask = [.width, .height]
-        } else {
+        if wrapLines {
             textView.autoresizingMask = [.width]
+        } else {
+            textView.autoresizingMask = [.width, .height]
         }
         
         scrollView.borderType = .noBorder
         scrollView.hasVerticalScroller = true
-        scrollView.hasHorizontalScroller = isHorizontalScrollingEnabled
+        scrollView.hasHorizontalScroller = wrapLines
         scrollView.documentView = textView
         scrollView.contentView.postsBoundsChangedNotifications = true
 
@@ -395,14 +395,14 @@ public class FireflySyntaxView: FireflyView {
     ///   - linkPlaceholders: If link placeholders are allowed
     ///   - lineNumbers: If line numbers should be shown or not
     ///   - fontSize: The font size of the editor
-    ///   - allowHorizontalScroll: If the editor should allow horizontal scrolling
-    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, allowHorizontalScroll: Bool, isEditable: Bool) {
+    ///   - wrapLines: If the editor should wrap the lines
+    public func setup(theme: String, language: String, font: String, offsetKeyboard: Bool, keyboardOffset: CGFloat, dynamicGutter: Bool, gutterWidth: CGFloat, placeholdersAllowed: Bool, linkPlaceholders: Bool, lineNumbers: Bool, fontSize: CGFloat, wrapLines: Bool, isEditable: Bool) {
         self.setLanguage(language: language)
 
         self.fontName = font
         self.setFontSize(size: fontSize)
         
-        self.setIsHorizontalScrollAllowed(isAllowed: allowHorizontalScroll)
+        self.setWrapLines(isAllowed: wrapLines)
 
         self.setShouldOffsetKeyboard(enabled: offsetKeyboard)
 
@@ -564,11 +564,11 @@ public class FireflySyntaxView: FireflyView {
 #if canImport(AppKit)
     /// Set if horizontal scrolling is allowed
     /// - Parameter isAllowed: Whether or not horizontal scroll is allowed
-    func setIsHorizontalScrollAllowed(isAllowed: Bool) {
+    func setWrapLines(isAllowed: Bool) {
         let contentSize = scrollView.contentSize
 
-        isHorizontalScrollingEnabled = isAllowed
-        if isHorizontalScrollingEnabled {
+        wrapLines = isAllowed
+        if wrapLines {
             textContainer.containerSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude)
             textContainer.widthTracksTextView = false
         } else {
@@ -576,16 +576,16 @@ public class FireflySyntaxView: FireflyView {
             textContainer.widthTracksTextView = true
         }
         
-        textView.isHorizontallyResizable = isHorizontalScrollingEnabled
+        textView.isHorizontallyResizable = wrapLines
         textView.frame = CGRect(x: 0, y: 0, width: contentSize.width, height: contentSize.height)
         
-        if isHorizontalScrollingEnabled {
+        if wrapLines {
             textView.autoresizingMask = [.width, .height]
         } else {
             textView.autoresizingMask = [.width]
         }
         
-        scrollView.hasHorizontalScroller = isHorizontalScrollingEnabled
+        scrollView.hasHorizontalScroller = wrapLines
 
         textView.lnv_setUpLineNumberView()
     }
@@ -655,6 +655,7 @@ extension FireflySyntaxView {
         for item in themes {
             arr.append(item.key)
         }
+
         return arr
     }
     

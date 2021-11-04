@@ -1,4 +1,4 @@
-//
+ //
 //  FireflySyntaxView + TextDelegate.swift
 //  Firefly
 //
@@ -33,7 +33,7 @@ extension FireflySyntaxView: TextViewDelegate {
         
         self.textStorage.beginEditing()
         if placeholdersAllowed {
-            //There is a bug here that when a multi-line string that is larger than the visible area is present, it will be partially highlighted because the ranges get messed up.
+            //There is a bug here t nbhat when a multi-line string that is larger than the visible area is present, it will be partially highlighted because the ranges get messed up.
             let inside = textStorage.insidePlaceholder(cursorRange: selectedRange)
             if inside.0 {
                 if let token = inside.1 {
@@ -191,6 +191,7 @@ extension FireflySyntaxView: TextViewDelegate {
             }
         }
         
+        // Because we are returning false here, the scroll view is not updating when you hit enter.
         // Update on new line
         if insertingText == "\n" {
             //Check to see if we need to finish any autocompletion
@@ -434,8 +435,9 @@ extension FireflySyntaxView {
     /// Get's the visible NSRange of text
     /// - Returns: The visible text represented as it's NSRange
     func getVisibleRange() -> NSRange {
-        #warning("Needs to be fixed for macOS")
-        let visibleRange = NSRange(location: 0, length: textView.text.utf16.count)
+        let range = layoutManager.glyphRange(forBoundingRect: scrollView.documentVisibleRect, in: textContainer)
+        
+        let visibleRange = range
         return visibleRange
     }
     #endif

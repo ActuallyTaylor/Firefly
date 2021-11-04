@@ -37,7 +37,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
     var offsetKeyboard: Binding<Bool> = .constant(true)
     #elseif canImport(AppKit)
     var keyCommands: () -> [KeyCommand]?
-    var allowHorizontalScroll: Binding<Bool> = .constant(true)
+    var wrapLines: Binding<Bool> = .constant(true)
     #endif
         
     // Delegate functions
@@ -115,7 +115,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         placeholdersAllowed: Binding<Bool> = .constant(true),
         linkPlaceholders: Binding<Bool> = .constant(false),
         lineNumbers: Binding<Bool> = .constant(true),
-        allowHorizontalScroll: Binding<Bool> = .constant(false),
+        wrapLines: Binding<Bool> = .constant(true),
         cursorPosition: Binding<CGRect?>? = nil,
         isEditable: Binding<Bool> = .constant(true),
         keyCommands: @escaping () -> [KeyCommand]?,
@@ -138,7 +138,7 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         self.placeholdersAllowed = placeholdersAllowed
         self.linkPlaceholders = linkPlaceholders
         self.lineNumbers = lineNumbers
-        self.allowHorizontalScroll = allowHorizontalScroll
+        self.wrapLines = wrapLines
         self.cursorPosition = cursorPosition
         self.keyCommands = keyCommands
 
@@ -149,7 +149,8 @@ public struct FireflySyntaxEditor: ViewRepresentable {
         context.coordinator.wrappedView = wrappedView
         context.coordinator.wrappedView.text = text
         context.coordinator.wrappedView.keyCommands = keyCommands()
-        context.coordinator.wrappedView.setup(theme: theme.wrappedValue, language: language.wrappedValue, font: fontName.wrappedValue, offsetKeyboard: false, keyboardOffset: 0, dynamicGutter: dynamicGutter.wrappedValue, gutterWidth: gutterWidth.wrappedValue, placeholdersAllowed: placeholdersAllowed.wrappedValue, linkPlaceholders: linkPlaceholders.wrappedValue, lineNumbers: lineNumbers.wrappedValue, fontSize: fontSize.wrappedValue, allowHorizontalScroll: allowHorizontalScroll.wrappedValue, isEditable: isEditable.wrappedValue)
+        context.coordinator.wrappedView.setup(theme: theme.wrappedValue, language: language.wrappedValue, font: fontName.wrappedValue, offsetKeyboard: false, keyboardOffset: 0, dynamicGutter: dynamicGutter.wrappedValue, gutterWidth: gutterWidth.wrappedValue, placeholdersAllowed: placeholdersAllowed.wrappedValue, linkPlaceholders: linkPlaceholders.wrappedValue, lineNumbers: lineNumbers.wrappedValue, fontSize: fontSize.wrappedValue, wrapLines: wrapLines.wrappedValue, isEditable: isEditable.wrappedValue)
+
         return wrappedView
     }
     
@@ -182,8 +183,9 @@ public struct FireflySyntaxEditor: ViewRepresentable {
             view.setLineNumbers(visible: lineNumbers.wrappedValue)
         }
         
-        if view.isHorizontalScrollingEnabled != allowHorizontalScroll.wrappedValue {
-            view.setIsHorizontalScrollAllowed(isAllowed: allowHorizontalScroll.wrappedValue)
+        if view.wrapLines != wrapLines.wrappedValue {
+            print("Wrapped Changed")
+            view.setWrapLines(isAllowed: wrapLines.wrappedValue)
         }
         
         if view.textView.isEditable != isEditable.wrappedValue {
