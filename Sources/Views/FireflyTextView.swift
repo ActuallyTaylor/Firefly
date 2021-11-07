@@ -89,21 +89,25 @@ public class FireflyTextView: TextView {
     public override func keyDown(with event: NSEvent) {
         var performed = false
         if let keyCommands = keyCommands {
-            for command in keyCommands {
-                if event.characters == command.input && event.modifierFlags == command.modifierFlags {
-                    performed = true
-                    if command.action() {
-                        super.keyDown(with: event)
-                    }
-                } else if event.keyCode == command.code && event.modifierFlags == command.modifierFlags {
-                    performed = true
-                    if command.action() {
-                        super.keyDown(with: event)
-                    }
-                }
+			for command in keyCommands.sorted(by: { lhs, rhs in
+				return lhs.modifierFlags.rawValue > rhs.modifierFlags.rawValue
+			}) {
+				// Check if the key code or the character matches the command
+				if event.characters == command.input || event.keyCode == command.code {
+
+					// Verify, in case there is a modifier expectation, that the event modifiers match
+					if command.modifierFlags.isEmpty || event.modifierFlags.contains(command.modifierFlags) {
+						performed = true
+						if command.action() {
+							super.keyDown(with: event)
+						}
+
+						// Don't try to match lower precedence commands
+						// i.e. if Shift+Tab already matched, no need to match a Tab.
+						break
+					}
+				}
             }
-        } else {
-            super.keyDown(with: event)
         }
         if !performed {
             super.keyDown(with: event)
