@@ -267,9 +267,9 @@ Example of a theme definition:
 
 - [ ] Rewrite the NSTextStorage subclass in obj-c. This will bring speed improvments.
 
--[ ] Support VSCode Themes or a converter for VSCode -> Firefly theme
+- [ ] Support VSCode Themes or a converter for VSCode -> Firefly theme
 
--[ ] Highlight current line with tinting of line number and line fragmenet
+- [ ] Highlight current line with tinting of line number and line fragmenet
 
 # Credits
 Sourceful is a project merging together SavannaKit and SourceEditor, and then udpdated too a modern version of Swift. It is maintained by Paul Hudson. This project was used as a starting ground for Firefly but has been largely removed from the working copy. Sourceful is licensed under the MIT license; see [Sourceful LICENSE](https://github.com/twostraws/Sourceful/blob/main/LICENSE) for more information.
