@@ -183,6 +183,18 @@ public class Markdown {
             }
         }
         
+        let header4Font = FireflyFont.systemFont(ofSize: fontSize * 1.4)
+        let header4Regex = try? NSRegularExpression(pattern: "#### (.*?\n)", options: [])
+        if let matches = header4Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
+            for aMatch in matches.reversed() {
+                guard let tRange = Range(aMatch.range(at: 1), in: attributedString.string) else { break }
+                let text: String = String(attributedString.string[tRange])
+                
+                let nString = NSAttributedString(string: text, attributes: [NSAttributedString.Key.font: header4Font, NSAttributedString.Key.foregroundColor: tColor])
+                attributedString.replaceCharacters(in: aMatch.range, with: nString)
+            }
+        }
+
         let header3Font = FireflyFont.systemFont(ofSize: fontSize * 1.7)
         let header3Regex = try? NSRegularExpression(pattern: "### (.*?\n)", options: [])
         if let matches = header3Regex?.matches(in: attributedString.string, options: [], range: NSRange(location: 0, length: attributedString.length)) {
