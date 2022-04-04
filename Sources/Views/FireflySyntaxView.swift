@@ -32,6 +32,7 @@ public class FireflySyntaxView: FireflyView {
         }
         set(nText) {
             textView.text = nText
+            textStorage.cachedTokens.removeAll()
             textStorage.highlight(NSRange(location: 0, length: textStorage.string.utf16.count), cursorRange: nil)
             if dynamicGutterWidth {
                 updateGutterWidth()

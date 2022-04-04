@@ -90,7 +90,7 @@ let jellyLanguage: [String: Any] = [
     "multi_comment": [
         "regex": "/\\*.*?\\*/",
         "group": 0,
-        "relevance": 4,
+        "relevance": 7,
         "options": [NSRegularExpression.Options.dotMatchesLineSeparators],
         "multiline": true
     ]
