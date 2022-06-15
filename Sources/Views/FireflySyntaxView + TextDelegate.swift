@@ -48,6 +48,11 @@ extension FireflySyntaxView: TextViewDelegate {
                         textStorage.cachedTokens.removeAll { (token) -> Bool in return token == token }
 
                         self.textStorage.endEditing()
+                        self.notifyWillChange(
+                            oldText: String(fromRange: token.range, in: textView.textStorage.string),
+                            location: token.range.location,
+                            newText: text
+                        )
                         updateSelectedRange(NSRange(location: token.range.location + text.utf16.count, length: 0))
                         textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
 
@@ -71,6 +76,11 @@ extension FireflySyntaxView: TextViewDelegate {
                 // Update on backspace
                 updateGutterNow = true
                 self.textStorage.endEditing()
+                self.notifyWillChange(
+                    oldText: String(fromRange: range, in: textView.textStorage.string),
+                    location: range.location,
+                    newText: text
+                )
                 return true
             }
         }
@@ -111,6 +121,11 @@ extension FireflySyntaxView: TextViewDelegate {
                 textView.setNeedsDisplay(textView.bounds)
                 textView.didChangeText()
                 #endif
+                self.notifyWillChange(
+                    oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
@@ -136,6 +151,11 @@ extension FireflySyntaxView: TextViewDelegate {
                 textView.setNeedsDisplay(textView.bounds)
                 textView.didChangeText()
                 #endif
+                self.notifyWillChange(
+                    oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
@@ -183,6 +203,11 @@ extension FireflySyntaxView: TextViewDelegate {
                 shouldHighlightOnChange = false
                 textStorage.editingRange = selectedRange
                 self.textStorage.endEditing()
+                self.notifyWillChange(
+                    oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
                 
                 delegate?.didChangeText(tView)
@@ -214,6 +239,11 @@ extension FireflySyntaxView: TextViewDelegate {
                     textView.setNeedsDisplay(textView.bounds)
                     textView.didChangeText()
                     #endif
+                    self.notifyWillChange(
+                        oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
                     
                     shouldHighlightOnChange = false
                     textStorage.editingRange = selectedRange
@@ -243,6 +273,11 @@ extension FireflySyntaxView: TextViewDelegate {
                 textView.didChangeText()
                 
                 #endif
+                self.notifyWillChange(
+                    oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 
                 updateGutterWidth()
                 shouldHighlightOnChange = false
@@ -274,6 +309,11 @@ extension FireflySyntaxView: TextViewDelegate {
                     textView.setNeedsDisplay(textView.bounds)
                     textView.didChangeText()
                     #endif
+                    self.notifyWillChange(
+                        oldText: String(fromRange: selectedRange, in: textView.textStorage.string),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
                     
                     shouldHighlightOnChange = false
                     textStorage.editingRange = selectedRange
@@ -288,6 +328,11 @@ extension FireflySyntaxView: TextViewDelegate {
         }
         
         self.textStorage.endEditing()
+        self.notifyWillChange(
+            oldText: String(fromRange: range, in: textView.textStorage.string),
+            location: range.location,
+            newText: text
+        )
         return true
     }
     
