@@ -46,17 +46,22 @@ public class Syntax {
     /// Changes the current language & updates the definitions
     /// - Parameter name: Name of the language
     func setLanguage(to name: String) {
+        // clear previous definitions
+        definitions = []
+        
+        // install language definitions
         if let language = languages[name.lowercased()] {
             for item in language {
                 let type = item.key
-                let dict: [String: Any] = item.value as! [String : Any]
-                let regex: String = dict["regex"] as? String ?? ""
-                let group: Int = dict["group"] as? Int ?? 0
-                let relevance: Int = dict["relevance"] as? Int ?? 0
-                let options: [NSRegularExpression.Options] = dict["options"] as? [NSRegularExpression.Options] ?? []
-                let multi: Bool = dict["multiline"] as? Bool ?? false
+                if let dict: [String: Any] = item.value as? [String : Any] {
+                    let regex: String = dict["regex"] as? String ?? ""
+                    let group: Int = dict["group"] as? Int ?? 0
+                    let relevance: Int = dict["relevance"] as? Int ?? 0
+                    let options: [NSRegularExpression.Options] = dict["options"] as? [NSRegularExpression.Options] ?? []
+                    let multi: Bool = dict["multiline"] as? Bool ?? false
 
-                definitions.append(Definition(type: type, regex: regex, group: group, relevance: relevance, matches: options, multiLine: multi))
+                    definitions.append(Definition(type: type, regex: regex, group: group, relevance: relevance, matches: options, multiLine: multi))
+                }
             }
         }
         var editorPlaceholderPattern = "(<#)([^\"\\n]*?)"
