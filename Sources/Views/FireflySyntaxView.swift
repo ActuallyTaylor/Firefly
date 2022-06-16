@@ -14,7 +14,10 @@ import UIKit
 public class FireflySyntaxView: FireflyView {
     
     /// A closure called whenever the text contents is modified.
-    private var notifyWillChangeClosure: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)? = nil
+    private var onTextChangeClosure: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)? = nil
+    
+    /// A closure called whenever the text selection changes.
+    private var onSelectionChangeClosure: ((_ selectionRange: NSRange) -> Void)?
     
     /// The highlighting language
     @IBInspectable
@@ -40,7 +43,7 @@ public class FireflySyntaxView: FireflyView {
             if dynamicGutterWidth {
                 updateGutterWidth()
             }
-            textView.selectedRange = NSRange(location: 0, length: 0)
+            self.updateSelectedRange(NSRange(location: 0, length: 0))
         }
     }
     
@@ -451,11 +454,16 @@ public class FireflySyntaxView: FireflyView {
 
     #endif
     
-
-    /// Sets the closure to be called whenever the text contents is modified/
-    /// - Parameter notifyWillChange: The closure.
-    public func setNotifyWillChange(_ notifyWillChange: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)?) {
-        self.notifyWillChangeClosure = notifyWillChange
+    /// Sets the closure to be called whenever the text contents is modified
+    /// - Parameter onTextChange: The closure.
+    public func setOnTextChange(_ onTextChange: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)?) {
+        self.onTextChangeClosure = onTextChange
+    }
+    
+    /// Sets the closure to be called whenever the text selection changes
+    /// - Parameter onSelectionChange: The closure.
+    public func setOnSelectionChange(_ onSelectionChange: ((_ selectionRange: NSRange) -> Void)?) {
+        self.onSelectionChangeClosure = onSelectionChange
     }
     
     /// Sets the theme of the view. Supply with a theme name
@@ -712,14 +720,25 @@ extension FireflySyntaxView {
         #endif
     }
     
-    /// Sends out notification of a section of text changing. Note that because calculating `oldText` is usually an extra step required, the param is
+    /// Sends out notification of a section of text changing. Note that because calculating `oldText` is usually an extra step, the param is
     /// marked as an auto-closure so that the body is only calcuated in the case that there is a `notifyWillChangeClosure` to actually notify.
     /// - Parameter oldText: Contents of the section before the change.
     /// - Parameter location: The index of the change.
     /// - Parameter newText: Contents of the section after the change..
-    internal func notifyWillChange(oldText: @autoclosure () -> String, location: Int, newText: String) {
-        if let notifyWillChangeClosure = self.notifyWillChangeClosure {
-            notifyWillChangeClosure(oldText(), location, newText)
+    internal func onTextChange(oldText: @autoclosure () -> String, location: Int, newText: String) {
+        if let onTextChangeClosure = self.onTextChangeClosure {
+            onTextChangeClosure(oldText(), location, newText)
+        }
+    }
+    
+    /// Sends out notification that the text selection range has changed. Note that because calculating `selectionRange` is usually an extra step,
+    /// the param is marked as an auto-closure so that the body is only calcuated when needed.
+    /// - Parameter oldText: Contents of the section before the change.
+    /// - Parameter location: The index of the change.
+    /// - Parameter newText: Contents of the section after the change..
+    internal func onSelectionChange(selectionRange: @autoclosure () -> NSRange) {
+        if let onSelectionChangeClosure = self.onSelectionChangeClosure {
+            onSelectionChangeClosure(selectionRange())
         }
     }
 }
