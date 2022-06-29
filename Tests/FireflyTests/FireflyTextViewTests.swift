@@ -9,9 +9,11 @@ import XCTest
 
 class FireflyTextViewTests: XCTestCase {
 
+    #if canImport(AppKit)
 	private func keyDownEvent(keyCode: UInt16, modifiers: NSEvent.ModifierFlags) -> NSEvent? {
 		return NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: modifiers, timestamp: Date().timeIntervalSinceReferenceDate, windowNumber: 0, context: nil, characters: "", charactersIgnoringModifiers: "", isARepeat: false, keyCode: keyCode)
 	}
+    #endif
 
 	func testKeyCommandModifiersMatching() throws {
 	#if canImport(AppKit)
