@@ -5,10 +5,10 @@
 //  Created by Zachary lineman on 9/27/20.
 //
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 public class FireflySyntaxView: FireflyView {
@@ -78,7 +78,9 @@ public class FireflySyntaxView: FireflyView {
     @IBInspectable
     public var textSize: CGFloat = 14.0
         
-    #if canImport(AppKit)
+    
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     /// Determines if the editor is allowed to scroll horizontally.
     @IBInspectable
     public var wrapLines: Bool = true
@@ -132,7 +134,8 @@ public class FireflySyntaxView: FireflyView {
     /// This is the editor
     public var textView: FireflyTextView!
     
-    #if canImport(AppKit)
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     /// Used to allow the editor to scroll on macOS
     public var scrollView: FireflyScrollView!
     #endif
@@ -436,7 +439,8 @@ public class FireflySyntaxView: FireflyView {
         theme = name
         textStorage.syntax.setTheme(to: name)
         layoutManager.theme = textStorage.syntax.theme
-        #if canImport(AppKit)
+        #if targetEnvironment(macCatalyst)
+        #elseif canImport(AppKit)
         textView.lineNumberView.theme = textStorage.syntax.theme
         #endif
         updateAppearance(highlight: highlight)
@@ -447,7 +451,8 @@ public class FireflySyntaxView: FireflyView {
     public func setLanguage(language: String) {
         self.language = language
         textStorage.syntax.setLanguage(to: language)
-        #if canImport(AppKit)
+        #if targetEnvironment(macCatalyst)
+        #elseif canImport(AppKit)
         textView.lineNumberView.theme = textStorage.syntax.theme
         #endif
         updateAppearance()
@@ -458,7 +463,8 @@ public class FireflySyntaxView: FireflyView {
     public func setFont(name: String) {
         fontName = name
         textStorage.syntax.setFont(to: name)
-        #if canImport(AppKit)
+        #if targetEnvironment(macCatalyst)
+        #elseif canImport(AppKit)
         textView.lineNumberView.theme = textStorage.syntax.theme
         #endif
         updateAppearance()
@@ -470,7 +476,8 @@ public class FireflySyntaxView: FireflyView {
         self.textSize = size
         textStorage.syntax.fontSize = size
         textStorage.syntax.setFont(to: fontName)
-        #if canImport(AppKit)
+        #if targetEnvironment(macCatalyst)
+        #elseif canImport(AppKit)
         textView.lineNumberView.theme = textStorage.syntax.theme
         #endif
         updateAppearance()
@@ -492,7 +499,8 @@ public class FireflySyntaxView: FireflyView {
         textView.gutterWidth = gutterWidth
         layoutManager.gutterWidth = gutterWidth
         
-        #if canImport(AppKit)
+        #if targetEnvironment(macCatalyst)
+        #elseif canImport(AppKit)
         textView.lineNumberView.ruleThickness = gutterWidth
         textView.lineNumberView.drawHashMarksAndLabels(in: textView.bounds)
         #endif
@@ -562,7 +570,8 @@ public class FireflySyntaxView: FireflyView {
         #endif
     }
     
-#if canImport(AppKit)
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     /// Set if horizontal scrolling is allowed
     /// - Parameter isAllowed: Whether or not horizontal scroll is allowed
     func setWrapLines(isAllowed: Bool) {

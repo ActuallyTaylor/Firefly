@@ -5,10 +5,10 @@
 //  Created by Zachary lineman on 12/24/20.
 //
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 /// A syntax type that defines how a SyntaxAttributedString should highlight different types of tokens

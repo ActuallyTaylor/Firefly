@@ -1,14 +1,14 @@
- //
+//
 //  FireflySyntaxView + TextDelegate.swift
 //  Firefly
 //
 //  Created by Zachary lineman on 9/28/20.
 //
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 extension FireflySyntaxView: TextViewDelegate {
@@ -50,8 +50,9 @@ extension FireflySyntaxView: TextViewDelegate {
                         self.textStorage.endEditing()
                         updateSelectedRange(NSRange(location: token.range.location + text.utf16.count, length: 0))
                         textStorage.highlight(getVisibleRange(), cursorRange: selectedRange)
-
-                        #if canImport(AppKit)
+                        
+                        #if targetEnvironment(macCatalyst)
+                        #elseif canImport(AppKit)
                         textView.didChangeText()
                         #endif
 
@@ -353,10 +354,8 @@ extension FireflySyntaxView: TextViewDelegate {
         delegate?.implementKeyCommands?.receiver(sender)
     }
     
-    #endif
-    
-    #if canImport(AppKit)
-    /// Calls back to the delegate when the editor begins editing
+    #elseif canImport(AppKit)
+        /// Calls back to the delegate when the editor begins editing
     public func textDidBeginEditing(_ notification: Notification) {
         delegate?.textViewDidBeginEditing(self.textView)
     }
@@ -431,17 +430,6 @@ extension FireflySyntaxView {
         }
     }
     
-    #if canImport(AppKit)
-    /// Get's the visible NSRange of text
-    /// - Returns: The visible text represented as it's NSRange
-    func getVisibleRange() -> NSRange {
-        let range = layoutManager.glyphRange(forBoundingRect: scrollView.documentVisibleRect, in: textContainer)
-        
-        let visibleRange = range
-        return visibleRange
-    }
-    #endif
-    
     #if canImport(UIKit)
     /// Get's the visible NSRange of text
     /// - Returns: The visible text represented as it's NSRange
@@ -459,5 +447,15 @@ extension FireflySyntaxView {
         let visibleRange = NSRange(location: charOffset, length: length)
         return visibleRange
     }
+    #elseif canImport(AppKit)
+    /// Get's the visible NSRange of text
+    /// - Returns: The visible text represented as it's NSRange
+    func getVisibleRange() -> NSRange {
+        let range = layoutManager.glyphRange(forBoundingRect: scrollView.documentVisibleRect, in: textContainer)
+        
+        let visibleRange = range
+        return visibleRange
+    }
     #endif
+    
 }

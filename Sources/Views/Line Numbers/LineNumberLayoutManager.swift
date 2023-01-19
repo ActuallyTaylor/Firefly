@@ -8,10 +8,10 @@
 // Currently unused in SavannaKit, but might be a better way of drawing the line numbers.
 // Converted from https://github.com/alldritt/TextKit_LineNumbers
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 class LineNumberLayoutManager: NSLayoutManager {

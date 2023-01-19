@@ -5,10 +5,10 @@
 //  Created by Zachary lineman on 9/28/20.
 //
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 public class FireflyTextView: TextView {
@@ -22,7 +22,8 @@ public class FireflyTextView: TextView {
         }
     }
     
-    #if canImport(AppKit)
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     /// The keyboard commands that are recognized by the text view.
     /// These are just a mirror of the same variable in FireflySyntaxView
     internal var keyCommands: [KeyCommand]? = nil
@@ -83,7 +84,8 @@ public class FireflyTextView: TextView {
     }
     #endif
     
-    #if canImport(AppKit)
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     /// Intercepts the key presses of the text view.
     /// Checks if their is a keycommand that can be executed on that event.
     public override func keyDown(with event: NSEvent) {

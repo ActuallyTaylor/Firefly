@@ -5,10 +5,10 @@
 //  Created by Zachary lineman on 10/27/20.
 //
 
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 /// A simple markdown parser

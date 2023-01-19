@@ -5,6 +5,9 @@
 //  Created by Zachary lineman on 7/1/21.
 //
 
+#if targetEnvironment(macCatalyst)
+
+#else
 #if canImport(AppKit)
 import AppKit
 
@@ -100,4 +103,5 @@ public struct NSLimitedKeyCommand {
     }
 
 }
+#endif
 #endif

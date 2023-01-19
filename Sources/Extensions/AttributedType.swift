@@ -7,10 +7,11 @@
 //
 
 import Foundation
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 #if swift(>=4.2)

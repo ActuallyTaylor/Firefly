@@ -6,10 +6,10 @@
 //
 
 import Foundation
-#if canImport(AppKit)
-import AppKit
-#elseif canImport(UIKit)
+#if canImport(UIKit)
 import UIKit
+#elseif canImport(AppKit)
+import AppKit
 #endif
 
 /// The state of a placeholder
@@ -70,7 +70,8 @@ open class SyntaxAttributedString : NSTextStorage {
         super.init(coder: coder)
     }
     
-    #if canImport(AppKit)
+    #if targetEnvironment(macCatalyst)
+    #elseif canImport(AppKit)
     required public init?(pasteboardPropertyList propertyList: Any, ofType type: NSPasteboard.PasteboardType) {
         fatalError("init(pasteboardPropertyList:ofType:) has not been implemented")
     }

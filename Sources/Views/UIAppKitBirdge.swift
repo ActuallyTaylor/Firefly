@@ -12,7 +12,24 @@ import SwiftUI
  It makes common typaliases for classes & types in either framework
  It also includes a few of extensions that make using AppKit easier when coming from UIKit
  */
-#if canImport(AppKit)
+#if canImport(UIKit)
+import UIKit
+
+public typealias FireflyView = UIView
+public typealias FireflyColor = UIColor
+public typealias FireflyFont = UIFont
+public typealias FireflyImage = UIImage
+public typealias TextView = UITextView
+public typealias BezierPath = UIBezierPath
+public typealias FireflyScrollView = UIScrollView
+public typealias Screen = UIScreen
+public typealias Window = UIWindow
+public typealias EdgeInsets = UIEdgeInsets
+public typealias TextViewDelegate = UITextViewDelegate
+
+public typealias ViewRepresentable = UIViewRepresentable
+public typealias KeyCommand = UIKeyCommand
+#elseif canImport(AppKit)
 import AppKit
 
 public typealias FireflyView = NSView
@@ -30,26 +47,6 @@ public typealias TextViewDelegate = NSTextViewDelegate
 public typealias ViewRepresentable = NSViewRepresentable
 public typealias KeyCommand = NSLimitedKeyCommand
 
-#elseif canImport(UIKit)
-import UIKit
-
-public typealias FireflyView = UIView
-public typealias FireflyColor = UIColor
-public typealias FireflyFont = UIFont
-public typealias FireflyImage = UIImage
-public typealias TextView = UITextView
-public typealias BezierPath = UIBezierPath
-public typealias FireflyScrollView = UIScrollView
-public typealias Screen = UIScreen
-public typealias Window = UIWindow
-public typealias EdgeInsets = UIEdgeInsets
-public typealias TextViewDelegate = UITextViewDelegate
-
-public typealias ViewRepresentable = UIViewRepresentable
-public typealias KeyCommand = UIKeyCommand
-#endif
-
-#if canImport(AppKit)
 extension NSColor {
     static var label: NSColor {
         return NSColor.labelColor
@@ -83,4 +80,5 @@ extension NSView {
         return self.effectiveAppearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua
     }
 }
+
 #endif

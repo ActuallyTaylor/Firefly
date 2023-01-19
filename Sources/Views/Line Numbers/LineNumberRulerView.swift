@@ -5,7 +5,8 @@
 //  Created by Zachary lineman on 6/27/21.
 //
 
-#if canImport(AppKit)
+#if targetEnvironment(macCatalyst)
+#elseif canImport(AppKit)
 import AppKit
 import Foundation
 import ObjectiveC

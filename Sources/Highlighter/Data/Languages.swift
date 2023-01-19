@@ -67,7 +67,7 @@ let jellyLanguage: [String: Any] = [
         "multiline": false
     ],
     "string": [
-        "regex": #"(?<!\\)".*?(?<!\\)""#,
+        "regex": #"(((?<!\\)".*?(?<!\\)")|((?<!\\)'.*?(?<!\\)'))"#,
         "group": 0,
         "relevance": 6,
         "options": [],
