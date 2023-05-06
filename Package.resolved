@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "SwiftTreeSitter",
+        "repositoryURL": "https://github.com/ChimeHQ/SwiftTreeSitter",
+        "state": {
+          "branch": null,
+          "revision": "df25a52f72ebc5b50ae20d26d1363793408bb28b",
+          "version": "0.7.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
