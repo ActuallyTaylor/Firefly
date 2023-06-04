@@ -7,7 +7,7 @@
 
 import Foundation
 
-let themes: [String: [String: Any]] = [
+var themes: [String: [String: Any]] = [
     //https://github.com/hdoria/xcode-themes
     "Basic": [
         "default": "#000000",
@@ -1193,3 +1193,12 @@ let themes: [String: [String: Any]] = [
     ],
 
 ]
+
+public var fireflyThemes: [String: [String: Any]] {
+    get {
+        themes
+    }
+    set {
+        themes = newValue
+    }
+}

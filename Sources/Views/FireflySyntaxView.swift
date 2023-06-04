@@ -13,12 +13,18 @@ import AppKit
 
 public class FireflySyntaxView: FireflyView {
     
-    ///The highlighting language
+    /// A closure called whenever the text contents is modified.
+    private var onTextChangeClosure: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)? = nil
+    
+    /// A closure called whenever the text selection changes.
+    private var onSelectionChangeClosure: ((_ selectionRange: NSRange) -> Void)?
+    
+    /// The highlighting language
     @IBInspectable
-    internal var language: String = "default"
+    public internal(set) var language: String = "default"
     
     @IBInspectable
-    internal var theme: String = "Basic"
+    public internal(set) var theme: String = "Basic"
     
     /// The name of the highlighters font
     @IBInspectable
@@ -37,17 +43,36 @@ public class FireflySyntaxView: FireflyView {
             if dynamicGutterWidth {
                 updateGutterWidth()
             }
-            textView.selectedRange = NSRange(location: 0, length: 0)
+            self.updateSelectedRange(NSRange(location: 0, length: 0))
         }
+    }
+    
+    /// Safely replace a section of text in the editor.
+    public func replace(range: NSRange, to newText: String, updateHighlighting: Bool = true) {
+        #if canImport(UIKit)
+        self.textStorage.beginEditing()
+        textView.textStorage.replaceCharacters(in: range, with: newText)
+        self.textStorage.endEditing()
+        if updateHighlighting {
+            textView.setNeedsDisplay()
+        }
+        #elseif canImport(AppKit)
+        self.textStorage.beginEditing()
+        textView.textStorage!.replaceCharacters(in: range, with: newText)
+        self.textStorage.endEditing()
+        if updateHighlighting {
+            textView.setNeedsDisplay(textView.bounds)
+        }
+        #endif
     }
     
     /// The minimum / standard gutter width. Becomes the minimum if dynamicGutterWidth is true otherwise it is the standard gutterWidth
     @IBInspectable
-    internal var gutterWidth: CGFloat = 20
+    public internal(set) var gutterWidth: CGFloat = 20
     
     /// If set the editor will use a dynamic gutter width
     @IBInspectable
-    internal var dynamicGutterWidth: Bool = true
+    public internal(set) var dynamicGutterWidth: Bool = true
     
     /// The editor's offset from the top of the keyboard
     @IBInspectable
@@ -197,6 +222,7 @@ public class FireflySyntaxView: FireflyView {
         textView.autocorrectionType = .no
         textView.spellCheckingType = .no
         textView.smartQuotesType = .no
+        textView.smartDashesType = .no
         textView.smartInsertDeleteType = .no
         
         if self.textStorage.syntax.theme.style == .dark {
@@ -430,6 +456,18 @@ public class FireflySyntaxView: FireflyView {
     }
 
     #endif
+    
+    /// Sets the closure to be called whenever the text contents is modified
+    /// - Parameter onTextChange: The closure.
+    public func setOnTextChange(_ onTextChange: ((_ oldText: String, _ location: Int, _ newText: String) -> Void)?) {
+        self.onTextChangeClosure = onTextChange
+    }
+    
+    /// Sets the closure to be called whenever the text selection changes
+    /// - Parameter onSelectionChange: The closure.
+    public func setOnSelectionChange(_ onSelectionChange: ((_ selectionRange: NSRange) -> Void)?) {
+        self.onSelectionChangeClosure = onSelectionChange
+    }
     
     /// Sets the theme of the view. Supply with a theme name
     /// - Parameters:
@@ -689,5 +727,27 @@ extension FireflySyntaxView {
             print("===================================")
         })
         #endif
+    }
+    
+    /// Sends out notification of a section of text changing. Note that because calculating `oldText` is usually an extra step, the param is
+    /// marked as an auto-closure so that the body is only calcuated in the case that there is a `notifyWillChangeClosure` to actually notify.
+    /// - Parameter oldText: Contents of the section before the change.
+    /// - Parameter location: The index of the change.
+    /// - Parameter newText: Contents of the section after the change..
+    internal func onTextChange(oldText: @autoclosure () -> String, location: Int, newText: String) {
+        if let onTextChangeClosure = self.onTextChangeClosure {
+            onTextChangeClosure(oldText(), location, newText)
+        }
+    }
+    
+    /// Sends out notification that the text selection range has changed. Note that because calculating `selectionRange` is usually an extra step,
+    /// the param is marked as an auto-closure so that the body is only calcuated when needed.
+    /// - Parameter oldText: Contents of the section before the change.
+    /// - Parameter location: The index of the change.
+    /// - Parameter newText: Contents of the section after the change..
+    internal func onSelectionChange(selectionRange: @autoclosure () -> NSRange) {
+        if let onSelectionChangeClosure = self.onSelectionChangeClosure {
+            onSelectionChangeClosure(selectionRange())
+        }
     }
 }

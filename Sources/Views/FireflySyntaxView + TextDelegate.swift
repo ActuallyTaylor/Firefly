@@ -39,6 +39,17 @@ extension FireflySyntaxView: TextViewDelegate {
                 if let token = inside.1 {
                     let fullRange = NSRange(location: 0, length: self.text.utf16.count)
                     if token.range.upperBound < fullRange.upperBound {
+                        #if os(iOS)
+                        let textViewTextStorageString: String = textView.textStorage.string
+                        #else
+                        let textViewTextStorageString: String = textView.textStorage!.string
+                        #endif
+                        self.onTextChange(
+                            oldText: String(fromRange: token.range, in: textViewTextStorageString),
+                            location: token.range.location,
+                            newText: text
+                        )
+                        
                         textStorage.removeAttribute(.font, range: token.range)
                         textStorage.removeAttribute(.foregroundColor, range: token.range)
                         textStorage.removeAttribute(.editorPlaceholder, range: token.range)
@@ -72,6 +83,16 @@ extension FireflySyntaxView: TextViewDelegate {
                 // Update on backspace
                 updateGutterNow = true
                 self.textStorage.endEditing()
+                #if os(iOS)
+                let textViewTextStorageString: String = textView.textStorage.string
+                #else
+                let textViewTextStorageString: String = textView.textStorage!.string
+                #endif
+                self.onTextChange(
+                    oldText: String(fromRange: range, in: textViewTextStorageString),
+                    location: range.location,
+                    newText: text
+                )
                 return true
             }
         }
@@ -98,6 +119,17 @@ extension FireflySyntaxView: TextViewDelegate {
             } else if characterBuffer[1, default: ""] == "\"" && characterBuffer[0, default: ""] != "\""  && characterBuffer[2, default: ""] != "\"" {
                 insertingText += "\""
                 
+                #if os(iOS)
+                let textViewTextStorageString: String = textView.textStorage.string
+                #else
+                let textViewTextStorageString: String = textView.textStorage!.string
+                #endif
+                self.onTextChange(
+                    oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
+                
                 #if canImport(UIKit)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                 
@@ -122,6 +154,17 @@ extension FireflySyntaxView: TextViewDelegate {
                 return false
             } else if characterBuffer[1, default: ""] == "(" && characterBuffer[0, default: ""] != ")" {
                 insertingText += ")"
+                
+                #if os(iOS)
+                let textViewTextStorageString: String = textView.textStorage.string
+                #else
+                let textViewTextStorageString: String = textView.textStorage!.string
+                #endif
+                self.onTextChange(
+                    oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 
                 #if canImport(UIKit)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
@@ -149,6 +192,18 @@ extension FireflySyntaxView: TextViewDelegate {
                 // Update on new line
                 if text == "\n" {
                     insertingText += "\t\(newlineInsert)\n\(newlineInsert)}"
+                    
+                    #if os(iOS)
+                    let textViewTextStorageString: String = textView.textStorage.string
+                    #else
+                    let textViewTextStorageString: String = textView.textStorage!.string
+                    #endif
+                    self.onTextChange(
+                        oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
+                    
                     #if canImport(UIKit)
                     textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                     
@@ -165,6 +220,18 @@ extension FireflySyntaxView: TextViewDelegate {
                     #endif
                 } else {
                     insertingText += "}"
+                    
+                    #if os(iOS)
+                    let textViewTextStorageString: String = textView.textStorage.string
+                    #else
+                    let textViewTextStorageString: String = textView.textStorage!.string
+                    #endif
+                    self.onTextChange(
+                        oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
+                    
                     #if canImport(UIKit)
                     textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                     
@@ -201,6 +268,16 @@ extension FireflySyntaxView: TextViewDelegate {
                     lastCompleted = ""
                     insertingText += "\t\(newlineInsert)\n\(newlineInsert)*/"
                     
+                    #if os(iOS)
+                    let textViewTextStorageString: String = textView.textStorage.string
+                    #else
+                    let textViewTextStorageString: String = textView.textStorage!.string
+                    #endif
+                    self.onTextChange(
+                        oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
                     #if canImport(UIKit)
                     textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                     
@@ -228,7 +305,17 @@ extension FireflySyntaxView: TextViewDelegate {
             } else {
 //                insertingText.removeFirst()
                 insertingText += newlineInsert
-
+                
+                #if os(iOS)
+                let textViewTextStorageString: String = textView.textStorage.string
+                #else
+                let textViewTextStorageString: String = textView.textStorage!.string
+                #endif
+                self.onTextChange(
+                    oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                    location: selectedRange.location,
+                    newText: insertingText
+                )
                 #if canImport(UIKit)
                 textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                 
@@ -261,6 +348,16 @@ extension FireflySyntaxView: TextViewDelegate {
                     lastCompleted = ""
                     insertingText += "*/"
                     
+                    #if os(iOS)
+                    let textViewTextStorageString: String = textView.textStorage.string
+                    #else
+                    let textViewTextStorageString: String = textView.textStorage!.string
+                    #endif
+                    self.onTextChange(
+                        oldText: String(fromRange: selectedRange, in: textViewTextStorageString),
+                        location: selectedRange.location,
+                        newText: insertingText
+                    )
                     #if canImport(UIKit)
                     textView.textStorage.replaceCharacters(in: selectedRange, with: insertingText)
                     
@@ -289,6 +386,16 @@ extension FireflySyntaxView: TextViewDelegate {
         }
         
         self.textStorage.endEditing()
+        #if os(iOS)
+        let textViewTextStorageString: String = textView.textStorage.string
+        #else
+        let textViewTextStorageString: String = textView.textStorage!.string
+        #endif
+        self.onTextChange(
+            oldText: String(fromRange: range, in: textViewTextStorageString),
+            location: range.location,
+            newText: text
+        )
         return true
     }
     
@@ -342,6 +449,7 @@ extension FireflySyntaxView: TextViewDelegate {
     public func textViewDidChangeSelection(_ textView: UITextView) {
         updateCursorPosition()
         delegate?.didChangeSelectedRange(self.textView, selectedRange: self.textView.selectedRange)
+        self.onSelectionChange(selectionRange: self.textView.selectedRange)
     }
     
     /// Override the key commands recognized by the view
@@ -364,6 +472,7 @@ extension FireflySyntaxView: TextViewDelegate {
     public func textViewDidChangeSelection(_ notification: Notification) {
         updateCursorPosition()
         delegate?.didChangeSelectedRange(textView, selectedRange: textView.selectedRange())
+        self.onSelectionChange(selectionRange: textView.selectedRange())
     }
     
     /// Handles highlighting the correct amount of the view when text changes
@@ -427,6 +536,7 @@ extension FireflySyntaxView {
             #elseif canImport(AppKit)
             textView.setSelectedRange(range)
             #endif
+            self.onSelectionChange(selectionRange: range)
         }
     }
     

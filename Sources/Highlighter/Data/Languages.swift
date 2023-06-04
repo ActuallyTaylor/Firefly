@@ -7,13 +7,22 @@
 
 import Foundation
 //TODO: if( is matched as a function not a keyword. Figure out a system to match if as a keyword not a function
-let languages: [String: [String: Any]] = [
-    "default": [:],
+var languages: [String: [String: Any]] = [
+    "default": defaultLanguage,
     "jelly": jellyLanguage,
     "swift": swiftLanguage
 ]
+public var fireflyLanguages: [String: [String: Any]] {
+    get {
+        languages
+    }
+    set {
+        languages = newValue
+    }
+}
 
 let defaultLanguage: [String: Any] = [
+    "display_name": "Generic",
     "string": [
         "regex": #"(?<!\\)".*?(?<!\\)""#,
         "group": 0,
@@ -45,6 +54,7 @@ let defaultLanguage: [String: Any] = [
 ]
 
 let jellyLanguage: [String: Any] = [
+    "display_name": "Jelly",
     "function": [
         "regex": "([a-zA-Z_0-9\"\\[\\]\\+-]+)\\(.*?\\)",//\\. -Removed
         "group": 1,
@@ -97,6 +107,7 @@ let jellyLanguage: [String: Any] = [
 ]
 
 let swiftLanguage: [String: Any] = [
+    "display_name": "Swift",
     "identifier": [
         "regex": "(\\.[A-Za-z_]+\\w*)|((NS|UI)[A-Z][a-zA-Z]+)|((println|print)(?=\\())|(Any|Array|AutoreleasingUnsafePointer|BidirectionalReverseView|Bit|Bool|CFunctionPointer|COpaquePointer|CVaListPointer|Character|CollectionOfOne|ConstUnsafePointer|ContiguousArray|Data|Dictionary|DictionaryGenerator|DictionaryIndex|Double|EmptyCollection|EmptyGenerator|EnumerateGenerator|FilterCollectionView|FilterCollectionViewIndex|FilterGenerator|FilterSequenceView|Float|Float80|FloatingPointClassification|GeneratorOf|GeneratorOfOne|GeneratorSequence|HeapBuffer|HeapBuffer|HeapBufferStorage|HeapBufferStorageBase|ImplicitlyUnwrappedOptional|IndexingGenerator|Int|Int16|Int32|Int64|Int8|IntEncoder|LazyBidirectionalCollection|LazyForwardCollection|LazyRandomAccessCollection|LazySequence|Less|MapCollectionView|MapSequenceGenerator|MapSequenceView|MirrorDisposition|ObjectIdentifier|OnHeap|Optional|PermutationGenerator|QuickLookObject|RandomAccessReverseView|Range|RangeGenerator|RawByte|Repeat|ReverseBidirectionalIndex|Printable|ReverseRandomAccessIndex|SequenceOf|SinkOf|Slice|StaticString|StrideThrough|StrideThroughGenerator|StrideTo|StrideToGenerator|String|Index|UTF8View|Index|UnicodeScalarView|IndexType|GeneratorType|UTF16View|UInt|UInt16|UInt32|UInt64|UInt8|UTF16|UTF32|UTF8|UnicodeDecodingResult|UnicodeScalar|Unmanaged|UnsafeArray|UnsafeArrayGenerator|UnsafeMutableArray|UnsafePointer|VaListBuilder|Header|Zip2|ZipGenerator2)",
         "group": 0,
